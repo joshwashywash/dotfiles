@@ -1,5 +1,4 @@
 local null_ls = require('null-ls')
-local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
 --- null-ls does not support multi offset_encodings. fix this if/when it does
 local notify = vim.notify
@@ -8,6 +7,8 @@ vim.notify = function(msg, ...)
     notify(msg, ...)
   end
 end
+
+local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
 null_ls.setup({
   on_attach = function(client, bufnr)
@@ -25,7 +26,6 @@ null_ls.setup({
   end,
   sources = {
     null_ls.builtins.code_actions.gitsigns,
-    null_ls.builtins.diagnostics.eslint,
     null_ls.builtins.diagnostics.php,
     null_ls.builtins.formatting.clang_format,
     null_ls.builtins.formatting.phpcsfixer.with({

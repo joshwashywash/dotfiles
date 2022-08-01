@@ -1,5 +1,5 @@
 local illuminate = require('illuminate')
-local ensure_installed = require('langservers.ensure_installed')
+local ensure_installed = require('josh.langservers.ensure_installed')
 
 local lspconfig = require('lspconfig')
 
@@ -29,7 +29,7 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(
 
 local function on_attach(client, bufnr)
   -- 0.8 use the new lsp.buffer filter api
-  client.server_capabilities.documentFormattingProvider = false
+  client.resolved_capabilities.document_formatting = false
 
   illuminate.on_attach(client)
 

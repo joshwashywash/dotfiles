@@ -10,9 +10,10 @@ bufferline.setup({
         text_align = 'center',
       },
     },
-    right_mouse_command = function(bufnr)
+    middle_mouse_command = function(bufnr)
       require('bufdelete').bufdelete(bufnr)
     end,
+    show_close_icon = false,
   },
 })
 

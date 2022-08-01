@@ -1,4 +1,4 @@
-local ensure_installed = require('langservers.ensure_installed')
+local ensure_installed = require('josh.langservers.ensure_installed')
 
 local packer = require('packer')
 
