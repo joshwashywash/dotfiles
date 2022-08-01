@@ -1,4 +1,5 @@
--- Automatically install packer
+local ensure_installed = require('langservers.ensure_installed')
+
 local packer = require('packer')
 
 -- local packer_bootstrap = false
@@ -73,13 +74,25 @@ local plugins = {
     end,
   },
   {
-    'williamboman/nvim-lsp-installer',
-    {
-      'neovim/nvim-lspconfig',
-      config = function()
-        require('josh.lsp')
-      end,
-    },
+    'neovim/nvim-lspconfig',
+    config = function()
+      require('josh.lsp')
+    end,
+  },
+  {
+    'williamboman/mason.nvim',
+    config = function()
+      require('mason').setup()
+    end,
+  },
+  {
+    'williamboman/mason-lspconfig.nvim',
+    config = function()
+      require('mason-lspconfig').setup({
+        automatic_installation = true,
+        ensure_installed = ensure_installed,
+      })
+    end,
   },
   { 'hrsh7th/cmp-nvim-lsp' },
   { 'hrsh7th/cmp-buffer' },

@@ -5,11 +5,14 @@ bufferline.setup({
     offsets = {
       {
         filetype = 'NvimTree',
-        text = 'explorer',
         highlight = 'Directory',
+        text = 'explorer',
         text_align = 'center',
       },
     },
+    right_mouse_command = function(bufnr)
+      require('bufdelete').bufdelete(bufnr)
+    end,
   },
 })
 

@@ -1,7 +1,5 @@
 local illuminate = require('illuminate')
-local lspinstaller = require('nvim-lsp-installer')
-
-lspinstaller.setup({})
+local ensure_installed = require('langservers.ensure_installed')
 
 local lspconfig = require('lspconfig')
 
@@ -25,25 +23,13 @@ local keymaps = {
   gy = vim.lsp.buf.type_definition,
 }
 
-local disable_formatting_clients = {
-  'ccls',
-  'emmet_ls',
-  'html',
-  'jsonls',
-  'sumneko_lua',
-  'svelte',
-  'tsserver',
-}
-
-local capablitilies = require('cmp_nvim_lsp').update_capabilities(
+local capabilities = require('cmp_nvim_lsp').update_capabilities(
   vim.lsp.protocol.make_client_capabilities()
 )
 
 local function on_attach(client, bufnr)
   -- 0.8 use the new lsp.buffer filter api
-  if vim.tbl_contains(disable_formatting_clients, client.name) then
-    client.resolved_capabilities.document_formatting = false -- 0.7 and earlier
-  end
+  client.server_capabilities.documentFormattingProvider = false
 
   illuminate.on_attach(client)
 
@@ -52,20 +38,20 @@ local function on_attach(client, bufnr)
   end
 end
 
-for _, server in ipairs(lspinstaller.get_installed_servers()) do
+for _, name in ipairs(ensure_installed) do
   local opts = {
-    capabilities = capablitilies,
+    capabilities = capabilities,
     on_attach = on_attach,
   }
 
   local _ok, extra_opts = pcall(
     require,
-    string.format('josh.langservers.%s', server.name)
+    string.format('josh.langservers.%s', name)
   )
 
   if _ok then
     opts = vim.tbl_extend('keep', opts, extra_opts)
   end
 
-  lspconfig[server.name].setup(opts)
+  lspconfig[name].setup(opts)
 end

@@ -1,6 +1,5 @@
 local bufdelete = require('bufdelete')
 local gitsigns = require('gitsigns.actions')
-local lsp_installer = require('nvim-lsp-installer')
 local neogit = require('neogit')
 local nvimtree = require('nvim-tree')
 local packer = require('packer')
@@ -89,11 +88,6 @@ wk.register({
     r = { gitsigns.reset_hunk, 'reset hunk' },
     s = { gitsigns.stage_buffer, 'stage buffer' },
     t = { telescope.git_stash, 'stash' },
-  },
-  l = {
-    name = 'lsp',
-    I = { lsp_installer.info_window.open, 'install info' },
-    i = { require('lspconfig.ui.lspinfo'), 'info' },
   },
   p = {
     name = 'packer',
