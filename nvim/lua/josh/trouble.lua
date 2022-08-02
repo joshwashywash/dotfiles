@@ -4,6 +4,5 @@ require('trouble').setup({
     open_split = { '<c-s>' },
     open_vsplit = { '<c-v>' },
     previous = 'h',
-    refresh = { '<c-r>' },
   },
 })

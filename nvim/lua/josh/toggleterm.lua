@@ -15,7 +15,8 @@ local keymaps = {
   ['<c-k>'] = '<c-\\><c-n><c-w>j',
   ['<c-l>'] = '<c-\\><c-n><c-w>l',
 }
-local group = vim.api.nvim_create_augroup('TermKeyBinds', {})
+
+local group = vim.api.nvim_create_augroup('TermKeyBinds', { clear = true })
 
 vim.api.nvim_create_autocmd('TermOpen', {
   callback = function()

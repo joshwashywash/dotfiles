@@ -2,10 +2,6 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 local common_keymaps = {
-  { 'U', '<c-r>' },
-  { 'Y', 'y$' },
-  { '\'', '`' },
-  { '`', '\'' },
   { 'h', 'k' },
   { 'j', 'h' },
   { 'k', 'j' },
@@ -14,6 +10,10 @@ local common_keymaps = {
 local insert_mode_keymaps = {}
 
 local normal_mode_keymaps = {
+  -- make setting marks easier
+  { '\'', '`' },
+  { '`', '\'' },
+
   -- navigate windows
   { '<c-h>', '<c-w>k' },
   { '<c-j>', '<c-w>h' },

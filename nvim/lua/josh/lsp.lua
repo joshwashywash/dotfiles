@@ -46,7 +46,7 @@ for _, name in ipairs(ensure_installed) do
 
   local _ok, extra_opts = pcall(
     require,
-    string.format('josh.langservers.%s', name)
+    string.format('josh.langservers.servers.%s', name)
   )
 
   if _ok then

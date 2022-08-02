@@ -1,5 +1,4 @@
 return {
-  'denols',
   'emmet_ls',
   'html',
   'intelephense',

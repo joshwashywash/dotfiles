@@ -62,9 +62,7 @@ local plugins = {
     end,
     run = ':TSUpdate',
   },
-  {
-    'nvim-treesitter/nvim-treesitter-textobjects',
-  },
+  { 'nvim-treesitter/nvim-treesitter-textobjects' },
   {
     'ray-x/lsp_signature.nvim',
     config = function()
@@ -186,9 +184,7 @@ local plugins = {
   {
     'lewis6991/impatient.nvim',
   },
-  {
-    'famiu/bufdelete.nvim',
-  },
+  { 'famiu/bufdelete.nvim' },
   {
     'TimUntersberger/neogit',
     requires = 'nvim-lua/plenary.nvim',
