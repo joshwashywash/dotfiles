@@ -38,7 +38,9 @@ local function on_attach(client, bufnr)
   end
 end
 
-for _, name in ipairs(masonlsp.get_installed_servers()) do
+local servers = vim.list_extend(masonlsp.get_installed_servers(), { 'ccls' })
+
+for _, name in ipairs(servers) do
   local opts = {
     capabilities = capabilities,
     on_attach = on_attach,
