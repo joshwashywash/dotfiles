@@ -1,5 +1,3 @@
-local ensure_installed = require('josh.langservers.ensure_installed')
-
 local packer = require('packer')
 
 -- local packer_bootstrap = false
@@ -88,7 +86,16 @@ local plugins = {
     config = function()
       require('mason-lspconfig').setup({
         automatic_installation = true,
-        ensure_installed = ensure_installed,
+        ensure_installed = {
+          'emmet_ls',
+          'html',
+          'intelephense',
+          'jsonls',
+          'sumneko_lua',
+          'svelte',
+          'tailwindcss',
+          'tsserver',
+        },
       })
     end,
   },
