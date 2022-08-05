@@ -62,14 +62,6 @@ local plugins = {
   },
   { 'nvim-treesitter/nvim-treesitter-textobjects' },
   {
-    'ray-x/lsp_signature.nvim',
-    config = function()
-      require('lsp_signature').setup({
-        hint_enable = false,
-      })
-    end,
-  },
-  {
     'neovim/nvim-lspconfig',
     config = function()
       require('josh.lsp')
@@ -99,10 +91,11 @@ local plugins = {
       })
     end,
   },
-  { 'hrsh7th/cmp-nvim-lsp' },
   { 'hrsh7th/cmp-buffer' },
-  { 'hrsh7th/cmp-path' },
   { 'hrsh7th/cmp-cmdline' },
+  { 'hrsh7th/cmp-nvim-lsp' },
+  { 'hrsh7th/cmp-nvim-lsp-signature-help' },
+  { 'hrsh7th/cmp-path' },
   {
     'hrsh7th/nvim-cmp',
     config = function()
@@ -188,9 +181,7 @@ local plugins = {
     as = 'catppuccin',
   },
   { 'RRethy/vim-illuminate' },
-  {
-    'lewis6991/impatient.nvim',
-  },
+  { 'lewis6991/impatient.nvim' },
   { 'famiu/bufdelete.nvim' },
   {
     'TimUntersberger/neogit',

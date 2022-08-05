@@ -1,16 +1,11 @@
 local cmp = require('cmp')
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-local lspkind = require('lspkind')
-local luasnip = require('luasnip')
 
 local offset = 4
 
 cmp.setup({
   formatting = {
-    format = lspkind.cmp_format({
-      before = function(_, vim_item)
-        return vim_item
-      end,
+    format = require('lspkind').cmp_format({
       mode = 'symbol',
     }),
   },
@@ -23,13 +18,18 @@ cmp.setup({
   }),
   snippet = {
     expand = function(args)
-      luasnip.lsp_expand(args.body)
+      require('luasnip').lsp_expand(args.body)
     end,
   },
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
+    { name = 'nvim_lsp_signature_help' },
     { name = 'luasnip' },
   }, { { name = 'buffer' } }),
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
 })
 
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
