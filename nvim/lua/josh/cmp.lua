@@ -14,7 +14,7 @@ cmp.setup({
     ['<c-e>'] = cmp.mapping.abort(),
     ['<c-f>'] = cmp.mapping.scroll_docs(offset),
     ['<c-space>'] = cmp.mapping.complete(),
-    ['<cr>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    ['<cr>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
   }),
   snippet = {
     expand = function(args)
