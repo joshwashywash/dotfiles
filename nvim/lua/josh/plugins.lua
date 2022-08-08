@@ -145,6 +145,13 @@ local plugins = {
     requires = 'kyazdani42/nvim-web-devicons',
   },
   {
+    'folke/todo-comments.nvim',
+    config = function()
+      require('todo-comments').setup()
+    end,
+    requires = 'nvim-lua/plenary.nvim',
+  },
+  {
     'jose-elias-alvarez/null-ls.nvim',
     config = function()
       require('josh.null-ls')
