@@ -3,6 +3,6 @@ require('trouble').setup({
     next = 'k',
     open_split = { '<c-s>' },
     open_vsplit = { '<c-v>' },
-    previous = 'h',
+    previous = 'j',
   },
 })

@@ -2,9 +2,8 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 local common_keymaps = {
-  { 'h', 'k' },
-  { 'j', 'h' },
   { 'k', 'j' },
+  { 'j', 'k' },
 }
 
 local insert_mode_keymaps = {}
@@ -21,8 +20,8 @@ local normal_mode_keymaps = {
   { '<c-l>', '<c-w>l' },
 
   -- move text up and down
-  { '<a-h>', ':m .-2<cr>==' },
   { '<a-k>', ':m .+1<cr>==' },
+  { '<a-j>', ':m .-2<cr>==' },
 
   -- insert a new line without entering insert mode
   { '<bs>', ':i<cr><cr>.<cr><down>' },
@@ -33,7 +32,7 @@ local operator_mode_keymaps = {}
 
 local visual_mode_keymaps = {
   -- move text up and down
-  { '<a-h>', ':m \'<-2<cr>gv=gv' },
+  { '<a-j>', ':m \'<-2<cr>gv=gv' },
   { '<a-k>', ':m \'>+1<cr>gv=gv' },
 
   { 'p', '"_dP' },
