@@ -22,7 +22,7 @@ local keymaps = {
   { 'c', 'copy' },
   { 'd', 'remove' },
   { 'g?', 'toggle_help' },
-  { 'gh', 'first_sibling' },
+  { 'gj', 'first_sibling' },
   { 'gk', 'last_sibling' },
   { 'gn', 'next_git_item' },
   { 'gp', 'prev_git_item' },
