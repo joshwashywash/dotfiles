@@ -16,6 +16,8 @@ local normal_mode_keymaps = {
   -- navigate windows
   { '<c-j>', '<c-w>k' },
   { '<c-k>', '<c-w>j' },
+  { '<c-h>', '<c-w>h' },
+  { '<c-l>', '<c-w>l' },
 
   -- move text up and down
   { '<a-k>', ':m .+1<cr>==' },
