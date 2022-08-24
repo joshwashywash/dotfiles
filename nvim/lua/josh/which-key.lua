@@ -8,7 +8,7 @@ local trouble = require('trouble')
 local wk = require('which-key')
 
 wk.register({
-  F = { vim.lsp.buf.formatting_sync, 'format' },
+  F = { vim.lsp.buf.formatting, 'format' },
   H = {
     function()
       vim.cmd('set hls!')

@@ -19,3 +19,7 @@ local cmds = {
 for k, v in pairs(cmds) do
   vim.api.nvim_create_autocmd(k, v)
 end
+
+vim.api.nvim_create_user_command('Dunno', function()
+  vim.api.nvim_put({ '¯_(ツ)_/¯' }, '', { true }, { true })
+end, {})

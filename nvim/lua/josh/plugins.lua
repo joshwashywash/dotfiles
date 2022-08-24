@@ -214,6 +214,7 @@ local plugins = {
       vim.g.mkdp_filetypes = { 'markdown' }
     end,
   },
+  { 'kkoomen/vim-doge', run = ':call doge#install()' },
 }
 
 return packer.startup({
