@@ -2,6 +2,7 @@ require('impatient')
 
 local files = {
   'autocommands',
+  'usercommands',
   'keymaps',
   'options',
   'plugins',
