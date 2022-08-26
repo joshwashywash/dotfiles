@@ -20,16 +20,6 @@ local cmds = {
       pattern = 'markdown',
     },
   },
-  {
-    { 'BufEnter', 'BufWinEnter' },
-    {
-      callback = function()
-        vim.bo.filetype = 'php'
-      end,
-      group = vim.api.nvim_create_augroup('TplAsPhp', { clear = true }),
-      pattern = '*.tpl',
-    },
-  },
 }
 
 for _, v in ipairs(cmds) do

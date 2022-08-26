@@ -26,7 +26,7 @@ null_ls.setup({
     null_ls.builtins.code_actions.gitsigns,
     null_ls.builtins.formatting.clang_format,
     null_ls.builtins.formatting.prettier.with({
-      extra_filetypes = { 'svelte', 'toml' },
+      extra_filetypes = { 'php', 'svelte', 'toml' },
     }),
     null_ls.builtins.formatting.stylua,
   },
