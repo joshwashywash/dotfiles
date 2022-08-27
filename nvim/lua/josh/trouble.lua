@@ -5,4 +5,5 @@ require('trouble').setup({
     open_vsplit = { '<c-v>' },
     previous = 'j',
   },
+  height = 6,
 })

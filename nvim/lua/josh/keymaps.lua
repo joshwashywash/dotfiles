@@ -8,10 +8,6 @@ local common_keymaps = {
   -- center on searches
   { 'n', 'nzz' },
   { 'N', 'Nzz' },
-
-  -- make <home> and <end> easier to reach
-  { '<c-l>', '$' },
-  { '<c-h>', '^' },
 }
 
 local insert_mode_keymaps = {}
