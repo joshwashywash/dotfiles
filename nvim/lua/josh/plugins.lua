@@ -102,15 +102,6 @@ local plugins = {
       require('josh.cmp')
     end,
   },
-  {
-    'petertriho/cmp-git',
-    requires = 'nvim-lua/plenary.nvim',
-    config = function()
-      require('cmp_git').setup({
-        filetypes = { 'gitcommit', 'NeogitCommitMessage' },
-      })
-    end,
-  },
   { 'saadparwaiz1/cmp_luasnip' },
   { 'L3MON4D3/LuaSnip' },
   {
