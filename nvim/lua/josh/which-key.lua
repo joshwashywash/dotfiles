@@ -94,12 +94,6 @@ wk.register({
     S = { packer.status, 'status' },
     s = { packer.sync, 'sync' },
   },
-  q = {
-    function()
-      vim.cmd(':q')
-    end,
-    'quit',
-  },
   s = {
     name = 'split',
     s = {
@@ -172,11 +166,5 @@ wk.register({
       end,
       'type definitions',
     },
-  },
-  w = {
-    function()
-      vim.cmd(':w')
-    end,
-    'write',
   },
 }, { prefix = '<leader>' })

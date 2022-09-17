@@ -17,16 +17,11 @@ bufferline.setup({
   },
 })
 
---navigate buffers
-local keymaps = {
-  ['gT'] = function()
-    bufferline.cycle(-1)
-  end,
-  ['gt'] = function()
-    bufferline.cycle(1)
-  end,
-}
+-- cycle buffers
+local t = { ['gT'] = -1, ['gt'] = 1 }
 
-for k, v in pairs(keymaps) do
-  vim.keymap.set('n', k, v)
+for k, v in pairs(t) do
+  vim.keymap.set('n', k, function()
+    bufferline.cycle(v)
+  end)
 end
