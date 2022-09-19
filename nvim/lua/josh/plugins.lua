@@ -44,6 +44,12 @@ local plugins = {
     end,
   },
   {
+    'kyazdani42/nvim-web-devicons',
+    config = function()
+      require('nvim-web-devicons').setup({ default = true })
+    end,
+  },
+  {
     'kyazdani42/nvim-tree.lua',
     config = function()
       require('josh.nvim-tree')
