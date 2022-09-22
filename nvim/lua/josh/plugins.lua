@@ -223,12 +223,6 @@ local plugins = {
     ft = { 'markdown' },
     run = 'cd app && npm install',
   },
-  {
-    'stevearc/dressing.nvim',
-    config = function()
-      require('dressing').setup()
-    end,
-  },
 }
 
 return packer.startup({
