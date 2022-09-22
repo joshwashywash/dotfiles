@@ -211,13 +211,22 @@ local plugins = {
       vim.cmd('colorscheme rose-pine')
     end,
   },
-  { 'machakann/vim-sandwich' },
+  {
+    'kylechui/nvim-surround',
+    config = function()
+      require('nvim-surround').setup()
+    end,
+    tag = '*',
+  },
   {
     'iamcco/markdown-preview.nvim',
     ft = { 'markdown' },
     run = 'cd app && npm install',
-    setup = function()
-      vim.g.mkdp_filetypes = { 'markdown' }
+  },
+  {
+    'stevearc/dressing.nvim',
+    config = function()
+      require('dressing').setup()
     end,
   },
 }
