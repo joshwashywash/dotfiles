@@ -1,20 +1,23 @@
 local packer = require('packer')
 
--- local packer_bootstrap = false
-
--- local fn = vim.fn
-
--- local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
--- if fn.empty(fn.glob(install_path)) > 0 then
---   packer_bootstrap = fn.system({
---     'git',
---     'clone',
---     '--depth',
---     '1',
---     'https://github.com/wbthomason/packer.nvim',
---     install_path,
---   })
--- end
+local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data')
+    .. '/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({
+      'git',
+      'clone',
+      '--depth',
+      '1',
+      'https://github.com/wbthomason/packer.nvim',
+      install_path,
+    })
+    vim.cmd([[packadd packer.nvim]])
+    return true
+  end
+  return false
+end
 
 local plugins = {
   { 'wbthomason/packer.nvim' },
@@ -218,10 +221,6 @@ local plugins = {
       require('josh.which-key')
     end,
   },
-  {
-    'catppuccin/nvim',
-    as = 'catppuccin',
-  },
   { 'RRethy/vim-illuminate' },
   { 'lewis6991/impatient.nvim' },
   { 'famiu/bufdelete.nvim' },
@@ -259,9 +258,9 @@ return packer.startup({
     for _, plugin in ipairs(plugins) do
       packer.use(plugin)
     end
-    -- if packer_bootstrap then
-    --   packer.sync()
-    -- end
+    if ensure_packer() then
+      packer.sync()
+    end
   end,
   config = {
     display = {
