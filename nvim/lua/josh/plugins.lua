@@ -40,7 +40,22 @@ local plugins = {
       opt = true,
     },
     config = function()
-      require('josh.bufferline')
+      require('bufferline').setup({
+        options = {
+          offsets = {
+            {
+              filetype = 'NvimTree',
+              highlight = 'Directory',
+              text = 'explorer',
+              text_align = 'center',
+            },
+          },
+          middle_mouse_command = function(bufnr)
+            require('bufdelete').bufdelete(bufnr)
+          end,
+          show_close_icon = false,
+        },
+      })
     end,
   },
   {
@@ -121,13 +136,19 @@ local plugins = {
   },
   {
     'nvim-lualine/lualine.nvim',
+    config = function()
+      require('lualine').setup({
+        options = {
+          component_separators = { left = '', right = '' },
+          globalstatus = true,
+          section_separators = { left = '', right = '' },
+        },
+      })
+    end,
     requires = {
       'kyazdani42/nvim-web-devicons',
       opt = true,
     },
-    config = function()
-      require('josh.lualine')
-    end,
   },
   { 'onsails/lspkind-nvim' },
   {
@@ -146,7 +167,15 @@ local plugins = {
   {
     'folke/trouble.nvim',
     config = function()
-      require('josh.trouble')
+      require('trouble').setup({
+        action_keys = {
+          next = 'k',
+          open_split = { 's' },
+          open_vsplit = { 'v' },
+          previous = 'j',
+        },
+        height = 6,
+      })
     end,
     requires = 'kyazdani42/nvim-web-devicons',
   },

@@ -1,4 +1,5 @@
 local bufdelete = require('bufdelete')
+local bufferline = require('bufferline')
 local gitsigns = require('gitsigns.actions')
 local neogit = require('neogit')
 local nvimtree = require('nvim-tree')
@@ -28,6 +29,18 @@ wk.register({
         vim.cmd('%bdelete')
       end,
       'delete all buffers',
+    },
+    n = {
+      function()
+        bufferline.cycle(1)
+      end,
+      'next',
+    },
+    N = {
+      function()
+        bufferline.cycle(-1)
+      end,
+      'prev',
     },
     w = {
       function()
