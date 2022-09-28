@@ -6,30 +6,24 @@ local common_keymaps = {
   { 'k', 'j' },
 
   -- center on searches
-  { 'n', 'nzz' },
   { 'N', 'Nzz' },
+  { 'n', 'nzz' },
 }
 
 local insert_mode_keymaps = {}
 
 local normal_mode_keymaps = {
-  -- make setting marks easier
-  { '\'', '`' },
-  { '`', '\'' },
 
   -- navigate windows
+  { '<c-h>', '<c-w>h' },
   { '<c-j>', '<c-w>k' },
   { '<c-k>', '<c-w>j' },
-  { '<c-h>', '<c-w>h' },
   { '<c-l>', '<c-w>l' },
+  { '<c-q>', '<c-w>q' },
 
   -- move text up and down
-  { '<a-k>', ':m .+1<cr>==' },
   { '<a-j>', ':m .-2<cr>==' },
-
-  -- insert a new line without entering insert mode
-  { '<bs>', ':i<cr><cr>.<cr><down>' },
-  { '<cr>', ':a<cr><cr>.<cr><up>' },
+  { '<a-k>', ':m .+1<cr>==' },
 }
 
 local operator_mode_keymaps = {}

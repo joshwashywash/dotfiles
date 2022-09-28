@@ -251,6 +251,7 @@ local plugins = {
     ft = { 'markdown' },
     run = 'cd app && npm install',
   },
+  { 'fladson/vim-kitty' },
 }
 
 return packer.startup({
