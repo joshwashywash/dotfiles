@@ -56,6 +56,7 @@ local plugins = {
           middle_mouse_command = function(bufnr)
             require('bufdelete').bufdelete(bufnr)
           end,
+          show_buffer_close_icons = false,
           show_close_icon = false,
         },
       })
