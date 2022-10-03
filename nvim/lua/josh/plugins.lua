@@ -247,11 +247,7 @@ local plugins = {
     end,
     tag = '*',
   },
-  {
-    'iamcco/markdown-preview.nvim',
-    ft = { 'markdown' },
-    run = 'cd app && npm install',
-  },
+  { 'ellisonleao/glow.nvim' },
   { 'fladson/vim-kitty' },
 }
 
