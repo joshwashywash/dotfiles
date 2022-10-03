@@ -28,9 +28,6 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(
 )
 
 local function on_attach(client, bufnr)
-  -- 0.8 use the new lsp.buffer filter api
-  client.resolved_capabilities.document_formatting = false
-
   illuminate.on_attach(client)
 
   for k, v in pairs(keymaps) do
@@ -46,10 +43,8 @@ for _, name in ipairs(servers) do
     on_attach = on_attach,
   }
 
-  local _ok, extra_opts = pcall(
-    require,
-    string.format('josh.langservers.%s', name)
-  )
+  local _ok, extra_opts =
+    pcall(require, string.format('josh.langservers.%s', name))
 
   if _ok then
     opts = vim.tbl_extend('keep', opts, extra_opts)
