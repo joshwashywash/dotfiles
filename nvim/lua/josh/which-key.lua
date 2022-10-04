@@ -9,7 +9,7 @@ local trouble = require('trouble')
 local wk = require('which-key')
 
 wk.register({
-  F = { vim.lsp.buf.formatting, 'format' },
+  F = { vim.lsp.buf.format, 'format' },
   H = {
     function()
       vim.cmd('set hls!')
@@ -72,10 +72,7 @@ wk.register({
     b = { telescope.buffers, 'buffers' },
     c = { telescope.lsp_code_actions, 'code actions' },
     d = { telescope.lsp_definitions, 'definitions' },
-    f = {
-      telescope.find_files,
-      'files',
-    },
+    f = { telescope.find_files, 'files' },
     g = { telescope.live_grep, 'grep' },
     h = { telescope.help_tags, 'help' },
     l = { telescope.grep_string, 'grep string under cursor' },
