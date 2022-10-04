@@ -1,5 +1,3 @@
-local illuminate = require('illuminate')
-
 local lspconfig = require('lspconfig')
 
 vim.diagnostic.config({
@@ -27,8 +25,6 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(
 )
 
 local function on_attach(client, bufnr)
-  illuminate.on_attach(client)
-
   for k, v in pairs(keymaps) do
     vim.keymap.set('n', k, v, { buffer = bufnr })
   end
