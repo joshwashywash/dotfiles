@@ -1,7 +1,6 @@
 local illuminate = require('illuminate')
 
 local lspconfig = require('lspconfig')
-local masonlsp = require('mason-lspconfig')
 
 vim.diagnostic.config({
   float = {
@@ -35,20 +34,23 @@ local function on_attach(client, bufnr)
   end
 end
 
-local servers = vim.list_extend(masonlsp.get_installed_servers(), { 'ccls' })
+local servers = vim.list_extend(
+  require('mason-lspconfig').get_installed_servers(),
+  { 'ccls' }
+)
 
-for _, name in ipairs(servers) do
+for _, server in ipairs(servers) do
   local opts = {
     capabilities = capabilities,
     on_attach = on_attach,
   }
 
   local _ok, extra_opts =
-    pcall(require, string.format('josh.langservers.%s', name))
+    pcall(require, string.format('josh.langservers.%s', server))
 
   if _ok then
     opts = vim.tbl_extend('keep', opts, extra_opts)
   end
 
-  lspconfig[name].setup(opts)
+  lspconfig[server].setup(opts)
 end

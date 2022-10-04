@@ -145,7 +145,6 @@ local plugins = {
         options = {
           component_separators = { left = '', right = '' },
           globalstatus = true,
-          section_separators = { left = '', right = '' },
         },
       })
     end,
