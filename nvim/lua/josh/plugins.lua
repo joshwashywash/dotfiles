@@ -43,7 +43,13 @@ local plugins = {
       opt = true,
     },
     config = function()
+      local p = require('rose-pine.palette')
       require('bufferline').setup({
+        highlights = {
+          background = {
+            bg = p.base,
+          },
+        },
         options = {
           offsets = {
             {
@@ -222,7 +228,12 @@ local plugins = {
       require('josh.which-key')
     end,
   },
-  { 'RRethy/vim-illuminate' },
+  {
+    'RRethy/vim-illuminate',
+    config = function()
+      require('illuminate').configure({ delay = 1000 })
+    end,
+  },
   { 'lewis6991/impatient.nvim' },
   { 'famiu/bufdelete.nvim' },
   {
@@ -247,6 +258,9 @@ local plugins = {
     config = function()
       require('rose-pine').setup({
         dark_variant = 'moon',
+        highlight_groups = {
+          EndOfBuffer = { fg = 'base', bg = 'base' },
+        },
       })
       vim.cmd('colorscheme rose-pine')
     end,
