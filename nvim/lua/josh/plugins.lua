@@ -236,7 +236,12 @@ local plugins = {
     'rose-pine/neovim',
     as = 'rose-pine',
     config = function()
-      require('rose-pine').setup({ dark_variant = 'moon' })
+      require('rose-pine').setup({
+        dark_variant = 'moon',
+        highlight_groups = {
+          MatchParen = { fd = 'highlight_med', bg = 'text' },
+        },
+      })
       vim.cmd('colorscheme rose-pine')
     end,
   },
