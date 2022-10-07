@@ -232,15 +232,21 @@ local plugins = {
       require('neogit').setup()
     end,
   },
+  { 'savq/melange', as = 'melange' },
+  {
+    'catppuccin/nvim',
+    as = 'catppuccin',
+    config = function()
+      vim.g.catppuccin_flavour = 'mocha'
+      require('catppuccin').setup()
+    end,
+  },
   {
     'rose-pine/neovim',
     as = 'rose-pine',
     config = function()
       require('rose-pine').setup({
         dark_variant = 'moon',
-        highlight_groups = {
-          MatchParen = { fd = 'highlight_med', bg = 'text' },
-        },
       })
       vim.cmd('colorscheme rose-pine')
     end,
