@@ -4,17 +4,20 @@ require('lualine').setup({
     globalstatus = true,
   },
   sections = {
-    lualine_a = { 'mode' },
-    lualine_b = { 'branch', 'diff' },
-    lualine_c = {},
-    lualine_x = { 'diagnostics' },
-    lualine_y = {
+    lualine_a = { 'tabs' },
+    lualine_b = {
       {
         'buffers',
         filetype_names = { NvimTree = 'NvimTree' },
         symbols = { alternate_file = '' },
       },
     },
-    lualine_z = { 'tabs' },
+    lualine_c = { 'diagnostics' },
+    lualine_x = {},
+    lualine_y = {
+      'diff',
+      'git',
+    },
+    lualine_z = { 'mode' },
   },
 })
