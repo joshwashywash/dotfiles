@@ -8,7 +8,13 @@ require('lualine').setup({
     lualine_b = { 'branch', 'diff' },
     lualine_c = {},
     lualine_x = { 'diagnostics' },
-    lualine_y = { { 'buffers', symbols = { alternate_file = '' } } },
+    lualine_y = {
+      {
+        'buffers',
+        filetype_names = { NvimTree = 'NvimTree' },
+        symbols = { alternate_file = '' },
+      },
+    },
     lualine_z = { 'tabs' },
   },
 })
