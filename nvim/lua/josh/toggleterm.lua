@@ -1,7 +1,7 @@
 require('toggleterm').setup({
   direction = 'float',
   open_mapping = [[<c-\>]],
-  float_opts = { border = 'curved' },
+  float_opts = { border = 'rounded', winblend = 0 },
 })
 
 local keymaps = {
