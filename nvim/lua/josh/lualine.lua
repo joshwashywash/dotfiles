@@ -16,7 +16,7 @@ require('lualine').setup({
     lualine_x = {},
     lualine_y = {
       'diff',
-      'git',
+      'branch',
     },
     lualine_z = { 'mode' },
   },
