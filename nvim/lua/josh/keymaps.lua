@@ -24,6 +24,9 @@ local normal_mode_keymaps = {
   -- move text up and down
   { '<a-j>', ':m .-2<cr>==' },
   { '<a-k>', ':m .+1<cr>==' },
+
+  { '\'', '`' },
+  { '`', '\'' },
 }
 
 local operator_mode_keymaps = {}

@@ -37,39 +37,6 @@ local plugins = {
     end,
   },
   {
-    'akinsho/bufferline.nvim',
-    requires = {
-      'kyazdani42/nvim-web-devicons',
-      opt = true,
-    },
-    config = function()
-      local p = require('rose-pine.palette')
-      require('bufferline').setup({
-        highlights = {
-          background = {
-            bg = p.base,
-          },
-        },
-        options = {
-          offsets = {
-            {
-              filetype = 'NvimTree',
-              highlight = 'Directory',
-              text = 'explorer',
-              text_align = 'center',
-            },
-          },
-          middle_mouse_command = function(bufnr)
-            require('bufdelete').bufdelete(bufnr)
-          end,
-          show_buffer_close_icons = false,
-          show_close_icon = false,
-          separator_style = { '', '' },
-        },
-      })
-    end,
-  },
-  {
     'kyazdani42/nvim-web-devicons',
     config = function()
       require('nvim-web-devicons').setup({ default = true })
@@ -148,12 +115,7 @@ local plugins = {
   {
     'nvim-lualine/lualine.nvim',
     config = function()
-      require('lualine').setup({
-        options = {
-          component_separators = { left = '', right = '' },
-          globalstatus = true,
-        },
-      })
+      require('josh.lualine')
     end,
     requires = {
       'kyazdani42/nvim-web-devicons',

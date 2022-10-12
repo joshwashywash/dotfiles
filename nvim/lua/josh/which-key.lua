@@ -1,5 +1,4 @@
 local bufdelete = require('bufdelete')
-local bufferline = require('bufferline')
 local gitsigns = require('gitsigns.actions')
 local neogit = require('neogit')
 local nvimtree = require('nvim-tree')
@@ -30,18 +29,6 @@ wk.register({
       end,
       'delete all buffers',
     },
-    n = {
-      function()
-        bufferline.cycle(1)
-      end,
-      'next',
-    },
-    N = {
-      function()
-        bufferline.cycle(-1)
-      end,
-      'prev',
-    },
     w = {
       function()
         bufdelete.bufwipeout(0)
@@ -53,6 +40,18 @@ wk.register({
         vim.cmd('%bwipeout')
       end,
       'wipeout all buffers',
+    },
+    n = {
+      function()
+        vim.cmd('bnext')
+      end,
+      'next',
+    },
+    N = {
+      function()
+        vim.cmd('bprevious')
+      end,
+      'previous',
     },
   },
   e = {
@@ -67,37 +66,52 @@ wk.register({
   },
   f = {
     name = 'find',
-    D = { telescope.diagnostics, 'diagnostics' },
-    R = { telescope.lsp_references, 'references' },
-    b = { telescope.buffers, 'buffers' },
-    c = { telescope.lsp_code_actions, 'code actions' },
-    d = { telescope.lsp_definitions, 'definitions' },
-    f = { telescope.find_files, 'files' },
-    g = { telescope.live_grep, 'grep' },
-    h = { telescope.help_tags, 'help' },
-    l = { telescope.grep_string, 'grep string under cursor' },
-    r = { telescope.oldfiles, 'recent files' },
-    t = { telescope.lsp_type_definitions, 'type definitions' },
+    D = { telescope.diagnostics, 'list diagnostics for all open buffers' },
+    R = {
+      telescope.lsp_references,
+      'list references for the word under the cursor',
+    },
+    T = { telescope.treesitter, 'list function names, variables, etc.' },
+    b = { telescope.buffers, 'list open buffers' },
+    d = {
+      telescope.lsp_definitions,
+      'definitions for the word under the cursor',
+    },
+    f = { telescope.find_files, 'list files' },
+    g = {
+      telescope.live_grep,
+      'grep for a word the in current working directory',
+    },
+    h = { telescope.help_tags, 'list available help tags' },
+    l = { telescope.grep_string, 'grep for the word under the cursor' },
+    r = { telescope.oldfiles, 'list recent files' },
+    t = {
+      telescope.lsp_type_definitions,
+      'list type definitions of word under the cursor',
+    },
   },
   g = {
     name = 'git',
-    B = { telescope.git_branches, 'branches' },
-    C = { telescope.git_bcommits, 'buffer commits' },
+    B = { telescope.git_branches, 'list branches' },
+    C = { telescope.git_bcommits, 'list buffer commits with diff preview' },
     D = { gitsigns.diffthis, 'diff' },
     H = { gitsigns.undo_stage_hunk, 'undo stage hunk' },
     N = { neogit.open, 'neogit' },
     P = { gitsigns.preview_hunk, 'preview hunk' },
     R = { gitsigns.reset_buffer, 'reset buffer' },
-    S = { telescope.git_status, 'status' },
+    S = {
+      telescope.git_status,
+      'list current changes per file with diff preview',
+    },
     b = { gitsigns.blame_line, 'blame' },
-    c = { telescope.git_commits, 'commits' },
+    c = { telescope.git_commits, 'list all commits with diff preview' },
     d = { gitsigns.toggle_deleted, 'toggle deleted' },
     h = { gitsigns.stage_hunk, 'stage hunk' },
     n = { gitsigns.next_hunk, 'next hunk' },
     p = { gitsigns.prev_hunk, 'previous hunk' },
     r = { gitsigns.reset_hunk, 'reset hunk' },
     s = { gitsigns.stage_buffer, 'stage buffer' },
-    t = { telescope.git_stash, 'stash' },
+    t = { telescope.git_stash, 'list stash items' },
   },
   p = {
     name = 'packer',
