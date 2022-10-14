@@ -1,11 +1,11 @@
 local opts = {
   background = 'dark',
   clipboard = 'unnamedplus',
-  cmdheight = 0,
   completeopt = { 'menu', 'menuone', 'noselect' },
   guifont = 'monospace:h16',
   hidden = true,
   ignorecase = true,
+  laststatus = 0,
   mouse = 'a',
   number = true,
   pumheight = 10,
