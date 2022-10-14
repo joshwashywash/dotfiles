@@ -236,6 +236,12 @@ local plugins = {
   },
   { 'ellisonleao/glow.nvim' },
   { 'fladson/vim-kitty' },
+  {
+    'ggandor/leap.nvim',
+    config = function()
+      require('leap').add_default_mappings()
+    end,
+  },
 }
 
 return packer.startup({

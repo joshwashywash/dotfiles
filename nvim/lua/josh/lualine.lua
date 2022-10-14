@@ -3,9 +3,7 @@ require('lualine').setup({
     component_separators = { left = '', right = '' },
     globalstatus = true,
   },
-  inactive_sections = {},
-  sections = {},
-  tabline = {
+  sections = {
     lualine_a = { 'tabs' },
     lualine_b = {
       {

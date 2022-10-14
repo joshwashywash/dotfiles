@@ -5,7 +5,6 @@ local opts = {
   guifont = 'monospace:h16',
   hidden = true,
   ignorecase = true,
-  laststatus = 0,
   mouse = 'a',
   number = true,
   pumheight = 10,
