@@ -80,7 +80,7 @@ wk.register({
     f = { telescope.find_files, 'list files' },
     g = {
       telescope.live_grep,
-      'grep for a word the in current working directory',
+      'grep for a word in the current working directory',
     },
     h = { telescope.help_tags, 'list available help tags' },
     l = { telescope.grep_string, 'grep for the word under the cursor' },
