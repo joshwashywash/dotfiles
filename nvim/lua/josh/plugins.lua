@@ -1,5 +1,3 @@
-local packer = require('packer')
-
 local ensure_packer = function()
   local fn = vim.fn
   local install_path = fn.stdpath('data')
@@ -235,6 +233,14 @@ local plugins = {
     tag = '*',
   },
   { 'ellisonleao/glow.nvim' },
+  {
+    'iamcco/markdown-preview.nvim',
+    run = 'cd app && npm install',
+    setup = function()
+      vim.g.mkdp_filetypes = { 'markdown' }
+    end,
+    ft = { 'markdown' },
+  },
   { 'fladson/vim-kitty' },
   {
     'ggandor/leap.nvim',
@@ -244,12 +250,16 @@ local plugins = {
   },
 }
 
+local packer_bootstrap = ensure_packer()
+
+local packer = require('packer')
+
 return packer.startup({
   function()
     for _, plugin in ipairs(plugins) do
       packer.use(plugin)
     end
-    if ensure_packer() then
+    if packer_bootstrap then
       packer.sync()
     end
   end,
