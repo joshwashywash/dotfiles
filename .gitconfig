@@ -1,3 +1,7 @@
 [user]
 	name = Josh Oertel
 	email = 16182568+joshwashywash@users.noreply.github.com
+[credential]
+	helper = store
+[core]
+	editor = nvim
