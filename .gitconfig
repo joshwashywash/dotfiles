@@ -1,13 +1,3 @@
 [user]
-	name = Joshua Oertel
+	name = Josh Oertel
 	email = 16182568+joshwashywash@users.noreply.github.com
-[alias]
-	plog = log --graph --decorate --oneline
-[init]
-	defaultBranch = main
-[pull]
-	rebase = true
-[fetch]
-	prune = true
-[credential]
-	helper = store

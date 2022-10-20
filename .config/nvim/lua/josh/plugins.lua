@@ -194,7 +194,6 @@ local plugins = {
       require('illuminate').configure({ delay = 1000 })
     end,
   },
-  { 'lewis6991/impatient.nvim' },
   { 'famiu/bufdelete.nvim' },
   {
     'TimUntersberger/neogit',
