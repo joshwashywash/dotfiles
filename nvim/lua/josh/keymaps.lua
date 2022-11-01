@@ -4,10 +4,6 @@ vim.g.maplocalleader = ' '
 local common_keymaps = {
   { 'j', 'k' },
   { 'k', 'j' },
-
-  -- center on searches
-  { 'N', 'Nzz' },
-  { 'n', 'nzz' },
 }
 
 local insert_mode_keymaps = {}
@@ -27,6 +23,10 @@ local normal_mode_keymaps = {
 
   { '\'', '`' },
   { '`', '\'' },
+  
+  -- center on searches
+  { 'N', 'Nzz' },
+  { 'n', 'nzz' },
 }
 
 local operator_mode_keymaps = {}
