@@ -23,7 +23,7 @@ local normal_mode_keymaps = {
 
   { '\'', '`' },
   { '`', '\'' },
-  
+
   -- center on searches
   { 'N', 'Nzz' },
   { 'n', 'nzz' },

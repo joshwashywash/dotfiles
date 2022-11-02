@@ -29,12 +29,6 @@ local plugins = {
     },
   },
   {
-    'akinsho/toggleterm.nvim',
-    config = function()
-      require('josh.toggleterm')
-    end,
-  },
-  {
     'kyazdani42/nvim-web-devicons',
     config = function()
       require('nvim-web-devicons').setup({ default = true })
