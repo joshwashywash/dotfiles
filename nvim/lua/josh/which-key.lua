@@ -56,13 +56,14 @@ wk.register({
   },
   e = {
     name = 'explorer',
-    e = { nvimtree.toggle, 'toggle' },
+    
     f = {
       function()
         nvimtree.find_file(true)
       end,
       'find file',
     },
+    t = { nvimtree.toggle, 'toggle' },
   },
   f = {
     name = 'find',
