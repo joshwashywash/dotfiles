@@ -56,7 +56,7 @@ wk.register({
   },
   e = {
     name = 'explorer',
-    
+
     f = {
       function()
         nvimtree.find_file(true)
@@ -97,19 +97,19 @@ wk.register({
     C = { telescope.git_bcommits, 'list buffer commits with diff preview' },
     D = { gitsigns.diffthis, 'diff' },
     H = { gitsigns.undo_stage_hunk, 'undo stage hunk' },
-    N = { neogit.open, 'neogit' },
-    P = { gitsigns.preview_hunk, 'preview hunk' },
+    N = { gitsigns.prev_hunk, 'previous hunk' },
+    P = { neogit.open, 'neogit' },
     R = { gitsigns.reset_buffer, 'reset buffer' },
     S = {
       telescope.git_status,
-      'list current changes per file with diff preview',
+      'list changes per file with diff preview',
     },
     b = { gitsigns.blame_line, 'blame' },
     c = { telescope.git_commits, 'list all commits with diff preview' },
     d = { gitsigns.toggle_deleted, 'toggle deleted' },
     h = { gitsigns.stage_hunk, 'stage hunk' },
     n = { gitsigns.next_hunk, 'next hunk' },
-    p = { gitsigns.prev_hunk, 'previous hunk' },
+    p = { gitsigns.preview_hunk, 'preview hunk' },
     r = { gitsigns.reset_hunk, 'reset hunk' },
     s = { gitsigns.stage_buffer, 'stage buffer' },
     t = { telescope.git_stash, 'list stash items' },
