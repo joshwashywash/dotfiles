@@ -6,6 +6,11 @@ local common_keymaps = {
   { 'k', 'j' },
 }
 
+local command_mode_keymaps = {
+  { '<c-j>', '<up>' },
+  { '<c-k>', '<down>' },
+}
+
 local insert_mode_keymaps = {}
 
 local normal_mode_keymaps = {
@@ -21,6 +26,7 @@ local normal_mode_keymaps = {
   { '<a-j>', ':m .-2<cr>==' },
   { '<a-k>', ':m .+1<cr>==' },
 
+  -- make marks a little easier to reach
   { '\'', '`' },
   { '`', '\'' },
 
@@ -55,6 +61,7 @@ for _, keymap in ipairs({
 end
 
 local maps = {
+  c = command_mode_keymaps,
   i = insert_mode_keymaps,
   n = normal_mode_keymaps,
   o = operator_mode_keymaps,
