@@ -6,10 +6,7 @@ local common_keymaps = {
   { 'k', 'j' },
 }
 
-local command_mode_keymaps = {
-  { '<c-j>', '<up>' },
-  { '<c-k>', '<down>' },
-}
+local command_mode_keymaps = {}
 
 local insert_mode_keymaps = {}
 
