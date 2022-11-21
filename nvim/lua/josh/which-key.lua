@@ -121,7 +121,7 @@ wk.register({
   },
   s = {
     name = 'split',
-    s = {
+    h = {
       function()
         vim.cmd('split')
       end,
