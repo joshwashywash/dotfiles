@@ -22,6 +22,7 @@ null_ls.setup({
             filter = function(client)
               return client.name == 'null-ls'
             end,
+            timeout = 2000,
           })
         end,
         group = augroup,
