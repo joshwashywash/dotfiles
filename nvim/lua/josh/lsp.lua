@@ -10,9 +10,10 @@ vim.diagnostic.config({
   virtual_text = false,
 })
 
+-- some servers aren't on mason so use this to add them
 local servers = vim.list_extend(
   require('mason-lspconfig').get_installed_servers(),
-  { 'ccls' }
+  {}
 )
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
