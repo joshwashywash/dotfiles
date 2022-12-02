@@ -8,7 +8,6 @@ local trouble = require('trouble')
 local wk = require('which-key')
 
 wk.register({
-  F = { vim.lsp.buf.format, 'format' },
   H = {
     function()
       vim.cmd('set hls!')
@@ -56,7 +55,6 @@ wk.register({
   },
   e = {
     name = 'explorer',
-
     f = {
       function()
         nvimtree.find_file(true)
@@ -102,7 +100,7 @@ wk.register({
     R = { gitsigns.reset_buffer, 'reset buffer' },
     S = {
       telescope.git_status,
-      'list changes per file with diff preview',
+      'list current changes per file with diff preview',
     },
     b = { gitsigns.blame_line, 'blame' },
     c = { telescope.git_commits, 'list all commits with diff preview' },
@@ -118,21 +116,6 @@ wk.register({
     name = 'packer',
     S = { packer.status, 'status' },
     s = { packer.sync, 'sync' },
-  },
-  s = {
-    name = 'split',
-    h = {
-      function()
-        vim.cmd('split')
-      end,
-      'horizontally',
-    },
-    v = {
-      function()
-        vim.cmd('vsplit')
-      end,
-      'vertically',
-    },
   },
   t = {
     name = 'trouble',
