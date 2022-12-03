@@ -1,13 +1,5 @@
 local null_ls = require('null-ls')
 
---- null-ls does not support multi offset_encodings. fix this if/when it does
-local notify = vim.notify
-vim.notify = function(msg, ...)
-  if not msg:match('warning: multiple different client offset_encodings') then
-    notify(msg, ...)
-  end
-end
-
 local augroup = vim.api.nvim_create_augroup('LspFormatting', { clear = true })
 
 null_ls.setup({

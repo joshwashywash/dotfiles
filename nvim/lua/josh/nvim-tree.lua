@@ -31,11 +31,11 @@ local keymaps = {
   { 'mp', 'bulk_move' },
   { 'o', 'system_open' },
   { 'p', 'paste' },
-  { { 'q', '<esc>' }, 'close' },
   { 'r', 'rename' },
   { 'v', 'vsplit' },
   { 'x', 'cut' },
   { 'y', 'copy_name' },
+  { { 'q', '<esc>' }, 'close' },
 }
 
 local function create_keymap(keymap)
