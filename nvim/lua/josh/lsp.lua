@@ -11,10 +11,8 @@ vim.diagnostic.config({
 })
 
 -- some servers aren't on mason so use this to add them
-local servers = vim.list_extend(
-  require('mason-lspconfig').get_installed_servers(),
-  {}
-)
+local servers =
+  vim.list_extend(require('mason-lspconfig').get_installed_servers(), {})
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
@@ -56,4 +54,3 @@ for _, server in ipairs(servers) do
 
   lspconfig[server].setup(opts)
 end
-
