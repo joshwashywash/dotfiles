@@ -1,9 +1,10 @@
 local files = {
+  'filetypes',
   'autocommands',
-  'usercommands',
   'keymaps',
   'options',
   'plugins',
+  'usercommands',
 }
 
 for _, file in ipairs(files) do
