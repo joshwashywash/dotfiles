@@ -8,7 +8,7 @@ local trouble = require('trouble')
 local wk = require('which-key')
 
 wk.register({
-  H = {
+  h = {
     function()
       vim.cmd('set hls!')
     end,
