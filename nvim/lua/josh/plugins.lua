@@ -155,6 +155,7 @@ local plugins = {
     config = function()
       require('trouble').setup({
         action_keys = {
+          next = 'k',
           open_split = { 's' },
           open_vsplit = { 'v' },
           previous = 'j',
