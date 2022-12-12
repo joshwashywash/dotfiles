@@ -42,6 +42,7 @@ for _, server in ipairs(servers) do
           r = { vim.lsp.buf.references, 'references' },
           t = { vim.lsp.buf.type_definition, 'type definitions' },
           w = { vim.lsp.buf.add_workspace_folder, 'add workspace folder' },
+          'lsp',
         },
       }, { buffer = bufnr, prefix = '<leader>' })
     end,
