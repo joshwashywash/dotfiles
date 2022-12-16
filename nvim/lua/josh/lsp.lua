@@ -1,6 +1,14 @@
 local lspconfig = require('lspconfig')
 local wk = require('which-key')
 
+-- add a rounded border to the lsp floating window. taken from the nvim lsp gh wiki
+local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+  opts = opts or {}
+  opts.border = opts.border or 'rounded'
+  return orig_util_open_floating_preview(contents, syntax, opts, ...)
+end
+
 vim.diagnostic.config({
   float = {
     border = 'rounded',
