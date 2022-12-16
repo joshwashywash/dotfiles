@@ -1,7 +1,8 @@
 local cmp = require('cmp')
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 
-local offset = 4
+-- when the docs for a completion are longer than the window
+local scroll_docs_offset = 4
 
 cmp.setup({
   formatting = {
