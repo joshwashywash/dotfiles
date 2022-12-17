@@ -41,15 +41,11 @@ wk.register({
       'wipeout all buffers',
     },
     n = {
-      function()
-        vim.cmd('bnext')
-      end,
+      vim.cmd.bnext,
       'next',
     },
     N = {
-      function()
-        vim.cmd('bprevious')
-      end,
+      vim.cmd.bprevious,
       'previous',
     },
   },

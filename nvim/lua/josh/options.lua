@@ -1,7 +1,6 @@
 local opts = {
   background = 'dark',
   clipboard = 'unnamedplus',
-  cmdheight = 0,
   completeopt = { 'menu', 'menuone', 'noselect' },
   guifont = 'monospace:h16',
   hidden = true,

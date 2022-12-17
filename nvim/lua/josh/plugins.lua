@@ -11,7 +11,7 @@ local ensure_packer = function()
       'https://github.com/wbthomason/packer.nvim',
       install_path,
     })
-    vim.cmd([[packadd packer.nvim]])
+    vim.cmd.packadd('packer.nvim')
     return true
   end
   return false
@@ -218,7 +218,7 @@ local plugins = {
           EndOfBuffer = { fg = 'base', bg = 'base' },
         },
       })
-      vim.cmd('colorscheme rose-pine')
+      vim.cmd.colorscheme('rose-pine')
     end,
   },
   {
