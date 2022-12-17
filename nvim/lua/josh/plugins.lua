@@ -19,6 +19,7 @@ end
 
 local plugins = {
   { 'wbthomason/packer.nvim' },
+  { 'nvim-lua/plenary.nvim' },
   {
     'lewis6991/gitsigns.nvim',
     config = function()
@@ -36,9 +37,6 @@ local plugins = {
   },
   {
     'kyazdani42/nvim-tree.lua',
-    config = function()
-      require('josh.nvim-tree')
-    end,
     requires = {
       'kyazdani42/nvim-web-devicons',
       opt = true,
@@ -46,18 +44,10 @@ local plugins = {
   },
   {
     'nvim-treesitter/nvim-treesitter',
-    config = function()
-      require('josh.treesitter')
-    end,
     run = ':TSUpdate',
   },
   { 'nvim-treesitter/nvim-treesitter-textobjects' },
-  {
-    'neovim/nvim-lspconfig',
-    config = function()
-      require('josh.lsp')
-    end,
-  },
+  { 'neovim/nvim-lspconfig' },
   {
     'williamboman/mason.nvim',
     config = function()
@@ -87,12 +77,7 @@ local plugins = {
   { 'hrsh7th/cmp-nvim-lsp' },
   { 'hrsh7th/cmp-nvim-lsp-signature-help' },
   { 'hrsh7th/cmp-path' },
-  {
-    'hrsh7th/nvim-cmp',
-    config = function()
-      require('josh.cmp')
-    end,
-  },
+  { 'hrsh7th/nvim-cmp' },
   { 'saadparwaiz1/cmp_luasnip' },
   {
     'L3MON4D3/LuaSnip',
@@ -107,9 +92,6 @@ local plugins = {
     requires = {
       'nvim-lua/plenary.nvim',
     },
-    config = function()
-      require('josh.telescope')
-    end,
   },
   {
     'nvim-lualine/lualine.nvim',
@@ -181,9 +163,6 @@ local plugins = {
   },
   {
     'jose-elias-alvarez/null-ls.nvim',
-    config = function()
-      require('josh.null-ls')
-    end,
     requires = { 'nvim-lua/plenary.nvim' },
   },
   {
@@ -205,12 +184,7 @@ local plugins = {
       require('neoscroll').setup({ easing_function = 'sine' })
     end,
   },
-  {
-    'folke/which-key.nvim',
-    config = function()
-      require('josh.which-key')
-    end,
-  },
+  { 'folke/which-key.nvim' },
   {
     'RRethy/vim-illuminate',
     config = function()
@@ -255,14 +229,6 @@ local plugins = {
     tag = '*',
   },
   { 'ellisonleao/glow.nvim' },
-  {
-    'iamcco/markdown-preview.nvim',
-    run = 'cd app && npm install',
-    setup = function()
-      vim.g.mkdp_filetypes = { 'markdown' }
-    end,
-    ft = { 'markdown' },
-  },
   { 'fladson/vim-kitty' },
   {
     'ggandor/leap.nvim',
