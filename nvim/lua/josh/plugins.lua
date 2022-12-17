@@ -239,6 +239,7 @@ local plugins = {
       require('leap').add_default_mappings()
     end,
   },
+  { 'stevearc/dressing.nvim' },
 }
 
 local packer_bootstrap = ensure_packer()
