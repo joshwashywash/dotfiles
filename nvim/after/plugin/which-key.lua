@@ -8,12 +8,6 @@ local trouble = require('trouble')
 local wk = require('which-key')
 
 wk.register({
-  h = {
-    function()
-      vim.cmd('set hls!')
-    end,
-    'toggle highlight',
-  },
   b = {
     name = 'buffer actions',
     d = {
