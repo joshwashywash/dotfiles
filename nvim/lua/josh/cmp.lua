@@ -11,9 +11,9 @@ cmp.setup({
     }),
   },
   mapping = cmp.mapping.preset.insert({
-    ['<c-b>'] = cmp.mapping.scroll_docs(-offset),
+    ['<c-b>'] = cmp.mapping.scroll_docs(-scroll_docs_offset),
     ['<c-e>'] = cmp.mapping.abort(),
-    ['<c-f>'] = cmp.mapping.scroll_docs(offset),
+    ['<c-f>'] = cmp.mapping.scroll_docs(scroll_docs_offset),
     ['<c-space>'] = cmp.mapping.complete(),
     ['<cr>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
   }),
