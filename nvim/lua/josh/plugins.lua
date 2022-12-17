@@ -94,7 +94,14 @@ local plugins = {
     end,
   },
   { 'saadparwaiz1/cmp_luasnip' },
-  { 'L3MON4D3/LuaSnip' },
+  {
+    'L3MON4D3/LuaSnip',
+    after = 'nvim-cmp',
+    config = function()
+      require('luasnip.loaders.from_vscode').lazy_load()
+    end,
+  },
+  { 'rafamadriz/friendly-snippets' },
   {
     'nvim-telescope/telescope.nvim',
     requires = {
