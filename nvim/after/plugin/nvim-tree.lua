@@ -1,3 +1,6 @@
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 local nvimtree = require('nvim-tree')
 
 -- key -> nvim function name
@@ -47,6 +50,13 @@ nvimtree.setup({
   actions = {
     open_file = {
       quit_on_open = true,
+    },
+  },
+  renderer = {
+    icons = {
+      show = {
+        folder_arrow = false,
+      },
     },
   },
   view = {
