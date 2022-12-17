@@ -55,6 +55,17 @@ wk.register({
   },
   f = {
     name = 'find',
+    ['/'] = {
+      function()
+        telescope.current_buffer_fuzzy_find(
+          require('telescope.themes').get_dropdown({
+            previewer = false,
+            winblend = 10,
+          })
+        )
+      end,
+      'find word in current buffer',
+    },
     D = { telescope.diagnostics, 'list diagnostics for all open buffers' },
     R = {
       telescope.lsp_references,
@@ -69,15 +80,15 @@ wk.register({
     f = { telescope.find_files, 'list files' },
     g = {
       telescope.live_grep,
-      'grep for a word in the current working directory',
+      'search for a word in the current working directory',
     },
     h = { telescope.help_tags, 'list available help tags' },
-    l = { telescope.grep_string, 'grep for the word under the cursor' },
     r = { telescope.oldfiles, 'list recent files' },
     t = {
       telescope.lsp_type_definitions,
       'list type definitions of word under the cursor',
     },
+    w = { telescope.grep_string, 'search for the word under the cursor' },
   },
   g = {
     name = 'git',

@@ -19,7 +19,6 @@ end
 
 local plugins = {
   { 'wbthomason/packer.nvim' },
-  { 'nvim-lua/plenary.nvim' },
   {
     'lewis6991/gitsigns.nvim',
     config = function()
@@ -72,13 +71,17 @@ local plugins = {
       })
     end,
   },
-  { 'hrsh7th/cmp-buffer' },
-  { 'hrsh7th/cmp-cmdline' },
-  { 'hrsh7th/cmp-nvim-lsp' },
-  { 'hrsh7th/cmp-nvim-lsp-signature-help' },
-  { 'hrsh7th/cmp-path' },
-  { 'hrsh7th/nvim-cmp' },
-  { 'saadparwaiz1/cmp_luasnip' },
+  {
+    'hrsh7th/nvim-cmp',
+    requires = {
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
+      'hrsh7th/cmp-path',
+      'saadparwaiz1/cmp_luasnip',
+    },
+  },
   {
     'L3MON4D3/LuaSnip',
     after = 'nvim-cmp',
