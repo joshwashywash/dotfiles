@@ -21,7 +21,7 @@ require('nvim-treesitter.configs').setup({
       init_selection = '<leader>v',
       node_decremental = '<leader>V',
       node_incremental = '<leader>v',
-      scope_incremental = '<c-v>',
+      scope_incremental = '<c-s>',
     },
   },
   indent = {
