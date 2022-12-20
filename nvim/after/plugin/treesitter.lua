@@ -63,7 +63,7 @@ require('nvim-treesitter.configs').setup({
     },
     swap = {
       enable = true,
-        --<c-n> and <c-p> or aliases for up and down in normal mode
+        -- <c-n> and <c-p> are aliases for up and down in normal mode
       swap_next = {
         ['<c-n>'] = '@parameter.inner',
       },
