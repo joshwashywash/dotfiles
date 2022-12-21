@@ -59,7 +59,7 @@ local maps = {
   i = insert_mode_keymaps,
   n = normal_mode_keymaps,
   o = operator_mode_keymaps,
-  v = visual_mode_keymaps,
+  x = visual_mode_keymaps,
 }
 
 local function map_keys(mode, keymaps)
