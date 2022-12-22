@@ -24,9 +24,6 @@ require('nvim-treesitter.configs').setup({
       scope_incremental = '<c-s>',
     },
   },
-  indent = {
-    enable = true,
-  },
   textobjects = {
     move = {
       enable = true,
