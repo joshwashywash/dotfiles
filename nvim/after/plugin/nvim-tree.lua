@@ -52,6 +52,7 @@ nvimtree.setup({
       quit_on_open = true,
     },
   },
+  hijack_cursor = true,
   renderer = {
     icons = {
       show = {
