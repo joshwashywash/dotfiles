@@ -27,7 +27,7 @@ cmp.setup({
     ['<c-f>'] = cmp.mapping.scroll_docs(scroll_docs_offset),
     ['<c-space>'] = cmp.mapping.complete(),
     ['<cr>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-    ['<tab>'] = cmp.mapping(function(fallback)
+    ['<c-e>'] = cmp.mapping(function(fallback)
       if luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
       elseif has_words_before() then
@@ -36,7 +36,7 @@ cmp.setup({
         fallback()
       end
     end, { 'i', 's' }),
-    ['<s-tab>'] = cmp.mapping(function(fallback)
+    ['<c-y>'] = cmp.mapping(function(fallback)
       if luasnip.jumpable(-1) then
         luasnip.jump(-1)
       elseif has_words_before() then
