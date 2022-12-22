@@ -188,12 +188,7 @@ local plugins = {
     end,
   },
   { 'folke/which-key.nvim' },
-  {
-    'RRethy/vim-illuminate',
-    config = function()
-      require('illuminate').configure({ delay = 1000 })
-    end,
-  },
+  { 'RRethy/vim-illuminate' },
   { 'famiu/bufdelete.nvim' },
   {
     'TimUntersberger/neogit',
