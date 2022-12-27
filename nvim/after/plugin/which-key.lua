@@ -1,7 +1,7 @@
 local bufdelete = require('bufdelete')
 local gitsigns = require('gitsigns.actions')
 local neogit = require('neogit')
-local nvimtree = require('nvim-tree')
+local nvimtree = require('nvim-tree.api')
 local packer = require('packer')
 local telescope = require('telescope.builtin')
 local trouble = require('trouble')
@@ -47,11 +47,11 @@ wk.register({
     name = 'explorer',
     f = {
       function()
-        nvimtree.find_file(true)
+        nvimtree.tree.toggle(true)
       end,
       'find file',
     },
-    t = { nvimtree.toggle, 'toggle' },
+    t = { nvimtree.tree.toggle, 'toggle' },
   },
   f = {
     name = 'find',
