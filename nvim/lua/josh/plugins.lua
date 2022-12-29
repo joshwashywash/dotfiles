@@ -194,7 +194,7 @@ local plugins = {
     'TimUntersberger/neogit',
     requires = 'nvim-lua/plenary.nvim',
     config = function()
-      require('neogit').setup()
+      require('neogit').setup({ kind = 'split' })
     end,
   },
   { 'savq/melange', as = 'melange' },
