@@ -21,12 +21,7 @@ local plugins = {
   { 'wbthomason/packer.nvim' },
   {
     'lewis6991/gitsigns.nvim',
-    config = function()
-      require('gitsigns').setup()
-    end,
-    requires = {
-      'nvim-lua/plenary.nvim',
-    },
+    requires = { 'nvim-lua/plenary.nvim' },
   },
   {
     'kyazdani42/nvim-web-devicons',
@@ -47,30 +42,8 @@ local plugins = {
   },
   { 'nvim-treesitter/nvim-treesitter-textobjects' },
   { 'neovim/nvim-lspconfig' },
-  {
-    'williamboman/mason.nvim',
-    config = function()
-      require('mason').setup()
-    end,
-  },
-  {
-    'williamboman/mason-lspconfig.nvim',
-    config = function()
-      require('mason-lspconfig').setup({
-        automatic_installation = true,
-        ensure_installed = {
-          'emmet_ls',
-          'html',
-          'intelephense',
-          'jsonls',
-          'sumneko_lua',
-          'svelte',
-          'tailwindcss',
-          'tsserver',
-        },
-      })
-    end,
-  },
+  { 'williamboman/mason.nvim' },
+  { 'williamboman/mason-lspconfig.nvim' },
   {
     'hrsh7th/nvim-cmp',
     requires = {
@@ -92,37 +65,10 @@ local plugins = {
   { 'rafamadriz/friendly-snippets' },
   {
     'nvim-telescope/telescope.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim',
-    },
+    requires = { 'nvim-lua/plenary.nvim' },
   },
   {
     'nvim-lualine/lualine.nvim',
-    config = function()
-      require('lualine').setup({
-        options = {
-          component_separators = { left = '', right = '' },
-          globalstatus = true,
-        },
-        sections = {
-          lualine_a = { 'tabs' },
-          lualine_b = {
-            {
-              'buffers',
-              filetype_names = { NvimTree = 'NvimTree' },
-              symbols = { alternate_file = '' },
-            },
-          },
-          lualine_c = { 'diagnostics' },
-          lualine_x = {},
-          lualine_y = {
-            'diff',
-            'branch',
-          },
-          lualine_z = { 'mode' },
-        },
-      })
-    end,
     requires = {
       'kyazdani42/nvim-web-devicons',
       opt = true,
@@ -144,17 +90,6 @@ local plugins = {
   { 'folke/lsp-colors.nvim' },
   {
     'folke/trouble.nvim',
-    config = function()
-      require('trouble').setup({
-        action_keys = {
-          next = 'k',
-          open_split = { 's' },
-          open_vsplit = { 'v' },
-          previous = 'j',
-        },
-        height = 6,
-      })
-    end,
     requires = 'kyazdani42/nvim-web-devicons',
   },
   {
@@ -195,15 +130,6 @@ local plugins = {
     requires = 'nvim-lua/plenary.nvim',
     config = function()
       require('neogit').setup({ kind = 'split' })
-    end,
-  },
-  { 'savq/melange', as = 'melange' },
-  {
-    'catppuccin/nvim',
-    as = 'catppuccin',
-    config = function()
-      vim.g.catppuccin_flavour = 'mocha'
-      require('catppuccin').setup()
     end,
   },
   {

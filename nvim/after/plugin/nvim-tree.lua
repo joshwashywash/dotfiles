@@ -1,7 +1,9 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+local wk = require('which-key')
 local nvimtree = require('nvim-tree')
+local api = require('nvim-tree.api')
 
 -- key -> nvim function name
 local keymaps = {
@@ -68,3 +70,16 @@ nvimtree.setup({
     side = 'right',
   },
 })
+
+wk.register({
+  e = {
+    name = 'explorer',
+    f = {
+      function()
+        api.tree.toggle(true)
+      end,
+      'find file',
+    },
+    t = { api.tree.toggle, 'toggle' },
+  },
+}, { prefix = '<leader>' })
