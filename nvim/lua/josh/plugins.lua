@@ -128,9 +128,6 @@ local plugins = {
   {
     'TimUntersberger/neogit',
     requires = 'nvim-lua/plenary.nvim',
-    config = function()
-      require('neogit').setup({ kind = 'split' })
-    end,
   },
   {
     'rose-pine/neovim',
