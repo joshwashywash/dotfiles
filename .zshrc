@@ -109,3 +109,5 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 export PNPM_HOME="/home/josh/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
+
+alias config="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
