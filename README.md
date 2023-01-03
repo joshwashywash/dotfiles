@@ -1,3 +1,0 @@
-# dotfiles
-
-my doots
