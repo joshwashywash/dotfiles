@@ -12,7 +12,7 @@ local insert_mode_keymaps = {}
 
 local normal_mode_keymaps = {
 
-    -- navigate windows
+  -- navigate windows
   { '<c-w>j', '<c-w>k' },
   { '<c-w>k', '<c-w>j' },
   { '<s-down>', '<c-w>j' },
