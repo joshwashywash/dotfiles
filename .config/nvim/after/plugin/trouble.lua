@@ -4,10 +4,8 @@ local trouble = require('trouble')
 
 trouble.setup({
   action_keys = {
-    next = 'k',
     open_split = { 's' },
     open_vsplit = { 'v' },
-    previous = 'j',
   },
   height = 6,
 })

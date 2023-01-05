@@ -1,11 +1,6 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-local common_keymaps = {
-  { 'j', 'k' },
-  { 'k', 'j' },
-}
-
 local command_mode_keymaps = {}
 
 local insert_mode_keymaps = {}
@@ -20,10 +15,6 @@ local normal_mode_keymaps = {
   { '<s-right>', '<c-w>l' },
   { '<s-up>', '<c-w>k' },
 
-  -- move text up and down
-  { '<a-j>', ':m .-2<cr>==' },
-  { '<a-k>', ':m .+1<cr>==' },
-
   -- make marks a little easier to reach
   { '\'', '`' },
   { '`', '\'' },
@@ -37,8 +28,6 @@ local operator_mode_keymaps = {}
 
 local visual_mode_keymaps = {
   -- move text up and down
-  { '<a-j>', ':m \'<-2<cr>gv=gv' },
-  { '<a-k>', ':m \'>+1<cr>gv=gv' },
 
   { 'p', '"_dP' },
 
@@ -49,14 +38,6 @@ local visual_mode_keymaps = {
   { '<', '<gv' },
   { '>', '>gv' },
 }
-
-for _, keymap in ipairs({
-  normal_mode_keymaps,
-  operator_mode_keymaps,
-  visual_mode_keymaps,
-}) do
-  vim.list_extend(keymap, common_keymaps)
-end
 
 local maps = {
   c = command_mode_keymaps,

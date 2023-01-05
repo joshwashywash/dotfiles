@@ -12,8 +12,6 @@ telescope.setup({
       },
       n = {
         ['<c-t>'] = trouble.open_with_trouble,
-        j = actions.move_selection_previous,
-        k = actions.move_selection_next,
       },
     },
   },
