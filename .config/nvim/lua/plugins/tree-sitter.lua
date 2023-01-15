@@ -8,6 +8,7 @@ return {
         'astro',
         'css',
         'dart',
+        'help',
         'html',
         'javascript',
         'json',
@@ -15,6 +16,7 @@ return {
         'markdown',
         'svelte',
         'typescript',
+        'vim',
       },
       highlight = {
         enable = true, -- false will disable the whole extension

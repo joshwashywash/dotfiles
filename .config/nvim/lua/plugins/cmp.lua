@@ -4,6 +4,7 @@ return {
     local cmp = require('cmp')
     local cmp_autopairs = require('nvim-autopairs.completion.cmp')
     local luasnip = require('luasnip')
+
     require('luasnip.loaders.from_vscode').lazy_load()
 
     -- when the docs for a completion are longer than the window
