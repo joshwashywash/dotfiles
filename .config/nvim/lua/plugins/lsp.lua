@@ -52,7 +52,7 @@ return {
         on_attach = function()
           local keymaps = {
             { '<leader>lD', vim.lsp.buf.declaration, 'declaration' },
-            { '<leader>lH', vim.lsp.buf.signature_help, 'signature_help' },
+            { '<leader>lH', vim.lsp.buf.signature_help, 'signature help' },
             { '<leader>lR', vim.lsp.buf.rename, 'rename' },
             {
               '<leader>lW',
