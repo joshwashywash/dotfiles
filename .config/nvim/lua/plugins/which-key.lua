@@ -3,13 +3,12 @@ return {
   config = function()
     local wk = require('which-key')
     wk.setup()
-    local mode = { 'n', 'v' }
+    
     wk.register({
       ['['] = { name = '+prev' },
       [']'] = { name = '+next' },
       ['g'] = { name = '+goto' },
-      mode = mode,
-    })
+    }, { mode = { 'n', 'v' } })
 
     wk.register({
       b = { name = 'buffer' },
