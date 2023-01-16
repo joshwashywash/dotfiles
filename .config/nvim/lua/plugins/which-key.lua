@@ -16,6 +16,7 @@ return {
       e = { name = 'explorer' },
       f = { name = 'find' },
       g = { name = 'git' },
+      l = { name = 'lsp' },
       x = { name = 'diagnostics' },
     }, { prefix = '<leader>' })
   end,

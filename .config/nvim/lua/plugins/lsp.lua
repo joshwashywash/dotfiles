@@ -46,38 +46,43 @@ return {
       vim.lsp.protocol.make_client_capabilities()
     )
 
-    local wk = require('which-key')
-
     for _, server in ipairs(servers) do
       local server_opts = {
         capabilities = capabilities,
-        on_attach = function(_, bufnr)
-          wk.register({
-            l = {
-              D = { vim.lsp.buf.declaration, 'declaration' },
-              H = { vim.lsp.buf.signture_help, 'signature help' },
-              R = { vim.lsp.buf.rename, 'rename' },
-              W = {
-                vim.lsp.buf.remove_workspace_folder,
-                'remove workspace folder',
-              },
-              c = { vim.lsp.buf.code_action, 'code action' },
-              d = { vim.lsp.buf.definition, 'definition' },
-              f = { vim.lsp.buf.format, 'format' },
-              h = { vim.lsp.buf.hover, 'hover' },
-              i = { vim.lsp.buf.implementation, 'implementation' },
-              l = {
-                function()
-                  print(vim.inspect(vim.lsp.buf.list_workspace_folder))
-                end,
-                'list workspace folder',
-              },
-              r = { vim.lsp.buf.references, 'references' },
-              t = { vim.lsp.buf.type_definition, 'type definitions' },
-              w = { vim.lsp.buf.add_workspace_folder, 'add workspace folder' },
-              'lsp',
+        on_attach = function()
+          local keymaps = {
+            { '<leader>lD', vim.lsp.buf.declaration, 'declaration' },
+            { '<leader>lH', vim.lsp.buf.signature_help, 'signature_help' },
+            { '<leader>lR', vim.lsp.buf.rename, 'rename' },
+            {
+              '<leader>lW',
+              vim.lsp.buf.remove_workspace_folder,
+              'remove workspace folder',
             },
-          }, { buffer = bufnr, prefix = '<leader>' })
+            { '<leader>ld', vim.lsp.buf.definition, 'definition' },
+            { '<leader>lf', vim.lsp.buf.format, 'format' },
+            { '<leader>lh', vim.lsp.buf.hover, 'hover' },
+            { '<leader>li', vim.lsp.buf.implementation, 'implementation' },
+            {
+              '<leader>ll',
+              function()
+                print(vim.inspect(vim.lsp.buf.list_workspace_folder))
+              end,
+              'list workspace folder',
+            },
+            { '<leader>lr', vim.lsp.buf.references, 'references' },
+            { '<leader>lt', vim.lsp.buf.type_definition, 'type definitions' },
+            {
+              '<leader>lw',
+              vim.lsp.buf.add_workspace_folder,
+              'add workspace folder',
+            },
+          }
+
+          for _, keymap in ipairs(keymaps) do
+            local l, r, desc = unpack(keymap)
+            vim.keymap.set('n', l, r, { desc = desc })
+          end
         end,
       }
 
