@@ -1,8 +1,9 @@
 return {
   'neovim/nvim-lspconfig',
-  config = function()
-    require('mason').setup()
-    require('mason-lspconfig').setup({
+  config = function(_, opts)
+    local mason_config = require('mason-lspconfig')
+
+    mason_config.setup({
       automatic_installation = true,
       ensure_installed = {
         'emmet_ls',
@@ -19,36 +20,36 @@ return {
 
     -- add a rounded border to the lsp floating window. taken from the nvim lsp gh wiki
     local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-    function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-      opts = opts or {}
-      opts.border = opts.border or 'rounded'
-      return orig_util_open_floating_preview(contents, syntax, opts, ...)
+    function vim.lsp.util.open_floating_preview(
+      contents,
+      syntax,
+      window_opts,
+      ...
+    )
+      window_opts = window_opts or {}
+      window_opts.border = window_opts.border or 'rounded'
+      return orig_util_open_floating_preview(contents, syntax, window_opts, ...)
     end
 
-    vim.diagnostic.config({
-      float = {
-        border = 'rounded',
-      },
-      severity_sort = true,
-      update_in_insert = true,
-      virtual_text = false,
-    })
+    vim.diagnostic.config(opts.diagnostics)
 
     -- some servers aren't on mason so use this to add them
     local extra_servers = { 'dartls' }
     local servers = vim.list_extend(
-      require('mason-lspconfig').get_installed_servers(),
+      mason_config.get_installed_servers(),
       extra_servers,
       1,
       #extra_servers
     )
 
-    local capabilities = require('cmp_nvim_lsp').default_capabilities()
+    local capabilities = require('cmp_nvim_lsp').default_capabilities(
+      vim.lsp.protocol.make_client_capabilities()
+    )
 
     local wk = require('which-key')
 
     for _, server in ipairs(servers) do
-      local opts = {
+      local server_opts = {
         capabilities = capabilities,
         on_attach = function(_, bufnr)
           wk.register({
@@ -84,18 +85,29 @@ return {
         pcall(require, string.format('langservers.%s', server))
 
       if _ok then
-        opts = vim.tbl_extend('keep', opts, extra_opts)
+        server_opts = vim.tbl_extend('keep', server_opts, extra_opts)
       end
 
-      lspconfig[server].setup(opts)
+      lspconfig[server].setup(server_opts)
     end
   end,
   dependencies = {
     'b0o/schemastore.nvim',
     'folke/lsp-colors.nvim',
-    'folke/neodev.nvim',
+    'hrsh7th/cmp-nvim-lsp',
     'j-hui/fidget.nvim',
     'williamboman/mason-lspconfig.nvim',
-    'williamboman/mason.nvim',
+    { 'williamboman/mason.nvim', config = true },
+  },
+  event = 'BufReadPre',
+  opts = {
+    diagnostics = {
+      float = {
+        border = 'rounded',
+      },
+      severity_sort = true,
+      update_in_insert = true,
+      virtual_text = false,
+    },
   },
 }

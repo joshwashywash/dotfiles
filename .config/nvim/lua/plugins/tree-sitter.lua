@@ -35,20 +35,20 @@ return {
           enable = true,
           set_jumps = true, -- whether to set jumps in the jumplist
           goto_next_start = {
-            [']]'] = '@class.outer',
+            [']c'] = '@class.outer',
             [']m'] = '@function.outer',
           },
           goto_next_end = {
             [']M'] = '@function.outer',
-            [']['] = '@class.outer',
+            [']C'] = '@class.outer',
           },
           goto_previous_start = {
-            ['[['] = '@class.outer',
+            ['[c'] = '@class.outer',
             ['[m'] = '@function.outer',
           },
           goto_previous_end = {
             ['[M'] = '@function.outer',
-            ['[]'] = '@class.outer',
+            ['[C'] = '@class.outer',
           },
         },
         select = {
@@ -78,4 +78,5 @@ return {
     })
   end,
   dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
+  event = 'BufReadPost',
 }

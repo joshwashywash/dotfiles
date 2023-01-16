@@ -1,6 +1,6 @@
 return {
   'TimUntersberger/neogit',
-  config = function()
+  config = function(_, opts)
     local palette = require('rose-pine.palette')
 
     local groups = {
@@ -13,7 +13,18 @@ return {
       vim.api.nvim_set_hl(0, group, hl)
     end
 
-    require('neogit').setup({ kind = 'split' })
+    local neogit = require('neogit')
+    neogit.setup(opts)
   end,
   dependencies = 'nvim-lua/plenary.nvim',
+  keys = {
+    {
+      '<leader>gP',
+      function()
+        require('neogit').open()
+      end,
+      desc = 'open neogit',
+    },
+  },
+  opts = { kind = 'split' },
 }

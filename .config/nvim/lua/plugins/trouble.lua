@@ -1,77 +1,43 @@
 return {
   'folke/trouble.nvim',
-  config = function()
-    local wk = require('which-key')
-
-    local trouble = require('trouble')
-
-    trouble.setup({
+  cmd = { 'Trouble', 'TroubleToggle' },
+  keys = {
+    {
+      '<leader>xx',
+      function()
+        require('trouble').toggle('document_diagnostics')
+      end,
+      desc = 'document diagnostics',
+    },
+    {
+      '<leader>xX',
+      function()
+        require('trouble').toggle('workspace_diagnostics')
+      end,
+      desc = 'workspace diagnostics',
+    },
+    {
+      ']n',
+      function()
+        require('trouble').next({ jump = true, skip_groups = true })
+      end,
+      desc = 'Next diagnostic',
+    },
+    {
+      '[n',
+      function()
+        require('trouble').prev({ jump = true, skip_groups = true })
+      end,
+      desc = 'Prev diagnostic',
+    },
+  },
+  opts = {
+    {
       action_keys = {
         open_split = { 's' },
         open_vsplit = { 'v' },
       },
       height = 6,
-    })
-
-    wk.register({
-      t = {
-        name = 'trouble',
-        D = {
-          function()
-            trouble.toggle('document_diagnostics')
-          end,
-          'document diagnostics',
-        },
-        d = {
-          function()
-            trouble.toggle('lsp_definitions')
-          end,
-          'definitions',
-        },
-        l = {
-          function()
-            trouble.toggle('loclist')
-          end,
-          'loclist',
-        },
-        n = {
-          function()
-            trouble.next({ skip_group = true, jump = true })
-          end,
-          'next ',
-        },
-        p = {
-          function()
-            trouble.previous({ skip_group = true, jump = true })
-          end,
-          'previous',
-        },
-        q = {
-          function()
-            trouble.toggle('quickfix')
-          end,
-          'quickfix',
-        },
-        r = {
-          function()
-            trouble.toggle('lsp_references')
-          end,
-          'references',
-        },
-        t = { trouble.toggle, 'toggle' },
-        w = {
-          function()
-            trouble.toggle('workspace_diagnostics')
-          end,
-          'workspace diagnostics',
-        },
-        y = {
-          function()
-            trouble.toggle('lsp_type_definitions')
-          end,
-          'type definitions',
-        },
-      },
-    }, { prefix = '<leader>' })
-  end,
+    },
+  },
 }

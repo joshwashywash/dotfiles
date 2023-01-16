@@ -42,47 +42,39 @@ local keymaps = {
 
 return {
   'kyazdani42/nvim-tree.lua',
-  config = function()
-    require('nvim-tree').setup({
-      actions = {
-        open_file = {
-          quit_on_open = true,
-        },
-      },
-      hijack_cursor = true,
-      renderer = {
-        icons = {
-          show = {
-            folder_arrow = false,
-          },
-        },
-      },
-      view = {
-        mappings = {
-          custom_only = true,
-          list = vim.tbl_map(create_keymap, keymaps),
-        },
-        side = 'right',
-      },
-    })
-
-    local wk = require('which-key')
-    local tree_api = require('nvim-tree.api')
-    wk.register({
-      e = {
-        name = 'explorer',
-        f = {
-          function()
-            tree_api.tree.toggle(true)
-          end,
-          'find file in tree',
-        },
-        t = {
-          tree_api.tree.toggle,
-          'toggle',
-        },
-      },
-    }, { prefix = '<leader>' })
-  end,
   dependencies = { 'kyazdani42/nvim-web-devicons' },
+  keys = {
+    {
+      '<leader>ef',
+      '<cmd>NvimTreeFindFile<cr>',
+      desc = 'find file in explorer',
+    },
+    {
+      '<leader>et',
+      '<cmd>NvimTreeToggle<cr>',
+      desc = 'toggle explorer',
+    },
+  },
+  opts = {
+    actions = {
+      open_file = {
+        quit_on_open = true,
+      },
+    },
+    hijack_cursor = true,
+    renderer = {
+      icons = {
+        show = {
+          folder_arrow = false,
+        },
+      },
+    },
+    view = {
+      mappings = {
+        custom_only = true,
+        list = vim.tbl_map(create_keymap, keymaps),
+      },
+      side = 'right',
+    },
+  },
 }

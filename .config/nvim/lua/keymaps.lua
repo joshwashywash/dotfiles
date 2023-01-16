@@ -8,12 +8,10 @@ local insert_mode_keymaps = {}
 local normal_mode_keymaps = {
 
   -- navigate windows
-  { '<c-w>j', '<c-w>k' },
-  { '<c-w>k', '<c-w>j' },
-  { '<s-down>', '<c-w>j' },
-  { '<s-left>', '<c-w>h' },
-  { '<s-right>', '<c-w>l' },
-  { '<s-up>', '<c-w>k' },
+  { '<s-down>', '<c-w>j', 'go to lower window' },
+  { '<s-left>', '<c-w>h', 'go to left window' },
+  { '<s-right>', '<c-w>l', 'go to right window' },
+  { '<s-up>', '<c-w>k', 'go to upper window' },
 
   -- make marks a little easier to reach
   { '\'', '`' },
@@ -22,13 +20,14 @@ local normal_mode_keymaps = {
   -- center on searches
   { 'N', 'Nzz' },
   { 'n', 'nzz' },
+
+  { '[b', ':bnext<cr>', 'buffer' },
+  { ']b', ':bprev<cr>', 'buffer' },
 }
 
 local operator_mode_keymaps = {}
 
 local visual_mode_keymaps = {
-  -- move text up and down
-
   { 'p', '"_dP' },
 
   -- keep cursor in same spot on yank
@@ -49,7 +48,8 @@ local maps = {
 
 local function map_keys(mode, keymaps)
   for _, keymap in ipairs(keymaps) do
-    vim.keymap.set(mode, unpack(keymap))
+    local l, r, desc = unpack(keymap)
+    vim.keymap.set(mode, l, r, { desc = desc })
   end
 end
 

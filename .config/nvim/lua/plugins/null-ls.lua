@@ -36,4 +36,5 @@ return {
     })
   end,
   dependencies = 'nvim-lua/plenary.nvim',
+  event = 'BufReadPre',
 }

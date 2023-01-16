@@ -1,71 +1,60 @@
+local open_with_trouble = function(...)
+  require('trouble.providers.telescope').open_with_trouble(...)
+end
+
 return {
   'nvim-telescope/telescope.nvim',
   dependencies = { 'nvim-lua/plenary.nvim' },
-  config = function()
-    local builtin = require('telescope.builtin')
+  config = function(_, opts)
     local telescope = require('telescope')
-    local trouble = require('trouble.providers.telescope')
-    local wk = require('which-key')
+    local builtin = require('telescope.builtin')
 
-    telescope.setup({
-      defaults = {
-        mappings = {
-          i = {
-            ['<c-t>'] = trouble.open_with_trouble, -- move results into trouble window
-          },
-          n = {
-            ['<c-t>'] = trouble.open_with_trouble,
-          },
-        },
-      },
-    })
+    telescope.setup(opts)
 
-    wk.register({
-      f = {
-        name = 'find',
-        ['/'] = {
-          function()
-            builtin.current_buffer_fuzzy_find(
-              require('telescope.themes').get_dropdown({
-                previewer = false,
-                winblend = 10,
-              })
-            )
-          end,
-          'find word in current buffer',
-        },
-        B = { builtin.git_branches, 'git branches' },
-        C = { builtin.git_bcommits, 'git buffer commits with diff preview' },
-        D = { builtin.diagnostics, 'diagnostics for all open buffers' },
-        R = {
-          builtin.lsp_references,
-          'references for the word under the cursor',
-        },
-        S = {
-          builtin.git_status,
-          'current changes per file with diff preview',
-        },
-        T = { builtin.treesitter, 'function names, variables, etc.' },
-        b = { builtin.buffers, 'buffers' },
-        c = { builtin.git_commits, 'commits with diff preview' },
-        d = {
-          builtin.lsp_definitions,
-          'definitions for the word under the cursor',
-        },
-        f = { builtin.find_files, 'list files' },
-        g = {
-          builtin.live_grep,
-          'search for a word in the current working directory',
-        },
-        h = { builtin.help_tags, 'available help tags' },
-        r = { builtin.oldfiles, 'recent files' },
-        s = { builtin.git_stash, 'git stash' },
-        t = {
-          builtin.lsp_type_definitions,
-          'type definitions of word under the cursor',
-        },
-        w = { builtin.grep_string, 'search for the word under the cursor' },
+    local keymaps = {
+      { 'n', '<leader>,', builtin.buffers, 'buffers' },
+      { 'n', '<leader>:', builtin.command_history, 'command history' },
+      { 'n', '<leader>f*', builtin.grep_string, 'string under cursor' },
+      {
+        'n',
+        '<leader>f/',
+        function()
+          builtin.current_buffer_fuzzy_find(
+            require('telescope.themes').get_dropdown({ previewer = false })
+          )
+        end,
+        'buffer',
       },
-    }, { prefix = '<leader>' })
+      { 'n', '<leader>fC', builtin.colorscheme, 'colorschemes' },
+      { 'n', '<leader>fH', builtin.highlights, 'highlights' },
+      { 'n', '<leader>fa', builtin.autocommands, 'autocommands' },
+      { 'n', '<leader>fb', builtin.buffers, 'buffers' },
+      { 'n', '<leader>fc', builtin.commands, 'commands' },
+      { 'n', '<leader>ff', builtin.find_files, 'files' },
+      { 'n', '<leader>fg', builtin.live_grep, 'find in files' },
+      { 'n', '<leader>fh', builtin.help_tags, 'help tags' },
+      { 'n', '<leader>fk', builtin.keymaps, 'keymaps' },
+      { 'n', '<leader>fm', builtin.marks, 'marks' },
+      { 'n', '<leader>fr', builtin.oldfiles, 'recent files' },
+      { 'n', '<leader>gc', builtin.git_commits, 'commits' },
+      { 'n', '<leader>gs', builtin.git_status, 'git status' },
+    }
+
+    for _, keymap in ipairs(keymaps) do
+      local mode, l, r, desc = unpack(keymap)
+      vim.keymap.set(mode, l, r, { desc = desc })
+    end
   end,
+  opts = {
+    defaults = {
+      mappings = {
+        i = {
+          ['<c-t>'] = open_with_trouble,
+        },
+        n = {
+          ['<c-t>'] = open_with_trouble,
+        },
+      },
+    },
+  },
 }
