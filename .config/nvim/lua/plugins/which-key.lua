@@ -3,7 +3,7 @@ return {
   config = function()
     local wk = require('which-key')
     wk.setup()
-    
+
     wk.register({
       ['['] = { name = '+prev' },
       [']'] = { name = '+next' },
