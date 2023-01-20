@@ -12,12 +12,12 @@ local cmds = {
     { 'FileType' },
     {
       callback = function()
-        for _, v in pairs({ 'wrap', 'spell' }) do
+        for _, v in pairs({ 'spell' }) do
           vim.opt_local[v] = true
         end
       end,
-      group = vim.api.nvim_create_augroup('MarkdownGroup', { clear = true }),
-      pattern = 'markdown',
+      group = vim.api.nvim_create_augroup('SpellGroup', { clear = true }),
+      pattern = { 'gitcommit', 'markdown', 'NeogitCommitMessage' },
     },
   },
 }
