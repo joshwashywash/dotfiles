@@ -9,7 +9,7 @@ return {
   { 'karb94/neoscroll.nvim', opts = { easing_function = 'sine' } },
   { 'kylechui/nvim-surround', config = true },
   { 'monaqa/dial.nvim', keys = { '<c-a>', '<c-x>' } },
-  { 'norcalli/nvim-colorizer.lua', config = true },
+  { 'NvChad/nvim-colorizer.lua', config = true },
   { 'numToStr/Comment.nvim', config = true },
   { 'nvim-lua/plenary.nvim' },
   { 'stevearc/dressing.nvim', event = 'VeryLazy' },
