@@ -51,6 +51,7 @@ return {
         capabilities = capabilities,
         on_attach = function()
           local keymaps = {
+            { 'K', vim.lsp.buf.hover, 'hover' },
             { '<leader>lD', vim.lsp.buf.declaration, 'declaration' },
             { '<leader>lH', vim.lsp.buf.signature_help, 'signature help' },
             { '<leader>lR', vim.lsp.buf.rename, 'rename' },
@@ -59,9 +60,9 @@ return {
               vim.lsp.buf.remove_workspace_folder,
               'remove workspace folder',
             },
+            { '<leader>lc', vim.lsp.buf.code_action, 'code action' },
             { '<leader>ld', vim.lsp.buf.definition, 'definition' },
             { '<leader>lf', vim.lsp.buf.format, 'format' },
-            { '<leader>lh', vim.lsp.buf.hover, 'hover' },
             { '<leader>li', vim.lsp.buf.implementation, 'implementation' },
             {
               '<leader>ll',
