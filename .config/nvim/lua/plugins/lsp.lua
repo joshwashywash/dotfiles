@@ -51,10 +51,9 @@ return {
         capabilities = capabilities,
         on_attach = function()
           local keymaps = {
-            { 'K', vim.lsp.buf.hover, 'hover' },
             { '<leader>lD', vim.lsp.buf.declaration, 'declaration' },
             { '<leader>lH', vim.lsp.buf.signature_help, 'signature help' },
-            { '<leader>lR', vim.lsp.buf.rename, 'rename' },
+            { '<leader>lR', vim.lsp.buf.references, 'references' },
             {
               '<leader>lW',
               vim.lsp.buf.remove_workspace_folder,
@@ -71,13 +70,14 @@ return {
               end,
               'list workspace folder',
             },
-            { '<leader>lr', vim.lsp.buf.references, 'references' },
+            { '<leader>lr', vim.lsp.buf.rename, 'rename' },
             { '<leader>lt', vim.lsp.buf.type_definition, 'type definitions' },
             {
               '<leader>lw',
               vim.lsp.buf.add_workspace_folder,
               'add workspace folder',
             },
+            { 'K', vim.lsp.buf.hover, 'hover' },
           }
 
           for _, keymap in ipairs(keymaps) do
