@@ -9,7 +9,7 @@ return {
         'emmet_ls',
         'html',
         'jsonls',
-        'sumneko_lua',
+        'lua_ls',
         'svelte',
         'tailwindcss',
         'tsserver',
