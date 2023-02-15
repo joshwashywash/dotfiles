@@ -32,6 +32,15 @@ return {
     end
 
     vim.diagnostic.config(opts.diagnostics)
+    local diagnostic_keymaps = {
+      { '[d', vim.diagnostic.goto_prev, 'go to previous diagnostic' },
+      { ']d', vim.diagnostic.goto_next, 'go to next diagnostic' },
+    }
+
+    for _, keymap in pairs(diagnostic_keymaps) do
+      local l, r, desc = unpack(keymap)
+      vim.keymap.set('n', l, r, { noremap = true, silent = true, desc = desc })
+    end
 
     -- some servers aren't on mason so use this to add them
     local extra_servers = { 'dartls' }
@@ -49,7 +58,7 @@ return {
     for _, server in ipairs(servers) do
       local server_opts = {
         capabilities = capabilities,
-        on_attach = function()
+        on_attach = function(client, bufnr)
           local keymaps = {
             { '<leader>lD', vim.lsp.buf.declaration, 'declaration' },
             { '<leader>lH', vim.lsp.buf.signature_help, 'signature help' },
@@ -61,7 +70,13 @@ return {
             },
             { '<leader>lc', vim.lsp.buf.code_action, 'code action' },
             { '<leader>ld', vim.lsp.buf.definition, 'definition' },
-            { '<leader>lf', vim.lsp.buf.format, 'format' },
+            {
+              '<leader>lf',
+              function()
+                vim.lsp.buf.format({ async = true })
+              end,
+              'format',
+            },
             { '<leader>li', vim.lsp.buf.implementation, 'implementation' },
             {
               '<leader>ll',
@@ -82,7 +97,13 @@ return {
 
           for _, keymap in ipairs(keymaps) do
             local l, r, desc = unpack(keymap)
-            vim.keymap.set('n', l, r, { desc = desc })
+
+            vim.keymap.set('n', l, r, {
+              buffer = bufnr,
+              desc = desc,
+              noremap = true,
+              silent = true,
+            })
           end
         end,
       }
