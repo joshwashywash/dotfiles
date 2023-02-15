@@ -10,23 +10,23 @@ return {
       desc = 'document diagnostics',
     },
     {
-      '<leader>xX',
+      '<leader>xx',
       function()
         require('trouble').toggle('workspace_diagnostics')
       end,
       desc = 'workspace diagnostics',
     },
     {
-      ']n',
+      ']x',
       function()
         require('trouble').next({ jump = true, skip_groups = true })
       end,
       desc = 'Next diagnostic',
     },
     {
-      '[n',
+      '[x',
       function()
-        require('trouble').prev({ jump = true, skip_groups = true })
+        require('trouble').previous({ jump = true, skip_groups = true })
       end,
       desc = 'Prev diagnostic',
     },
