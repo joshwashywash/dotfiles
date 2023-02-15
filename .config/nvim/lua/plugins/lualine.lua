@@ -4,7 +4,7 @@ return {
     'kyazdani42/nvim-web-devicons',
   },
   opts = {
-    extensinos = { 'nvim-tree' },
+    extensions = { 'nvim-tree' },
     options = {
       component_separators = { left = '', right = '' },
       globalstatus = true,
