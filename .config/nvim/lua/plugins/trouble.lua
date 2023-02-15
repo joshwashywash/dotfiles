@@ -32,12 +32,10 @@ return {
     },
   },
   opts = {
-    {
       action_keys = {
         open_split = { 's' },
         open_vsplit = { 'v' },
       },
       height = 6,
-    },
   },
 }
