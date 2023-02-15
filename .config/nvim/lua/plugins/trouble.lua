@@ -18,16 +18,12 @@ return {
     },
     {
       ']x',
-      function()
-        require('trouble').next({ jump = true, skip_groups = true })
-      end,
+      vim.diagnostic.goto_next,
       desc = 'Next diagnostic',
     },
     {
       '[x',
-      function()
-        require('trouble').previous({ jump = true, skip_groups = true })
-      end,
+      vim.diagnostic.goto_prev,
       desc = 'Prev diagnostic',
     },
   },
