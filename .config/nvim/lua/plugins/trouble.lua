@@ -10,7 +10,7 @@ return {
       desc = 'document diagnostics',
     },
     {
-      '<leader>xx',
+      '<leader>xX',
       function()
         require('trouble').toggle('workspace_diagnostics')
       end,
