@@ -14,7 +14,7 @@ return {
     local keymaps = {
       { 'n', '<leader>,', builtin.buffers, 'buffers' },
       { 'n', '<leader>:', builtin.command_history, 'command history' },
-      { 'n', '<leader>f*', builtin.grep_string, 'string under cursor' },
+      { 'n', '<leader>f*', builtin.grep_string, 'word under cursor' },
       {
         'n',
         '<leader>f/',
