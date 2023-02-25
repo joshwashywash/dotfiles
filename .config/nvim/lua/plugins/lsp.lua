@@ -18,6 +18,8 @@ return {
 
     local lspconfig = require('lspconfig')
 
+    require('lspconfig.ui.windows').default_options.border = 'rounded'
+
     -- add a rounded border to the lsp floating window. taken from the nvim lsp gh wiki
     local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
     function vim.lsp.util.open_floating_preview(
@@ -120,11 +122,10 @@ return {
   end,
   dependencies = {
     'b0o/schemastore.nvim',
-    'folke/lsp-colors.nvim',
     'hrsh7th/cmp-nvim-lsp',
     'j-hui/fidget.nvim',
     'williamboman/mason-lspconfig.nvim',
-    { 'williamboman/mason.nvim', config = true },
+    { 'williamboman/mason.nvim', config = { ui = { border = 'rounded' } } },
   },
   event = 'BufReadPre',
   opts = {

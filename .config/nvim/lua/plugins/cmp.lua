@@ -20,6 +20,10 @@ return {
           == nil
     end
 
+    local window = cmp.config.window.bordered({
+      winhighlight = 'Normal:Normal,FloatBorder:Normal,CursorLine:Selection,Search:None',
+    })
+
     cmp.setup({
       formatting = {
         format = require('lspkind').cmp_format({
@@ -61,8 +65,8 @@ return {
         { name = 'luasnip' },
       }, { { name = 'buffer' } }),
       window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
+        completion = window,
+        documentation = window,
       },
     })
 
