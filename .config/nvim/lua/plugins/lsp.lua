@@ -39,6 +39,8 @@ return {
       { ']d', vim.diagnostic.goto_next, 'go to next diagnostic' },
     }
 
+    require('lsp_signature').setup({ hint_enable = false })
+
     for _, keymap in pairs(diagnostic_keymaps) do
       local l, r, desc = unpack(keymap)
       vim.keymap.set('n', l, r, { noremap = true, silent = true, desc = desc })
@@ -123,7 +125,7 @@ return {
   dependencies = {
     'b0o/schemastore.nvim',
     'hrsh7th/cmp-nvim-lsp',
-    'j-hui/fidget.nvim',
+    'ray-x/lsp_signature.nvim',
     'williamboman/mason-lspconfig.nvim',
     { 'williamboman/mason.nvim', config = { ui = { border = 'rounded' } } },
   },

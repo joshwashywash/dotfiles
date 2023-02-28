@@ -10,6 +10,7 @@ return {
         LazyNormal = { link = 'Normal' },
         LspInfoBorder = { fg = 'highlight_high' },
         LspReferenceRead = { bg = 'base' },
+        LspSignatureActiveParameter = { link = 'Selection' },
         MasonHeader = { bg = 'base', fg = 'gold' },
         MasonMutedBlock = { link = 'Normal' },
         MasonNormal = { link = 'Normal' },
