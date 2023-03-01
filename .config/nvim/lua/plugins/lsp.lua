@@ -127,7 +127,7 @@ return {
     'hrsh7th/cmp-nvim-lsp',
     'ray-x/lsp_signature.nvim',
     'williamboman/mason-lspconfig.nvim',
-    { 'williamboman/mason.nvim', config = { ui = { border = 'rounded' } } },
+    { 'williamboman/mason.nvim', opts = { ui = { border = 'rounded' } } },
   },
   event = 'BufReadPre',
   opts = {
