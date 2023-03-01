@@ -21,7 +21,7 @@ return {
       winhighlight = 'Normal:Normal,FloatBorder:Normal,CursorLine:Selection,Search:None',
     })
 
-    - when the docs for a completion are longer than the window
+    -- when the docs for a completion are longer than the window
     local scroll_docs_offset = 4
 
     cmp.setup({
