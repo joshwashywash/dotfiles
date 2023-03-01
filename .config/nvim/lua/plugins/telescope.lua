@@ -1,19 +1,27 @@
-local open_with_trouble = function(...)
-  require('trouble.providers.telescope').open_with_trouble(...)
-end
-
 return {
   'nvim-telescope/telescope.nvim',
   dependencies = { 'nvim-lua/plenary.nvim' },
-  config = function(_, opts)
+  config = function()
     local telescope = require('telescope')
     local builtin = require('telescope.builtin')
 
-    telescope.setup(opts)
+    local trouble = require('trouble.providers.telescope')
+
+    telescope.setup({
+      defaults = {
+        mappings = {
+          i = {
+            ['<c-t>'] = trouble.open_with_trouble
+          },
+          n = {
+            ['<c-t>'] = trouble.open_with_trouble
+          },
+        },
+      },
+    })
 
     local keymaps = {
-      { 'n', '<leader>,', builtin.buffers, 'buffers' },
-      { 'n', '<leader>:', builtin.command_history, 'command history' },
+      { 'n', '<leader>f:', builtin.command_history, 'command history' },
       { 'n', '<leader>f*', builtin.grep_string, 'word under cursor' },
       {
         'n',
@@ -23,9 +31,10 @@ return {
             require('telescope.themes').get_dropdown({ previewer = false })
           )
         end,
-        'buffer',
+        'in current buffer',
       },
       { 'n', '<leader>fC', builtin.colorscheme, 'colorschemes' },
+      { 'n', '<leader>fG', builtin.git_commits, 'git commits' },
       { 'n', '<leader>fH', builtin.highlights, 'highlights' },
       { 'n', '<leader>fa', builtin.autocommands, 'autocommands' },
       { 'n', '<leader>fb', builtin.buffers, 'buffers' },
@@ -36,8 +45,7 @@ return {
       { 'n', '<leader>fk', builtin.keymaps, 'keymaps' },
       { 'n', '<leader>fm', builtin.marks, 'marks' },
       { 'n', '<leader>fr', builtin.oldfiles, 'recent files' },
-      { 'n', '<leader>gc', builtin.git_commits, 'commits' },
-      { 'n', '<leader>gs', builtin.git_status, 'git status' },
+      { 'n', '<leader>fs', builtin.git_status, 'git status' },
     }
 
     for _, keymap in ipairs(keymaps) do
@@ -45,16 +53,10 @@ return {
       vim.keymap.set(mode, l, r, { desc = desc })
     end
   end,
-  opts = {
-    defaults = {
-      mappings = {
-        i = {
-          ['<c-t>'] = open_with_trouble,
-        },
-        n = {
-          ['<c-t>'] = open_with_trouble,
-        },
-      },
-    },
+  cmd = {
+    'Telescope'
+  },
+  keys = {
+    '<leader>f'
   },
 }
