@@ -10,10 +10,7 @@ return {
     local has_words_before = function()
       local line, col = unpack(vim.api.nvim_win_get_cursor(0))
       return col ~= 0
-        and vim.api
-            .nvim_buf_get_lines(0, line - 1, line, true)[1]
-            :sub(col, col)
-            :match('%s')
+        and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s')
           == nil
     end
 
@@ -27,7 +24,7 @@ return {
     cmp.setup({
       formatting = {
         format = require('lspkind').cmp_format({
-          mode = 'symbol',
+          before = require('tailwindcss-colorizer-cmp').formatter,
         }),
       },
       mapping = cmp.mapping.preset.insert({
@@ -99,6 +96,15 @@ return {
     'rafamadriz/friendly-snippets',
     'saadparwaiz1/cmp_luasnip',
     'windwp/nvim-autopairs',
+    {
+      'roobert/tailwindcss-colorizer-cmp.nvim',
+      opts = {
+        color_square_width = 6,
+      },
+    },
   },
-  event = { 'CmdlineEnter', 'InsertEnter' },
+  event = {
+    'CmdlineEnter',
+    'InsertEnter',
+  },
 }
