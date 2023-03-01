@@ -7,9 +7,6 @@ return {
 
     require('luasnip.loaders.from_vscode').lazy_load()
 
-    -- when the docs for a completion are longer than the window
-    local scroll_docs_offset = 4
-
     local has_words_before = function()
       local line, col = unpack(vim.api.nvim_win_get_cursor(0))
       return col ~= 0
@@ -23,6 +20,9 @@ return {
     local window = cmp.config.window.bordered({
       winhighlight = 'Normal:Normal,FloatBorder:Normal,CursorLine:Selection,Search:None',
     })
+
+    - when the docs for a completion are longer than the window
+    local scroll_docs_offset = 4
 
     cmp.setup({
       formatting = {
