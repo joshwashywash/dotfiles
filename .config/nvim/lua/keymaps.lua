@@ -21,8 +21,8 @@ local normal_mode_keymaps = {
   { 'N', 'Nzz' },
   { 'n', 'nzz' },
 
-  { '[b', ':bnext<cr>', 'buffer' },
-  { ']b', ':bprev<cr>', 'buffer' },
+  { ']b', ':bnext<cr>', 'buffer' },
+  { '[b', ':bprev<cr>', 'buffer' },
 }
 
 local operator_mode_keymaps = {}
