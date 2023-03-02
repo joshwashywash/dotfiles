@@ -6,6 +6,7 @@ local opts = {
   background = 'dark',
   clipboard = 'unnamedplus',
   completeopt = { 'menu', 'menuone', 'noselect' },
+  fillchars = {eob = ' '},
   guifont = 'monospace:h16',
   hidden = true,
   hlsearch = false,

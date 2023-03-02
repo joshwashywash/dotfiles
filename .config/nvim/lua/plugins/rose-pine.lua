@@ -4,7 +4,6 @@ return {
     require('rose-pine').setup({
       dark_variant = 'moon',
       highlight_groups = {
-        EndOfBuffer = { fg = 'base', bg = 'base' },
         FloatBorder = { bg = 'none', fg = 'highlight_high' },
         LazyButton = { link = 'Normal' },
         LazyNormal = { link = 'Normal' },
