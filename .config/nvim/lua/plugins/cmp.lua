@@ -30,8 +30,7 @@ return {
       mapping = cmp.mapping.preset.insert({
         ['<c-b>'] = cmp.mapping.scroll_docs(-scroll_docs_offset),
         ['<c-f>'] = cmp.mapping.scroll_docs(scroll_docs_offset),
-        ['<c-space>'] = cmp.mapping.complete(),
-        ['<cr>'] = cmp.mapping({
+        ['<c-space>'] = cmp.mapping({
           i = function(fallback)
             if cmp.visible() and cmp.get_active_entry() then
               cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
