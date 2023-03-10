@@ -31,7 +31,17 @@ return {
         ['<c-b>'] = cmp.mapping.scroll_docs(-scroll_docs_offset),
         ['<c-f>'] = cmp.mapping.scroll_docs(scroll_docs_offset),
         ['<c-space>'] = cmp.mapping.complete(),
-        ['<cr>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ['<cr>'] = cmp.mapping({
+          i = function(fallback)
+            if cmp.visible() and cmp.get_active_entry() then
+              cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+            else
+              fallback()
+            end
+          end,
+          s = cmp.mapping.confirm({ select = true }),
+          c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+        }),
         ['<c-e>'] = cmp.mapping(function(fallback)
           if luasnip.expand_or_jumpable() then
             luasnip.expand_or_jump()
@@ -57,8 +67,8 @@ return {
         end,
       },
       sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
         { name = 'luasnip' },
+        { name = 'nvim_lsp' },
       }, { { name = 'buffer' } }),
       window = {
         completion = window,
