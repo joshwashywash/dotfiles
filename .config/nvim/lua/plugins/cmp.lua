@@ -10,7 +10,10 @@ return {
     local has_words_before = function()
       local line, col = unpack(vim.api.nvim_win_get_cursor(0))
       return col ~= 0
-        and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s')
+        and vim.api
+            .nvim_buf_get_lines(0, line - 1, line, true)[1]
+            :sub(col, col)
+            :match('%s')
           == nil
     end
 
@@ -30,7 +33,7 @@ return {
       mapping = cmp.mapping.preset.insert({
         ['<c-b>'] = cmp.mapping.scroll_docs(-scroll_docs_offset),
         ['<c-f>'] = cmp.mapping.scroll_docs(scroll_docs_offset),
-        ['<c-space>'] = cmp.mapping(function(fallback)
+        ['<c-space>'] = cmp.mapping(function()
           -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
           if cmp.visible() then
             local entry = cmp.get_selected_entry()
@@ -40,7 +43,7 @@ return {
               cmp.confirm()
             end
           else
-            fallback()
+            cmp.mapping.complete()()
           end
         end, { 'i', 's', 'c' }),
         ['<c-e>'] = cmp.mapping(function(fallback)
