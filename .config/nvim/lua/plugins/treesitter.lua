@@ -14,6 +14,7 @@ return {
         'json',
         'lua',
         'markdown',
+        'markdown_inline',
         'svelte',
         'typescript',
         'vim',
