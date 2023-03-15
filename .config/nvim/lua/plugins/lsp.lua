@@ -18,16 +18,9 @@ return {
 
     local lspconfig = require('lspconfig')
 
-    require('lspconfig.ui.windows').default_options.border = 'rounded'
-
     -- add a rounded border to the lsp floating window. taken from the nvim lsp gh wiki
     local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-    function vim.lsp.util.open_floating_preview(
-      contents,
-      syntax,
-      window_opts,
-      ...
-    )
+    function vim.lsp.util.open_floating_preview(contents, syntax, window_opts, ...)
       window_opts = window_opts or {}
       window_opts.border = window_opts.border or 'rounded'
       return orig_util_open_floating_preview(contents, syntax, window_opts, ...)
@@ -39,33 +32,27 @@ return {
       { ']d', vim.diagnostic.goto_next, 'go to next diagnostic' },
     }
 
-    require('lsp_signature').setup({ hint_enable = false })
-
     for _, keymap in pairs(diagnostic_keymaps) do
       local l, r, desc = unpack(keymap)
       vim.keymap.set('n', l, r, { noremap = true, silent = true, desc = desc })
     end
 
     -- some servers aren't on mason so use this to add them
-    local extra_servers = { 'dartls' }
-    local servers = vim.list_extend(
-      mason_config.get_installed_servers(),
-      extra_servers,
-      1,
-      #extra_servers
-    )
+    local extra_servers = { 'ccls', 'dartls' }
+    local servers =
+      vim.list_extend(mason_config.get_installed_servers(), extra_servers, 1, #extra_servers)
 
-    local capabilities = require('cmp_nvim_lsp').default_capabilities(
-      vim.lsp.protocol.make_client_capabilities()
-    )
+    local capabilities =
+      require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
     for _, server in ipairs(servers) do
       local server_opts = {
         capabilities = capabilities,
         on_attach = function(client, bufnr)
+          require('lsp_signature').on_attach({ hint_enable = false }, bufnr)
           local keymaps = {
             { '<leader>lD', vim.lsp.buf.declaration, 'declaration' },
-            { '<leader>lH', vim.lsp.buf.signature_help, 'signature help' },
+            { '<leader>lK', vim.lsp.buf.signature_help, 'signature help' },
             { '<leader>lR', vim.lsp.buf.references, 'references' },
             {
               '<leader>lW',
@@ -112,8 +99,7 @@ return {
         end,
       }
 
-      local _ok, extra_opts =
-        pcall(require, string.format('langservers.%s', server))
+      local _ok, extra_opts = pcall(require, string.format('langservers.%s', server))
 
       if _ok then
         server_opts = vim.tbl_extend('keep', server_opts, extra_opts)
@@ -124,7 +110,9 @@ return {
   end,
   dependencies = {
     'b0o/schemastore.nvim',
+    'folke/lsp-colors.nvim',
     'hrsh7th/cmp-nvim-lsp',
+    'j-hui/fidget.nvim',
     'ray-x/lsp_signature.nvim',
     'williamboman/mason-lspconfig.nvim',
     { 'williamboman/mason.nvim', opts = { ui = { border = 'rounded' } } },
