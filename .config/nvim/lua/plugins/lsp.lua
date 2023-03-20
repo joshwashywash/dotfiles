@@ -20,7 +20,12 @@ return {
 
     -- add a rounded border to the lsp floating window. taken from the nvim lsp gh wiki
     local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-    function vim.lsp.util.open_floating_preview(contents, syntax, window_opts, ...)
+    function vim.lsp.util.open_floating_preview(
+      contents,
+      syntax,
+      window_opts,
+      ...
+    )
       window_opts = window_opts or {}
       window_opts.border = window_opts.border or 'rounded'
       return orig_util_open_floating_preview(contents, syntax, window_opts, ...)
@@ -39,16 +44,21 @@ return {
 
     -- some servers aren't on mason so use this to add them
     local extra_servers = { 'ccls', 'dartls' }
-    local servers =
-      vim.list_extend(mason_config.get_installed_servers(), extra_servers, 1, #extra_servers)
+    local servers = vim.list_extend(
+      mason_config.get_installed_servers(),
+      extra_servers,
+      1,
+      #extra_servers
+    )
 
-    local capabilities =
-      require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+    local capabilities = require('cmp_nvim_lsp').default_capabilities(
+      vim.lsp.protocol.make_client_capabilities()
+    )
 
     for _, server in ipairs(servers) do
       local server_opts = {
         capabilities = capabilities,
-        on_attach = function(client, bufnr)
+        on_attach = function(_, bufnr)
           require('lsp_signature').on_attach({ hint_enable = false }, bufnr)
           local keymaps = {
             { '<leader>lD', vim.lsp.buf.declaration, 'declaration' },
@@ -99,7 +109,8 @@ return {
         end,
       }
 
-      local _ok, extra_opts = pcall(require, string.format('langservers.%s', server))
+      local _ok, extra_opts =
+        pcall(require, string.format('langservers.%s', server))
 
       if _ok then
         server_opts = vim.tbl_extend('keep', server_opts, extra_opts)
@@ -115,7 +126,6 @@ return {
     'j-hui/fidget.nvim',
     'ray-x/lsp_signature.nvim',
     'williamboman/mason-lspconfig.nvim',
-    { 'williamboman/mason.nvim', opts = { ui = { border = 'rounded' } } },
   },
   event = 'BufReadPre',
   opts = {
