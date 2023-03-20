@@ -58,7 +58,7 @@ return {
     {
       '<leader>ef',
       function()
-        vim.cmd('NvimTreeFindFile')
+        vim.cmd('NvimTreeFindFileToggle')
       end,
       desc = 'find file in explorer',
     },
