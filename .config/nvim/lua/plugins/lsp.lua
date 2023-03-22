@@ -16,7 +16,22 @@ return {
       },
     })
 
-    local lspconfig = require('lspconfig')
+    local capabilities = require('cmp_nvim_lsp').default_capabilities(
+      vim.lsp.protocol.make_client_capabilities()
+    )
+
+    mason_config.setup_handlers({
+      function(name)
+        local _opts = { capabilities = capabilities }
+
+        local ok, extra_opts =
+          pcall(require, string.format('langservers.%s', name))
+
+        require('lspconfig')[name].setup(
+          vim.tbl_extend('keep', _opts, ok and extra_opts or {})
+        )
+      end,
+    })
 
     -- add a rounded border to the lsp floating window. taken from the nvim lsp gh wiki
     local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
@@ -33,91 +48,73 @@ return {
 
     vim.diagnostic.config(opts.diagnostics)
     local diagnostic_keymaps = {
-      { '[d', vim.diagnostic.goto_prev, 'go to previous diagnostic' },
-      { ']d', vim.diagnostic.goto_next, 'go to next diagnostic' },
+      { '[d', vim.diagnostic.goto_prev, 'previous' },
+      { ']d', vim.diagnostic.goto_next, 'next' },
     }
 
     for _, keymap in pairs(diagnostic_keymaps) do
       local l, r, desc = unpack(keymap)
-      vim.keymap.set('n', l, r, { noremap = true, silent = true, desc = desc })
+      vim.keymap.set('n', l, r, {
+        noremap = true,
+        silent = true,
+        desc = 'go to ' .. desc .. ' diagnostic',
+      })
     end
 
-    -- some servers aren't on mason so use this to add them
-    local extra_servers = { 'ccls', 'dartls' }
-    local servers = vim.list_extend(
-      mason_config.get_installed_servers(),
-      extra_servers,
-      1,
-      #extra_servers
-    )
+    vim.api.nvim_create_autocmd('LspAttach', {
+      group = vim.api.nvim_create_augroup('LspConfig', {}),
+      callback = function(event)
+        vim.bo[event.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-    local capabilities = require('cmp_nvim_lsp').default_capabilities(
-      vim.lsp.protocol.make_client_capabilities()
-    )
+        local keymaps = {
+          { '<leader>lD', vim.lsp.buf.declaration, 'declaration' },
+          { '<leader>lK', vim.lsp.buf.signature_help, 'signature help' },
+          { '<leader>lR', vim.lsp.buf.references, 'references' },
+          {
+            '<leader>lW',
+            vim.lsp.buf.remove_workspace_folder,
+            'remove workspace folder',
+          },
+          { '<leader>lc', vim.lsp.buf.code_action, 'code action' },
+          { '<leader>ld', vim.lsp.buf.definition, 'definition' },
+          {
+            '<leader>lf',
+            function()
+              vim.lsp.buf.format({ async = true })
+            end,
+            'format',
+          },
+          { '<leader>li', vim.lsp.buf.implementation, 'implementation' },
+          {
+            '<leader>ll',
+            function()
+              print(vim.inspect(vim.lsp.buf.list_workspace_folder))
+            end,
+            'list workspace folder',
+          },
+          { '<leader>lr', vim.lsp.buf.rename, 'rename' },
+          { '<leader>lt', vim.lsp.buf.type_definition, 'type definitions' },
+          {
+            '<leader>lw',
+            vim.lsp.buf.add_workspace_folder,
+            'add workspace folder',
+          },
+          { '<leader>lx', vim.diagnostic.open_float, 'show line diagnostic' },
+          { 'K', vim.lsp.buf.hover, 'hover' },
+        }
 
-    for _, server in ipairs(servers) do
-      local server_opts = {
-        capabilities = capabilities,
-        on_attach = function(_, bufnr)
-          require('lsp_signature').on_attach({ hint_enable = false }, bufnr)
-          local keymaps = {
-            { '<leader>lD', vim.lsp.buf.declaration, 'declaration' },
-            { '<leader>lK', vim.lsp.buf.signature_help, 'signature help' },
-            { '<leader>lR', vim.lsp.buf.references, 'references' },
-            {
-              '<leader>lW',
-              vim.lsp.buf.remove_workspace_folder,
-              'remove workspace folder',
-            },
-            { '<leader>lc', vim.lsp.buf.code_action, 'code action' },
-            { '<leader>ld', vim.lsp.buf.definition, 'definition' },
-            {
-              '<leader>lf',
-              function()
-                vim.lsp.buf.format({ async = true })
-              end,
-              'format',
-            },
-            { '<leader>li', vim.lsp.buf.implementation, 'implementation' },
-            {
-              '<leader>ll',
-              function()
-                print(vim.inspect(vim.lsp.buf.list_workspace_folder))
-              end,
-              'list workspace folder',
-            },
-            { '<leader>lr', vim.lsp.buf.rename, 'rename' },
-            { '<leader>lt', vim.lsp.buf.type_definition, 'type definitions' },
-            {
-              '<leader>lw',
-              vim.lsp.buf.add_workspace_folder,
-              'add workspace folder',
-            },
-            { 'K', vim.lsp.buf.hover, 'hover' },
-          }
+        for _, keymap in ipairs(keymaps) do
+          local l, r, desc = unpack(keymap)
 
-          for _, keymap in ipairs(keymaps) do
-            local l, r, desc = unpack(keymap)
-
-            vim.keymap.set('n', l, r, {
-              buffer = bufnr,
-              desc = desc,
-              noremap = true,
-              silent = true,
-            })
-          end
-        end,
-      }
-
-      local _ok, extra_opts =
-        pcall(require, string.format('langservers.%s', server))
-
-      if _ok then
-        server_opts = vim.tbl_extend('keep', server_opts, extra_opts)
-      end
-
-      lspconfig[server].setup(server_opts)
-    end
+          vim.keymap.set('n', l, r, {
+            buffer = event.buf,
+            desc = desc,
+            noremap = true,
+            silent = true,
+          })
+        end
+      end,
+    })
   end,
   dependencies = {
     'b0o/schemastore.nvim',
