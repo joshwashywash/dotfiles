@@ -3,18 +3,19 @@ return {
   dependencies = {
     'kyazdani42/nvim-web-devicons',
   },
+  event = 'ColorScheme',
   opts = {
     extensions = { 'nvim-tree' },
     options = {
       component_separators = { left = '', right = '' },
       globalstatus = true,
+      theme = 'rose-pine',
     },
     sections = {
       lualine_a = { 'tabs' },
       lualine_b = {
         {
           'buffers',
-          filetype_names = { NvimTree = 'NvimTree' },
           symbols = { alternate_file = '' },
         },
       },
