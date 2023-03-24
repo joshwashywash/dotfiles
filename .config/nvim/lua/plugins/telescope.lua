@@ -1,4 +1,4 @@
-local prefix = '<leader>f';
+local prefix = '<leader>f'
 
 return {
   'nvim-telescope/telescope.nvim',
@@ -13,20 +13,19 @@ return {
       defaults = {
         mappings = {
           i = {
-            ['<c-t>'] = trouble.open_with_trouble
+            ['<c-t>'] = trouble.open_with_trouble,
           },
           n = {
-            ['<c-t>'] = trouble.open_with_trouble
+            ['<c-t>'] = trouble.open_with_trouble,
           },
         },
       },
     })
 
-    local keymaps = {
-      { 'n', ':', builtin.command_history, 'command history' },
-      { 'n', '*', builtin.grep_string, 'word under cursor' },
+    local normal_mode_keymaps = {
+      { ':', builtin.command_history, 'command history' },
+      { '*', builtin.grep_string, 'word under cursor' },
       {
-        'n',
         '/',
         function()
           builtin.current_buffer_fuzzy_find(
@@ -35,29 +34,29 @@ return {
         end,
         'in current buffer',
       },
-      { 'n', 'C', builtin.colorscheme, 'colorschemes' },
-      { 'n', 'G', builtin.git_commits, 'git commits' },
-      { 'n', 'H', builtin.highlights, 'highlights' },
-      { 'n', 'L', builtin.resume, 'resume last search' },
-      { 'n', 'a', builtin.autocommands, 'autocommands' },
-      { 'n', 'b', builtin.buffers, 'buffers' },
-      { 'n', 'c', builtin.commands, 'commands' },
-      { 'n', 'f', builtin.find_files, 'files' },
-      { 'n', 'g', builtin.live_grep, 'find in files' },
-      { 'n', 'h', builtin.help_tags, 'help tags' },
-      { 'n', 'k', builtin.keymaps, 'keymaps' },
-      { 'n', 'm', builtin.marks, 'marks' },
-      { 'n', 'r', builtin.oldfiles, 'recent files' },
-      { 'n', 's', builtin.git_status, 'git status' },
+      { 'C', builtin.colorscheme, 'colorschemes' },
+      { 'G', builtin.git_commits, 'git commits' },
+      { 'H', builtin.highlights, 'highlights' },
+      { 'L', builtin.resume, 'resume last search' },
+      { 'a', builtin.autocommands, 'autocommands' },
+      { 'b', builtin.buffers, 'buffers' },
+      { 'c', builtin.commands, 'commands' },
+      { 'f', builtin.find_files, 'files' },
+      { 'g', builtin.live_grep, 'find in files' },
+      { 'h', builtin.help_tags, 'help tags' },
+      { 'k', builtin.keymaps, 'keymaps' },
+      { 'm', builtin.marks, 'marks' },
+      { 'r', builtin.oldfiles, 'recent files' },
+      { 's', builtin.git_status, 'git status' },
     }
 
-    for _, keymap in ipairs(keymaps) do
-      local mode, l, r, desc = unpack(keymap)
-      vim.keymap.set(mode, prefix .. l, r, { desc = desc })
+    for _, keymap in ipairs(normal_mode_keymaps) do
+      local l, r, desc = unpack(keymap)
+      vim.keymap.set('n', prefix .. l, r, { desc = desc })
     end
   end,
   cmd = {
-    'Telescope'
+    'Telescope',
   },
   keys = {
     prefix,
