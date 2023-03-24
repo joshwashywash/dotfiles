@@ -67,46 +67,43 @@ return {
         vim.bo[event.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
         local keymaps = {
-          { '<leader>lD', vim.lsp.buf.declaration, 'declaration' },
-          { '<leader>lK', vim.lsp.buf.signature_help, 'signature help' },
-          { '<leader>lR', vim.lsp.buf.references, 'references' },
+          { 'D', vim.lsp.buf.declaration, 'declaration' },
+          { 'K', vim.lsp.buf.signature_help, 'signature help' },
+          { 'R', vim.lsp.buf.references, 'references' },
           {
-            '<leader>lW',
+            'W',
             vim.lsp.buf.remove_workspace_folder,
             'remove workspace folder',
           },
-          { '<leader>lc', vim.lsp.buf.code_action, 'code action' },
-          { '<leader>ld', vim.lsp.buf.definition, 'definition' },
+          { 'c', vim.lsp.buf.code_action, 'code action' },
+          { 'd', vim.lsp.buf.definition, 'definition' },
           {
-            '<leader>lf',
+            'f',
             function()
               vim.lsp.buf.format({ async = true })
             end,
             'format',
           },
-          { '<leader>li', vim.lsp.buf.implementation, 'implementation' },
+          { 'i', vim.lsp.buf.implementation, 'implementation' },
+          { 'k', vim.lsp.buf.hover, 'hover' },
           {
-            '<leader>ll',
+            'l',
             function()
               print(vim.inspect(vim.lsp.buf.list_workspace_folder))
             end,
             'list workspace folder',
           },
-          { '<leader>lr', vim.lsp.buf.rename, 'rename' },
-          { '<leader>lt', vim.lsp.buf.type_definition, 'type definitions' },
-          {
-            '<leader>lw',
-            vim.lsp.buf.add_workspace_folder,
-            'add workspace folder',
-          },
-          { '<leader>lx', vim.diagnostic.open_float, 'show line diagnostic' },
-          { 'K', vim.lsp.buf.hover, 'hover' },
+          { 'r', vim.lsp.buf.rename, 'rename' },
+          { 't', vim.lsp.buf.type_definition, 'type definitions' },
+          { 'w', vim.lsp.buf.add_workspace_folder, 'add workspace folder' },
+          { 'x', vim.diagnostic.open_float, 'show line diagnostic' },
         }
 
+        local prefix = '<leader>l'
         for _, keymap in ipairs(keymaps) do
           local l, r, desc = unpack(keymap)
 
-          vim.keymap.set('n', l, r, {
+          vim.keymap.set('n', prefix .. l, r, {
             buffer = event.buf,
             desc = desc,
             noremap = true,
@@ -120,9 +117,9 @@ return {
     'b0o/schemastore.nvim',
     'folke/lsp-colors.nvim',
     'hrsh7th/cmp-nvim-lsp',
-    'j-hui/fidget.nvim',
     'ray-x/lsp_signature.nvim',
     'williamboman/mason-lspconfig.nvim',
+    { 'j-hui/fidget.nvim', config = true },
   },
   event = 'BufReadPre',
   opts = {
