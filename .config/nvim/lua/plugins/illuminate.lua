@@ -20,14 +20,14 @@ return {
       function()
         require('illuminate').goto_next_reference(false)
       end,
-      desc = 'Next reference',
+      desc = 'next reference',
     },
     {
       '[[',
       function()
         require('illuminate').goto_prev_reference(false)
       end,
-      desc = 'Prev reference',
+      desc = 'prev reference',
     },
   },
   opts = { delay = 500 },

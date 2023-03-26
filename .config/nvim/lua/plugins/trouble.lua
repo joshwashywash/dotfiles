@@ -1,16 +1,18 @@
+local prefix = '<leader>d'
+
 return {
   'folke/trouble.nvim',
   cmd = { 'Trouble', 'TroubleToggle' },
   keys = {
     {
-      '<leader>dd',
+      prefix .. 'd',
       function()
         require('trouble').toggle('document_diagnostics')
       end,
       desc = 'document diagnostics',
     },
     {
-      '<leader>dD',
+      prefix .. 'D',
       function()
         require('trouble').toggle('workspace_diagnostics')
       end,
