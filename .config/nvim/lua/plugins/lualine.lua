@@ -8,6 +8,7 @@ return {
     extensions = { 'nvim-tree' },
     options = {
       component_separators = { left = '', right = '' },
+      section_separators = { left = '', right = '' },
       globalstatus = true,
       theme = 'rose-pine',
     },
@@ -21,11 +22,11 @@ return {
       },
       lualine_c = { 'diagnostics' },
       lualine_x = {},
-      lualine_y = {
+      lualine_y = {},
+      lualine_z = {
         'diff',
         'branch',
       },
-      lualine_z = { 'mode' },
     },
   },
 }
