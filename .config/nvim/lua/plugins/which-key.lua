@@ -13,7 +13,7 @@ return {
     wk.register({
       b = { name = 'buffer' },
       e = { name = 'explorer' },
-      f = { name = 'find' },
+      f = { name = 'find', l = 'lsp' },
       g = { name = 'git' },
       j = { name = 'join' },
       l = { name = 'lsp' },
