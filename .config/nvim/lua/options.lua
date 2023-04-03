@@ -5,7 +5,7 @@ vim.g.loaded_netrwPlugin = 1
 local opts = {
   background = 'dark',
   clipboard = 'unnamedplus',
-  cmdheight = 0,
+  -- cmdheight = 0,
   completeopt = { 'menu', 'menuone', 'noselect' },
   fillchars = { eob = ' ' },
   guifont = 'monospace:h16',

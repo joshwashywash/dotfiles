@@ -10,7 +10,7 @@ return {
   { 'kylechui/nvim-surround', config = true },
   { 'monaqa/dial.nvim', keys = { '<c-a>', '<c-x>' } },
   { 'NvChad/nvim-colorizer.lua', config = true },
-  { 'numToStr/Comment.nvim', config = true },
+  { 'numToStr/Comment.nvim', config = true, event = { 'BufRead' } },
   { 'nvim-lua/plenary.nvim' },
   { 'stevearc/dressing.nvim', event = 'VeryLazy' },
   { 'windwp/nvim-autopairs', config = true },
