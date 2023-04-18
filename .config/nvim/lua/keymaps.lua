@@ -13,6 +13,9 @@ local normal_mode_keymaps = {
   { '<s-right>', '<c-w>l', 'go to right window' },
   { '<s-up>', '<c-w>k', 'go to upper window' },
 
+  { 'j', ':m .-2<cr>==', 'move line up' },
+  { 'k', ':m .+1<cr>==', 'move line down' },
+
   -- make marks a little easier to reach
   { '\'', '`' },
   { '`', '\'' },
@@ -21,8 +24,8 @@ local normal_mode_keymaps = {
   { 'N', 'Nzz' },
   { 'n', 'nzz' },
 
-  { ']b', ':bnext<cr>', 'buffer' },
-  { '[b', ':bprev<cr>', 'buffer' },
+  { ']b', ':bnext<cr>', 'next buffer' },
+  { '[b', ':bprev<cr>', 'previous buffer' },
 }
 
 local operator_mode_keymaps = {}
@@ -36,6 +39,9 @@ local visual_mode_keymaps = {
   -- keep selection on indent
   { '<', '<gv' },
   { '>', '>gv' },
+
+  { 'j', ':m \'<-2<cr>gv=gv', 'move selection up' },
+  { 'k', ':m \'>+1<cr>gv=gv', 'move selection down' },
 }
 
 local maps = {
