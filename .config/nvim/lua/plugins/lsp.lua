@@ -20,8 +20,6 @@ return {
       vim.lsp.protocol.make_client_capabilities()
     )
 
-    local lspc = require('lspconfig')
-
     mason_config.setup_handlers({
       function(name)
         local _opts = { capabilities = capabilities }
@@ -29,16 +27,8 @@ return {
         local ok, extra_opts =
           pcall(require, string.format('langservers.%s', name))
 
-        lspc[name].setup(vim.tbl_extend('keep', _opts, ok and extra_opts or {}))
+        require('lspconfig')[name].setup(vim.tbl_extend('keep', _opts, ok and extra_opts or {}))
       end,
-    })
-
-    lspc.ccls.setup({
-      init_options = {
-        cache = {
-          directory = '.ccls-cache',
-        },
-      },
     })
 
     -- add a rounded border to the lsp floating window. taken from the nvim lsp gh wiki
