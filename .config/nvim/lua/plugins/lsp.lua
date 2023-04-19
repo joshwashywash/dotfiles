@@ -20,6 +20,8 @@ return {
       vim.lsp.protocol.make_client_capabilities()
     )
 
+    local lspc = require('lspconfig')
+
     mason_config.setup_handlers({
       function(name)
         local _opts = { capabilities = capabilities }
@@ -27,10 +29,16 @@ return {
         local ok, extra_opts =
           pcall(require, string.format('langservers.%s', name))
 
-        require('lspconfig')[name].setup(
-          vim.tbl_extend('keep', _opts, ok and extra_opts or {})
-        )
+        lspc[name].setup(vim.tbl_extend('keep', _opts, ok and extra_opts or {}))
       end,
+    })
+
+    lspc.ccls.setup({
+      init_options = {
+        cache = {
+          directory = '.ccls-cache',
+        },
+      },
     })
 
     -- add a rounded border to the lsp floating window. taken from the nvim lsp gh wiki
@@ -68,7 +76,6 @@ return {
 
         local keymaps = {
           { 'D', vim.lsp.buf.declaration, 'declaration' },
-          { 'K', vim.lsp.buf.signature_help, 'signature help' },
           { 'R', vim.lsp.buf.references, 'references' },
           {
             'W',
@@ -94,6 +101,7 @@ return {
             'list workspace folder',
           },
           { 'r', vim.lsp.buf.rename, 'rename' },
+          { 's', vim.lsp.buf.signature_help, 'signature help' },
           { 't', vim.lsp.buf.type_definition, 'type definitions' },
           { 'w', vim.lsp.buf.add_workspace_folder, 'add workspace folder' },
           { 'x', vim.diagnostic.open_float, 'show line diagnostic' },
@@ -117,7 +125,14 @@ return {
     'b0o/schemastore.nvim',
     'folke/lsp-colors.nvim',
     'hrsh7th/cmp-nvim-lsp',
-    'ray-x/lsp_signature.nvim',
+    {
+      'ray-x/lsp_signature.nvim',
+      opts = {
+        doc_lines = 0,
+        hint_enable = false,
+        toggle_key = '<c-s>',
+      },
+    },
     'williamboman/mason-lspconfig.nvim',
     { 'j-hui/fidget.nvim', config = true },
   },
