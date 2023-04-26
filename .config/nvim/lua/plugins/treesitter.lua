@@ -56,19 +56,19 @@ return {
           enable = true,
           set_jumps = true, -- whether to set jumps in the jumplist
           goto_next_start = {
-            [']c'] = '@class.outer',
+            [']k'] = '@class.outer',
             [']f'] = '@function.outer',
           },
           goto_next_end = {
-            [']C'] = '@class.outer',
+            [']K'] = '@class.outer',
             [']F'] = '@function.outer',
           },
           goto_previous_start = {
-            ['[c'] = '@class.outer',
+            ['[k'] = '@class.outer',
             ['[f'] = '@function.outer',
           },
           goto_previous_end = {
-            ['[C'] = '@class.outer',
+            ['[K'] = '@class.outer',
             ['[F'] = '@function.outer',
           },
         },
