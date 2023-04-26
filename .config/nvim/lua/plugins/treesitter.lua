@@ -2,9 +2,7 @@ return {
   'nvim-treesitter/nvim-treesitter',
   build = ':TSUpdate',
   config = function()
-    local ft_to_parser =
-      require('nvim-treesitter.parsers').filetype_to_parsername
-    ft_to_parser.mdx = 'markdown'
+    vim.treesitter.language.register('markdown', 'mdx')
 
     require('nvim-treesitter.configs').setup({
       autotag = { enable = true },
@@ -59,19 +57,19 @@ return {
           set_jumps = true, -- whether to set jumps in the jumplist
           goto_next_start = {
             [']c'] = '@class.outer',
-            [']m'] = '@function.outer',
+            [']f'] = '@function.outer',
           },
           goto_next_end = {
             [']C'] = '@class.outer',
-            [']M'] = '@function.outer',
+            [']F'] = '@function.outer',
           },
           goto_previous_start = {
             ['[c'] = '@class.outer',
-            ['[m'] = '@function.outer',
+            ['[f'] = '@function.outer',
           },
           goto_previous_end = {
             ['[C'] = '@class.outer',
-            ['[M'] = '@function.outer',
+            ['[F'] = '@function.outer',
           },
         },
         select = {
