@@ -83,6 +83,11 @@ return {
             ['ia'] = '@parameter.inner',
             ['ic'] = '@class.inner',
             ['if'] = '@function.inner',
+            ['as'] = {
+              query = '@scope',
+              query_group = 'locals',
+              desc = 'Select language scope',
+            },
           },
         },
         swap = {

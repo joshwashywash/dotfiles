@@ -27,7 +27,9 @@ return {
         local ok, extra_opts =
           pcall(require, string.format('langservers.%s', name))
 
-        require('lspconfig')[name].setup(vim.tbl_extend('keep', _opts, ok and extra_opts or {}))
+        require('lspconfig')[name].setup(
+          vim.tbl_extend('keep', _opts, ok and extra_opts or {})
+        )
       end,
     })
 
@@ -46,8 +48,8 @@ return {
 
     vim.diagnostic.config(opts.diagnostics)
     local diagnostic_keymaps = {
-      { '[d', vim.diagnostic.goto_prev, 'previous' },
-      { ']d', vim.diagnostic.goto_next, 'next' },
+      { '[x', vim.diagnostic.goto_prev, 'previous' },
+      { ']x', vim.diagnostic.goto_next, 'next' },
     }
 
     for _, keymap in pairs(diagnostic_keymaps) do
