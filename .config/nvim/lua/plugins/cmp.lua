@@ -74,10 +74,13 @@ return {
           luasnip.lsp_expand(args.body)
         end,
       },
-      sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'luasnip' },
-      }, { { name = 'buffer' } }),
+      sources = cmp.config.sources(
+        {
+          { name = 'nvim_lsp' },
+          { name = 'luasnip' },
+        }
+        --{ { name = 'buffer' } }
+      ),
       window = {
         completion = window,
         documentation = window,
