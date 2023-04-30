@@ -27,6 +27,7 @@ return {
       formatting = {
         format = require('lspkind').cmp_format({
           before = require('tailwindcss-colorizer-cmp').formatter,
+          mode = 'symbol',
         }),
       },
       mapping = cmp.mapping.preset.insert({
@@ -74,13 +75,17 @@ return {
           luasnip.lsp_expand(args.body)
         end,
       },
-      sources = cmp.config.sources(
-        {
-          { name = 'nvim_lsp' },
-          { name = 'luasnip' },
-        }
-        --{ { name = 'buffer' } }
-      ),
+      sorting = {
+        comparators = {
+          function(...)
+            return require('cmp_buffer'):compare_locality(...)
+          end,
+        },
+      },
+      sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        { name = 'luasnip' },
+      }, { { name = 'buffer' } }),
       window = {
         completion = window,
         documentation = window,
