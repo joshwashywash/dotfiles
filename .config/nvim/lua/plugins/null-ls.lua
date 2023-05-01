@@ -18,6 +18,7 @@ return {
                 filter = function(_client)
                   return _client.name == 'null-ls'
                 end,
+                timeout_ms = 5 * 1000,
               })
             end,
             group = augroup,
