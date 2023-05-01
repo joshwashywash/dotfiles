@@ -3,8 +3,7 @@ return {
   config = function()
     local null_ls = require('null-ls')
 
-    local augroup =
-      vim.api.nvim_create_augroup('LspFormatting', { clear = true })
+    local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
     null_ls.setup({
       border = 'rounded',
@@ -29,7 +28,7 @@ return {
         null_ls.builtins.code_actions.gitsigns,
         null_ls.builtins.formatting.dart_format,
         null_ls.builtins.formatting.prettier.with({
-          extra_filetypes = { 'astro', 'svelte', 'toml' },
+          extra_filetypes = { 'astro', 'svelte', 'json', 'markdown', 'toml' },
         }),
         null_ls.builtins.formatting.stylua,
       },

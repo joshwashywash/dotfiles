@@ -2,7 +2,6 @@ local prefix = '<leader>f'
 
 return {
   'nvim-telescope/telescope.nvim',
-  dependencies = { 'nvim-lua/plenary.nvim' },
   config = function()
     local telescope = require('telescope')
     local builtin = require('telescope.builtin')
@@ -65,6 +64,7 @@ return {
   cmd = {
     'Telescope',
   },
+  dependencies = { 'nvim-lua/plenary.nvim' },
   keys = {
     prefix,
   },
