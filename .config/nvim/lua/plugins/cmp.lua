@@ -22,7 +22,6 @@ return {
 
     -- when the docs for a completion are longer than the window
     local scroll_docs_offset = 4
-
     cmp.setup({
       formatting = {
         format = require('lspkind').cmp_format({
@@ -83,8 +82,8 @@ return {
         },
       },
       sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
         { name = 'luasnip' },
+        { name = 'nvim_lsp' },
       }, { { name = 'buffer' } }),
       window = {
         completion = window,
