@@ -10,7 +10,6 @@ return {
         'astro',
         'css',
         'dart',
-        'help',
         'html',
         'javascript',
         'json',
@@ -20,6 +19,7 @@ return {
         'svelte',
         'typescript',
         'vim',
+        'vimdoc',
       },
       highlight = {
         enable = true, -- false will disable the whole extension
