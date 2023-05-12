@@ -10,6 +10,8 @@ return {
 
     telescope.setup({
       defaults = {
+        selection_caret = '  ',
+        prompt_prefix = '  ',
         mappings = {
           i = {
             ['<c-t>'] = trouble.open_with_trouble,
