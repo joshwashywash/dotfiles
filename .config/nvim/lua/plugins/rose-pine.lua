@@ -17,6 +17,8 @@ return {
         NvimTreeNormal = { fg = 'subtle' },
         NvimTreeCursorLine = { link = 'Selection' },
         Selection = { fg = 'highlight_low', bg = 'gold' },
+        TelescopePromptNormal = { bg = 'none' },
+        TelescopeNormal = { fg = 'subtle', bg = 'none' },
         TelescopeBorder = { link = 'FloatBorder' },
         TelescopeNormalPmenuSel = { link = 'Selection' },
         TelescopeSelection = { link = 'Selection' },
