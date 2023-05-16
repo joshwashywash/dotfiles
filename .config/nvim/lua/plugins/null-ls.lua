@@ -18,7 +18,7 @@ return {
                 filter = function(_client)
                   return _client.name == 'null-ls'
                 end,
-                timeout_ms = 5 * 1000,
+                -- timeout_ms = 3 * 1000,
               })
             end,
             group = augroup,
@@ -28,7 +28,7 @@ return {
       sources = {
         null_ls.builtins.code_actions.gitsigns,
         null_ls.builtins.formatting.dart_format,
-        null_ls.builtins.formatting.prettier.with({
+        null_ls.builtins.formatting.prettierd.with({
           extra_filetypes = { 'astro', 'svelte', 'toml' },
         }),
         null_ls.builtins.formatting.stylua,
