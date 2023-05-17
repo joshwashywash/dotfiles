@@ -115,7 +115,6 @@ return {
       mappings = {
         custom_only = true,
       },
-      -- side = 'right',
     },
   },
 }
