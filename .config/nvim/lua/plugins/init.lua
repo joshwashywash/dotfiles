@@ -12,7 +12,7 @@ return {
   { 'NvChad/nvim-colorizer.lua', config = true },
   { 'numToStr/Comment.nvim', config = true, event = { 'BufRead' } },
   { 'nvim-lua/plenary.nvim' },
-  { 'stevearc/dressing.nvim', event = 'VeryLazy' },
+  -- { 'stevearc/dressing.nvim', event = 'VeryLazy' },
   { 'windwp/nvim-autopairs', config = true },
   {
     'windwp/nvim-ts-autotag',
