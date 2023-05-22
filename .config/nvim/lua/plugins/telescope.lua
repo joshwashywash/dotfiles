@@ -6,17 +6,35 @@ return {
     local telescope = require('telescope')
     local builtin = require('telescope.builtin')
 
-    local trouble = require('trouble.providers.telescope')
+    local fb_actions = require('telescope').extensions.file_browser.actions
 
     telescope.setup({
       defaults = {
         layout_config = { horizontal = { preview_width = 0.6 } },
         mappings = {
           i = {
-            ['<c-t>'] = trouble.open_with_trouble,
+            ['<c-b>'] = fb_actions.goto_parent_dir,
+            ['<c-e>'] = false,
+            ['<c-f>'] = fb_actions.toggle_browser,
+            ['<c-g>'] = fb_actions.toggle_all,
+            ['<c-h>'] = fb_actions.goto_home_dir,
+            ['<c-i>'] = fb_actions.toggle_hidden,
+            ['<c-j>'] = fb_actions.change_cwd,
+            ['<c-s>'] = fb_actions.goto_cwd,
+            ['<c-t>'] = false,
+            ['<c-w>'] = false,
           },
           n = {
-            ['<c-t>'] = trouble.open_with_trouble,
+            b = fb_actions.goto_parent_dir,
+            e = false,
+            f = fb_actions.toggle_browser,
+            g = fb_actions.toggle_all,
+            h = fb_actions.goto_home_dir,
+            i = fb_actions.toggle_hidden,
+            j = fb_actions.change_cwd,
+            s = fb_actions.goto_cwd,
+            t = false,
+            w = false,
           },
         },
         prompt_prefix = '  ',
@@ -59,21 +77,31 @@ return {
       { '*', builtin.grep_string, 'word under cursor' },
       { ':', builtin.command_history, 'command history' },
       { 'C', builtin.commands, 'commands' },
-      { 'f', builtin.find_files, 'files' },
       { 'G', builtin.git_commits, 'git commits' },
       { 'H', builtin.highlights, 'highlights' },
       { 'L', builtin.resume, 'resume last search' },
       { 'a', builtin.autocommands, 'autocommands' },
-      { 'b', builtin.buffers, 'buffers' },
-      { 'c', builtin.colorscheme, 'colorschemes' },
       {
-        'f',
+        'b',
         function()
           require('telescope').extensions.file_browser.file_browser({
             grouped = true,
           })
         end,
         'file browser',
+      },
+      { 'c', builtin.colorscheme, 'colorschemes' },
+      { 'F', builtin.find_files, 'files' },
+      {
+        'f',
+        function()
+          require('telescope').extensions.file_browser.file_browser({
+            grouped = true,
+            path = '%:p:h',
+            select_buffer = true,
+          })
+        end,
+        'file browser at current buffer',
       },
       { 'g', builtin.live_grep, 'live grep' },
       { 'h', builtin.help_tags, 'help tags' },
@@ -88,17 +116,7 @@ return {
       { 'm', builtin.marks, 'marks' },
       { 'r', builtin.oldfiles, 'recent files' },
       { 's', builtin.git_status, 'git status' },
-      {
-        'u',
-        function()
-          require('telescope').extensions.file_browser.file_browser({
-            grouped = true,
-            path = '%:p:h',
-            select_buffer = true,
-          })
-        end,
-        'file browser at current buffer',
-      },
+      { 'u', builtin.buffers, 'buffers' },
     }
 
     for _, keymap in ipairs(normal_mode_keymaps) do
