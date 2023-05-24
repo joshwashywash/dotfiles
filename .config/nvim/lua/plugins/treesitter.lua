@@ -33,6 +33,9 @@ return {
           scope_incremental = '<c-s>',
         },
       },
+      matchup = {
+        enable = true,
+      },
       textobjects = {
         move = {
           enable = true,
@@ -87,6 +90,7 @@ return {
   end,
   dependencies = {
     'nvim-treesitter/nvim-treesitter-textobjects',
+    'andymass/vim-matchup',
   },
   event = 'BufReadPost',
 }
