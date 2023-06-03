@@ -11,7 +11,6 @@ return {
         'jsonls',
         'lua_ls',
         'svelte',
-        'stylua',
         'tailwindcss',
         'tsserver',
       },
