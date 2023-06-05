@@ -3,46 +3,42 @@ local prefix = '<leader>f'
 return {
   'nvim-telescope/telescope.nvim',
   config = function()
-    local telescope = require('telescope')
+    local t = require('telescope')
     local builtin = require('telescope.builtin')
 
     local fb_actions = require('telescope').extensions.file_browser.actions
 
-    telescope.setup({
+    t.setup({
       defaults = {
         layout_config = { horizontal = { preview_width = 0.6 } },
-        mappings = {
-          i = {
-            ['<c-b>'] = fb_actions.goto_parent_dir,
-            ['<c-e>'] = false,
-            ['<c-f>'] = fb_actions.toggle_browser,
-            ['<c-g>'] = fb_actions.toggle_all,
-            ['<c-h>'] = fb_actions.goto_home_dir,
-            ['<c-i>'] = fb_actions.toggle_hidden,
-            ['<c-j>'] = fb_actions.change_cwd,
-            ['<c-s>'] = fb_actions.goto_cwd,
-            ['<c-t>'] = false,
-            ['<c-w>'] = false,
-          },
-          n = {
-            b = fb_actions.goto_parent_dir,
-            e = false,
-            f = fb_actions.toggle_browser,
-            g = fb_actions.toggle_all,
-            h = fb_actions.goto_home_dir,
-            i = fb_actions.toggle_hidden,
-            j = fb_actions.change_cwd,
-            s = fb_actions.goto_cwd,
-            t = false,
-            w = false,
-          },
-        },
+
         prompt_prefix = '  ',
         selection_caret = '  ',
       },
       extensions = {
         file_browser = {
           display_stat = false,
+          hijack_netrw = true,
+          mappings = {
+            i = {
+              ['<c-b>'] = fb_actions.goto_parent_dir,
+              ['<c-e>'] = false,
+              ['<c-f>'] = fb_actions.toggle_browser,
+              ['<c-h>'] = fb_actions.goto_home_dir,
+              ['<c-i>'] = fb_actions.toggle_hidden,
+              ['<c-j>'] = fb_actions.change_cwd,
+              ['<c-t>'] = false,
+            },
+            n = {
+              b = fb_actions.goto_parent_dir,
+              e = false,
+              f = fb_actions.toggle_browser,
+              h = fb_actions.goto_home_dir,
+              i = fb_actions.toggle_hidden,
+              j = fb_actions.change_cwd,
+              t = false,
+            },
+          },
         },
         fzf = {
           fuzzy = true,
@@ -57,8 +53,6 @@ return {
       'fzf',
       'file_browser',
     }
-
-    local t = require('telescope')
 
     for _, extension in ipairs(extensions) do
       t.load_extension(extension)

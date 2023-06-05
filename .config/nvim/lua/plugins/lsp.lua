@@ -117,7 +117,6 @@ return {
   end,
   dependencies = {
     'b0o/schemastore.nvim',
-    'folke/lsp-colors.nvim',
     'hrsh7th/cmp-nvim-lsp',
     {
       'ray-x/lsp_signature.nvim',

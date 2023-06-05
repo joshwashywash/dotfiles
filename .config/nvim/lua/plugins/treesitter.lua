@@ -91,6 +91,7 @@ return {
   dependencies = {
     'nvim-treesitter/nvim-treesitter-textobjects',
     'andymass/vim-matchup',
+    'windwp/nvim-ts-autotag',
+    event = 'BufReadPost',
   },
-  event = 'BufReadPost',
 }

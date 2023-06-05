@@ -14,9 +14,4 @@ return {
   { 'nvim-lua/plenary.nvim' },
   -- { 'stevearc/dressing.nvim', event = 'VeryLazy' },
   { 'windwp/nvim-autopairs', config = true },
-  {
-    'windwp/nvim-ts-autotag',
-    config = true,
-    ft = { 'html', 'php', 'svelte' },
-  },
 }
