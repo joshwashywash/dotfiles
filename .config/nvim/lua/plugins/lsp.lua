@@ -72,6 +72,14 @@ return {
           { 'D', vim.lsp.buf.declaration, 'declaration' },
           { 'R', vim.lsp.buf.references, 'references' },
           {
+            'S',
+            function()
+              print('restarting lsps')
+              vim.cmd('LspRestart')
+            end,
+            'restart',
+          },
+          {
             'W',
             vim.lsp.buf.remove_workspace_folder,
             'remove workspace folder',
@@ -94,15 +102,7 @@ return {
             end,
             'list workspace folder',
           },
-          { 'n', vim.lsp.buf.rename, 'rename' },
-          {
-            'r',
-            function()
-              print('restarting lsps')
-              vim.cmd('LspRestart')
-            end,
-            'restart',
-          },
+          { 'r', vim.lsp.buf.rename, 'rename' },
           { 's', vim.lsp.buf.signature_help, 'signature help' },
           { 't', vim.lsp.buf.type_definition, 'type definitions' },
           { 'w', vim.lsp.buf.add_workspace_folder, 'add workspace folder' },
