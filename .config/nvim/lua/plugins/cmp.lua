@@ -26,7 +26,7 @@ return {
       formatting = {
         format = require('lspkind').cmp_format({
           before = require('tailwindcss-colorizer-cmp').formatter,
-          mode = 'symbol',
+          mode = 'symol',
         }),
       },
       mapping = cmp.mapping.preset.insert({
@@ -111,13 +111,16 @@ return {
     cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
   end,
   dependencies = {
-    'L3MON4D3/LuaSnip',
+    {
+      'L3MON4D3/LuaSnip',
+      build = 'make install_jsregexp',
+      dependencies = { 'rafamadriz/friendly-snippets' },
+    },
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-cmdline',
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-path',
     'onsails/lspkind-nvim',
-    'rafamadriz/friendly-snippets',
     'saadparwaiz1/cmp_luasnip',
     'windwp/nvim-autopairs',
     {
