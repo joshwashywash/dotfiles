@@ -12,6 +12,7 @@ return {
         'dart',
         'html',
         'javascript',
+        'jsdoc',
         'json',
         'lua',
         'markdown',
