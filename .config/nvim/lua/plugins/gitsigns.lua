@@ -10,7 +10,7 @@ return {
           'n',
           '<leader>gD',
           function()
-            gs.diffthis('~')
+            gs.diffthis('~', { split = 'belowright' })
           end,
           'diff this ~',
         },
@@ -24,7 +24,14 @@ return {
           end,
           'blame line',
         },
-        { 'n', '<leader>gd', gs.diffthis, 'diff this' },
+        {
+          'n',
+          '<leader>gd',
+          function()
+            gs.diffthis('', { split = 'belowright' })
+          end,
+          'diff this',
+        },
         { 'n', '<leader>gp', gs.preview_hunk, 'preview hunk' },
         { 'n', '[h', gs.prev_hunk, 'Prev git hunk' },
         { 'n', ']h', gs.next_hunk, 'Next git hunk' },
