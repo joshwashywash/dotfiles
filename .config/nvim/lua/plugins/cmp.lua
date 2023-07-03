@@ -74,11 +74,6 @@ return {
           luasnip.lsp_expand(args.body)
         end,
       },
-      sorting = {
-        comparators = {
-          cmp.config.compare.locality,
-        },
-      },
       sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'luasnip' },

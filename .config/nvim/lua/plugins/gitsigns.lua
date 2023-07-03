@@ -10,7 +10,7 @@ return {
           'n',
           '<leader>gD',
           function()
-            gs.diffthis('~', { split = 'belowright' })
+            gs.diffthis('~')
           end,
           'diff this ~',
         },
