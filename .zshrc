@@ -102,3 +102,11 @@ alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias icat="kitty +kitten icat"
 
 alias config="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+
+# pnpm
+export PNPM_HOME="/Users/josh/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
