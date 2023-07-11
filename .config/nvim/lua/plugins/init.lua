@@ -22,6 +22,7 @@ return {
         visual_line = 'gU',
         delete = 'du',
         change = 'cu',
+        change_line = 'cU',
       },
     },
   },
