@@ -32,7 +32,7 @@ return {
 			mapping = cmp.mapping.preset.insert({
 				['<c-b>'] = cmp.mapping.scroll_docs(-scroll_docs_offset),
 				['<c-f>'] = cmp.mapping.scroll_docs(scroll_docs_offset),
-				['<c-space>'] = cmp.mapping.complete(),
+				['<c-h>'] = cmp.mapping.complete(),
 				['<cr>'] = cmp.mapping({
 					c = cmp.mapping.confirm({
 						behavior = cmp.ConfirmBehavior.Replace,
