@@ -1,6 +1,6 @@
 return {
-  'williamboman/mason.nvim',
-  build = ':MasonUpdate',
-  cmd = 'Mason',
-  opts = { ui = { border = 'rounded' } },
+	'williamboman/mason.nvim',
+	build = ':MasonUpdate',
+	cmd = 'Mason',
+	opts = { ui = { border = 'rounded' } },
 }
