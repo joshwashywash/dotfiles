@@ -2,14 +2,14 @@ return {
 	'famiu/bufdelete.nvim',
 	keys = {
 		{
-			'<leader>bd',
+			'<leader>bq',
 			function()
 				require('bufdelete').bufdelete(0)
 			end,
 			desc = 'delete',
 		},
 		{
-			'<leader>bD',
+			'<leader>bQ',
 			function()
 				require('bufdelete').bufdelete(0, true)
 			end,
@@ -25,7 +25,7 @@ return {
 		{
 			'<leader>bW',
 			function()
-				require('bufdelete').bufwipeout(0)
+				require('bufdelete').bufwipeout(0, true)
 			end,
 			desc = 'force wipeout',
 		},
