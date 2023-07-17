@@ -1,7 +1,7 @@
 return {
 	'nvim-treesitter/nvim-treesitter',
 	build = ':TSUpdate',
-	config = {
+	opts = {
 		autotag = { enable = true },
 		ensure_installed = {
 			'astro',
