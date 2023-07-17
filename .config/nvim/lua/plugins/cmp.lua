@@ -26,7 +26,7 @@ return {
 			formatting = {
 				format = require('lspkind').cmp_format({
 					before = require('tailwindcss-colorizer-cmp').formatter,
-					mode = 'symol',
+					mode = 'symbol',
 				}),
 			},
 			mapping = cmp.mapping.preset.insert({
@@ -117,7 +117,7 @@ return {
 		'hrsh7th/cmp-path',
 		'onsails/lspkind-nvim',
 		'saadparwaiz1/cmp_luasnip',
-		'windwp/nvim-autopairs',
+		{ 'windwp/nvim-autopairs', opts = {} },
 		{
 			'roobert/tailwindcss-colorizer-cmp.nvim',
 			opts = {

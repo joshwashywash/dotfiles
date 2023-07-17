@@ -26,6 +26,10 @@ local normal_mode_keymaps = {
 
 	{ ']b', ':bnext<cr>', 'next buffer' },
 	{ '[b', ':bprev<cr>', 'previous buffer' },
+
+	-- diagnostics
+	{ '[x', vim.diagnostic.goto_prev, 'previous diagnostic' },
+	{ ']x', vim.diagnostic.goto_next, 'next diagnostic' },
 }
 
 local operator_mode_keymaps = {}

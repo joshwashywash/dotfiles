@@ -4,21 +4,21 @@ return {
 	dependencies = { 'nvim-treesitter/nvim-treesitter' },
 	keys = {
 		{
-			'<space>jj',
+			'<leader>jj',
 			function()
 				require('treesj').join()
 			end,
 			desc = 'join',
 		},
 		{
-			'<space>js',
+			'<leader>js',
 			function()
 				require('treesj').split()
 			end,
 			desc = 'split',
 		},
 		{
-			'<space>jt',
+			'<leader>jt',
 			function()
 				require('treesj').toggle()
 			end,
