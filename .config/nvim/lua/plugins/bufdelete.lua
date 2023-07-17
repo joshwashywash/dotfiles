@@ -6,14 +6,14 @@ return {
 			function()
 				require('bufdelete').bufdelete(0)
 			end,
-			desc = 'delete',
+			desc = 'quit',
 		},
 		{
 			'<leader>bQ',
 			function()
 				require('bufdelete').bufdelete(0, true)
 			end,
-			desc = 'force delete',
+			desc = 'force quit',
 		},
 		{
 			'<leader>bw',
