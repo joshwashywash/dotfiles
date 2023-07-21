@@ -2,5 +2,7 @@ return {
 	'williamboman/mason.nvim',
 	build = ':MasonUpdate',
 	cmd = 'Mason',
-	opts = { ui = { border = 'rounded' } },
+	opts = {
+		ui = { border = 'rounded' },
+	},
 }

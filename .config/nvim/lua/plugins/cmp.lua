@@ -1,16 +1,6 @@
-local has_words_before = function()
-	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-	return col ~= 0
-		and vim.api
-				.nvim_buf_get_lines(0, line - 1, line, true)[1]
-				:sub(col, col)
-				:match('%s')
-			== nil
-end
-
 return {
 	'hrsh7th/nvim-cmp',
-	config = function()
+	config = function(_, opts)
 		local cmp = require('cmp')
 		local luasnip = require('luasnip')
 
@@ -53,7 +43,7 @@ return {
 				['<c-e>'] = cmp.mapping(function(fallback)
 					if luasnip.expand_or_jumpable() then
 						luasnip.expand_or_jump()
-					elseif has_words_before() then
+					elseif opts.has_words_before() then
 						cmp.complete()
 					else
 						fallback()
@@ -62,7 +52,7 @@ return {
 				['<c-y>'] = cmp.mapping(function(fallback)
 					if luasnip.jumpable(-1) then
 						luasnip.jump(-1)
-					elseif has_words_before() then
+					elseif opts.has_words_before() then
 						cmp.complete()
 					else
 						fallback()
@@ -128,5 +118,16 @@ return {
 	event = {
 		'CmdlineEnter',
 		'InsertEnter',
+	},
+	opts = {
+		has_words_before = function()
+			local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+			return col ~= 0
+				and vim.api
+						.nvim_buf_get_lines(0, line - 1, line, true)[1]
+						:sub(col, col)
+						:match('%s')
+					== nil
+		end,
 	},
 }

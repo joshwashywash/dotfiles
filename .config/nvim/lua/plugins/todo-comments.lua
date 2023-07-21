@@ -1,3 +1,4 @@
+-- load when entering a buffer not on keys
 return {
 	'folke/todo-comments.nvim',
 	config = function()

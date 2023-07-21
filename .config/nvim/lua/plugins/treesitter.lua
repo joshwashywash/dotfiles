@@ -3,7 +3,9 @@ return {
 	build = ':TSUpdate',
 	config = function()
 		require('nvim-treesitter.configs').setup({
-			autotag = { enable = true },
+			autotag = {
+				enable = true,
+			},
 			ensure_installed = {
 				'astro',
 				'css',

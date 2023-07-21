@@ -1,30 +1,47 @@
 return {
 	{
 		'neovim/nvim-lspconfig',
-		config = function()
+		config = function(_, opts)
 			vim.api.nvim_create_autocmd('LspAttach', {
+				desc = 'Lsp Actions',
 				group = vim.api.nvim_create_augroup('LspConfig', {}),
 				callback = function(event)
 					vim.bo[event.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-					local keymaps = {
+					for _, keymap in ipairs(opts.keymaps) do
+						local prefix, maps = unpack(keymap)
+						for _, m in ipairs(maps) do
+							local l, r, desc = unpack(m)
+							vim.keymap.set('n', prefix .. l, r, {
+								buffer = event.buf,
+								desc = desc,
+								noremap = true,
+								silent = true,
+							})
+						end
+					end
+				end,
+			})
+
+			require('lspconfig.ui.windows').default_options.border = 'rounded'
+		end,
+		dependencies = {
+			'b0o/schemastore.nvim',
+		},
+		event = 'BufReadPre',
+		opts = {
+			keymaps = {
+				{
+					'g',
+					{
 						{ 'd', vim.lsp.buf.definition, 'definition' },
 						{ 'D', vim.lsp.buf.declaration, 'declaration' },
 						{ 't', vim.lsp.buf.type_definition, 'type definitions' },
-					}
-
-					for _, keymap in ipairs(keymaps) do
-						local l, r, desc = unpack(keymap)
-
-						vim.keymap.set('n', 'g' .. l, r, {
-							buffer = event.buf,
-							desc = desc,
-							noremap = true,
-							silent = true,
-						})
-					end
-
-					local lsp_keymaps = {
+					},
+				},
+				{
+					'<leader>l',
+					{
 						{ 'c', vim.lsp.buf.code_action, 'execute code action' },
 						{ 'R', vim.lsp.buf.references, 'list references' },
 						{
@@ -47,27 +64,10 @@ return {
 						{ 'r', vim.lsp.buf.rename, 'rename' },
 						{ 's', vim.lsp.buf.signature_help, 'signature help' },
 						{ 'x', vim.diagnostic.open_float, 'show line diagnostic' },
-					}
-
-					for _, keymap in ipairs(lsp_keymaps) do
-						local l, r, desc = unpack(keymap)
-
-						vim.keymap.set('n', '<leader>l' .. l, r, {
-							buffer = event.buf,
-							desc = desc,
-							noremap = true,
-							silent = true,
-						})
-					end
-				end,
-			})
-
-			require('lspconfig.ui.windows').default_options.border = 'rounded'
-		end,
-		dependencies = {
-			'b0o/schemastore.nvim',
+					},
+				},
+			},
 		},
-		event = 'BufReadPre',
 	},
 	{
 		'williamboman/mason-lspconfig.nvim',
@@ -108,6 +108,7 @@ return {
 			doc_lines = 0,
 			hint_enable = false,
 			toggle_key = '<c-s>',
+			toggle_key_flip_floatwin_setting = true,
 		},
 		event = 'VeryLazy',
 	},

@@ -10,5 +10,7 @@ return {
 			desc = 'open neogit',
 		},
 	},
-	opts = { kind = 'split' },
+	opts = {
+		kind = 'split',
+	},
 }
