@@ -3,8 +3,7 @@ return {
 	config = function(_, opts)
 		local cmp = require('cmp')
 		local luasnip = require('luasnip')
-
-		require('luasnip.loaders.from_vscode').lazy_load()
+		local defaults = require('cmp.config.default')()
 
 		local window = cmp.config.window.bordered({
 			winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:Selection,Search:None',
@@ -64,6 +63,7 @@ return {
 					luasnip.lsp_expand(args.body)
 				end,
 			},
+			sorting = defaults.sorting,
 			sources = cmp.config.sources({
 				{ name = 'nvim_lsp' },
 				{ name = 'luasnip' },
@@ -99,7 +99,12 @@ return {
 		{
 			'L3MON4D3/LuaSnip',
 			build = 'make install_jsregexp',
-			dependencies = { 'rafamadriz/friendly-snippets' },
+			dependencies = {
+				'rafamadriz/friendly-snippets',
+				config = function()
+					require('luasnip.loaders.from_vscode').lazy_load()
+				end,
+			},
 		},
 		'hrsh7th/cmp-buffer',
 		'hrsh7th/cmp-cmdline',

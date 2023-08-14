@@ -28,7 +28,7 @@ return {
 		dependencies = {
 			'b0o/schemastore.nvim',
 		},
-		event = 'BufReadPre',
+		event = { 'BufReadPre', 'BufNewFile' },
 		opts = {
 			keymaps = {
 				{

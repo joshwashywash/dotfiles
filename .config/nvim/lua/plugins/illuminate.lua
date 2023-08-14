@@ -13,7 +13,7 @@ return {
 
 		require('illuminate').configure(opts)
 	end,
-	event = 'BufReadPost',
+	event = { 'BufReadPost', 'BufNewFile' },
 	keys = {
 		{
 			']]',
