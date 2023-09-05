@@ -45,7 +45,7 @@ return {
 						{ 'c', vim.lsp.buf.code_action, 'execute code action' },
 						{ 'R', vim.lsp.buf.references, 'list references' },
 						{
-							's',
+							'S',
 							function()
 								print('restarting lsp')
 								vim.cmd('LspRestart')
