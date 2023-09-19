@@ -1,33 +1,34 @@
 return {
-	'nvimdev/guard.nvim',
+	"nvimdev/guard.nvim",
 	config = function(_, opts)
-		local ft = require('guard.filetype')
+		local ft = require("guard.filetype")
 
 		for formatter, filetypes in pairs(opts.formatters) do
-			ft(table.concat(filetypes, ',')):fmt(formatter)
+			ft(table.concat(filetypes, ",")):fmt(formatter)
 		end
 
-		require('guard').setup({
+		require("guard").setup({
 			fmt_on_save = true,
 			lsp_as_default_formatter = false,
 		})
 	end,
-	event = { 'BufNewFile', 'BufReadPre' },
+	dependencies = { "nvimdev/guard-collection" },
+	event = { "BufNewFile", "BufReadPre" },
 	opts = {
 		formatters = {
-			prettierd = {
-				'typescript',
-				'javascript',
-				'svelte',
-				'css',
-				'html',
-				'json',
-				'markdown',
-				'markdown.mdx',
+			prettier = {
+				"typescript",
+				"javascript",
+				"svelte",
+				"css",
+				"html",
+				"json",
+				"markdown",
+				"markdown.mdx",
 			},
 			stylua = {
-				'lua',
-				'luau',
+				"lua",
+				"luau",
 			},
 		},
 	},

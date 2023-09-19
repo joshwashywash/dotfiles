@@ -112,7 +112,7 @@ return {
 		'hrsh7th/cmp-path',
 		'onsails/lspkind-nvim',
 		'saadparwaiz1/cmp_luasnip',
-		{ 'windwp/nvim-autopairs', opts = {} },
+		{ 'windwp/nvim-autopairs', event = 'InsertEnter', opts = {} },
 		{
 			'roobert/tailwindcss-colorizer-cmp.nvim',
 			opts = {
@@ -136,3 +136,4 @@ return {
 		end,
 	},
 }
+
