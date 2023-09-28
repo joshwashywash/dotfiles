@@ -22,8 +22,6 @@ return {
 			NeogitNotificationInfo = { fg = 'foam' },
 			NeogitNotificationWarning = { fg = 'gold' },
 			NormalFloat = { link = 'Normal' },
-			NvimTreeCursorLine = { link = 'Selection' },
-			NvimTreeNormal = { fg = 'subtle' },
 			Selection = { fg = 'highlight_low', bg = 'gold' },
 			TelescopeBorder = { link = 'FloatBorder' },
 			TelescopeNormal = { fg = 'subtle', bg = 'none' },
