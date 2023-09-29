@@ -5,9 +5,9 @@ return {
 		local luasnip = require('luasnip')
 		local defaults = require('cmp.config.default')()
 
-		local window = cmp.config.window.bordered({
-			winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:Selection,Search:None',
-		})
+		local win_options = {
+			border = 'rounded',
+		}
 
 		-- when the docs for a completion are longer than the window
 		local scroll_docs_offset = 4
@@ -28,15 +28,22 @@ return {
 						select = false,
 					}),
 					i = function(fallback)
-						if cmp.get_selected_entry() then
-							cmp.confirm({
-								behavior = cmp.ConfirmBehavior.Replace,
-								select = false,
-							})
+						if cmp.visible() and cmp.get_active_entry() then
+							cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
 						else
 							fallback()
 						end
 					end,
+					-- i = function(fallback)
+					-- 	if cmp.get_selected_entry() then
+					-- 		cmp.confirm({
+					-- 			behavior = cmp.ConfirmBehavior.Replace,
+					-- 			select = false,
+					-- 		})
+					-- 	else
+					-- 		fallback()
+					-- 	end
+					-- end,
 					s = cmp.mapping.confirm({ select = true }),
 				}),
 				['<c-e>'] = cmp.mapping(function(fallback)
@@ -69,8 +76,8 @@ return {
 				{ name = 'luasnip' },
 			}, { { name = 'buffer' } }),
 			window = {
-				completion = window,
-				documentation = window,
+				completion = win_options,
+				documentation = win_options,
 			},
 		})
 
@@ -136,4 +143,3 @@ return {
 		end,
 	},
 }
-

@@ -16,7 +16,6 @@ return {
 				right = '',
 			},
 			globalstatus = true,
-			theme = 'rose-pine',
 		},
 		sections = {
 			lualine_a = {

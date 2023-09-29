@@ -3,6 +3,7 @@ return {
 	build = ':TSUpdate',
 	config = function()
 		require('nvim-treesitter.configs').setup({
+			auto_install = true,
 			autotag = {
 				enable = true,
 			},
@@ -22,21 +23,15 @@ return {
 				'vim',
 				'vimdoc',
 			},
+			ignore_install = {},
 			highlight = {
 				enable = true, -- false will disable the whole extension
-			},
-			incremental_selection = {
-				enable = true,
-				keymaps = {
-					init_selection = '<c-j>',
-					node_decremental = '<c-m>',
-					node_incremental = '<c-j>',
-					scope_incremental = '<c-s>',
-				},
 			},
 			matchup = {
 				enable = true,
 			},
+			modules = {},
+			sync_install = false,
 			textobjects = {
 				move = {
 					enable = true,
