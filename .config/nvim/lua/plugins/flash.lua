@@ -27,7 +27,7 @@ return {
 			desc = 'Flash Treesitter',
 		},
 		{
-			'r',
+			'x',
 			mode = 'o',
 			function()
 				require('flash').remote()
@@ -35,7 +35,7 @@ return {
 			desc = 'Remote Flash',
 		},
 		{
-			'R',
+			'X',
 			mode = { 'o', 'x' },
 			function()
 				require('flash').treesitter_search()
