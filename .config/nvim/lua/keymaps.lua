@@ -59,7 +59,7 @@ local maps = {
 local function map_keys(mode, keymaps)
 	for _, keymap in ipairs(keymaps) do
 		local l, r, desc = unpack(keymap)
-		vim.keymap.set(mode, l, r, { desc = desc })
+		vim.keymap.set(mode, l, r, { desc = desc, silent = true })
 	end
 end
 
