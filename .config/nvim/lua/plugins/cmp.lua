@@ -3,7 +3,6 @@ return {
 	config = function(_, opts)
 		local cmp = require('cmp')
 		local luasnip = require('luasnip')
-		local defaults = require('cmp.config.default')()
 
 		local win_options = {
 			border = 'rounded',
@@ -34,16 +33,6 @@ return {
 							fallback()
 						end
 					end,
-					-- i = function(fallback)
-					-- 	if cmp.get_selected_entry() then
-					-- 		cmp.confirm({
-					-- 			behavior = cmp.ConfirmBehavior.Replace,
-					-- 			select = false,
-					-- 		})
-					-- 	else
-					-- 		fallback()
-					-- 	end
-					-- end,
 					s = cmp.mapping.confirm({ select = true }),
 				}),
 				['<c-e>'] = cmp.mapping(function(fallback)
@@ -70,7 +59,15 @@ return {
 					luasnip.lsp_expand(args.body)
 				end,
 			},
-			sorting = defaults.sorting,
+			sorting = {
+				comparators = {
+					cmp.config.compare.offset,
+					cmp.config.compare.exact,
+					cmp.config.compare.score,
+					cmp.config.compare.recently_used,
+					cmp.config.compare.kind,
+				},
+			},
 			sources = cmp.config.sources({
 				{ name = 'nvim_lsp' },
 				{ name = 'luasnip' },
