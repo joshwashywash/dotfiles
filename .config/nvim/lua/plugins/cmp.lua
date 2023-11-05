@@ -20,21 +20,16 @@ return {
 			mapping = cmp.mapping.preset.insert({
 				['<c-b>'] = cmp.mapping.scroll_docs(-scroll_docs_offset),
 				['<c-f>'] = cmp.mapping.scroll_docs(scroll_docs_offset),
-				['<c-h>'] = cmp.mapping.complete(),
-				['<cr>'] = cmp.mapping({
-					c = cmp.mapping.confirm({
-						behavior = cmp.ConfirmBehavior.Replace,
-						select = false,
-					}),
-					i = function(fallback)
-						if cmp.visible() and cmp.get_active_entry() then
-							cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
-						else
-							fallback()
+				['<c-h>'] = cmp.mapping(function()
+					if cmp.visible() then
+						if cmp.get_selected_entry() then
+							cmp.confirm()
 						end
-					end,
-					s = cmp.mapping.confirm({ select = true }),
-				}),
+					else
+						cmp.complete()
+						cmp.select_next_item()
+					end
+				end),
 				['<c-e>'] = cmp.mapping(function(fallback)
 					if luasnip.expand_or_jumpable() then
 						luasnip.expand_or_jump()
