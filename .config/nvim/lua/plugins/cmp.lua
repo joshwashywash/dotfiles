@@ -23,7 +23,7 @@ return {
 				['<c-h>'] = cmp.mapping(function()
 					if cmp.visible() then
 						if cmp.get_selected_entry() then
-							cmp.confirm()
+							cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace })
 						end
 					else
 						cmp.complete()
