@@ -6,7 +6,7 @@ return {
 		formatters_by_ft = {
 			javascript = { { 'prettierd', 'prettier' } },
 			lua = { 'stylua' },
-			markdown = { 'injected' },
+			markdown = { { 'prettierd', 'prettier' } },
 			typescript = { { 'prettierd', 'prettier' } },
 		},
 	},
