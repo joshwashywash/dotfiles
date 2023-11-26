@@ -56,7 +56,12 @@ return {
 
 			local function map(t)
 				local mode, l, r, desc = unpack(t)
-				vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
+				vim.keymap.set(
+					mode,
+					l,
+					r,
+					{ buffer = buffer, desc = desc, noremap = true, silent = true }
+				)
 			end
 
 			for _, keymap in ipairs(keymaps) do
