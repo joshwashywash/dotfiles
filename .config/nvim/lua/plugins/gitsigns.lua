@@ -8,7 +8,7 @@ return {
 				{
 					{ 'o', 'x' },
 					'ih',
-					':<c-u>Gitsigns select_hunk<CR>',
+					':<c-u>Gitsigns select_hunk<cr>',
 					'select hunk',
 				},
 				{
