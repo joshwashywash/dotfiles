@@ -4,12 +4,17 @@ return {
 		local cmp = require('cmp')
 		local luasnip = require('luasnip')
 
-		local win_options = {
-			border = 'rounded',
-		}
+		local is = function(fallback)
+			if luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump()
+			elseif opts.has_words_before() then
+				cmp.complete()
+			else
+				fallback()
+			end
+		end
 
 		-- when the docs for a completion are longer than the window
-		local scroll_docs_offset = 4
 		cmp.setup({
 			formatting = {
 				format = require('lspkind').cmp_format({
@@ -18,27 +23,22 @@ return {
 				}),
 			},
 			mapping = cmp.mapping.preset.insert({
-				['<c-b>'] = cmp.mapping.scroll_docs(-scroll_docs_offset),
-				['<c-f>'] = cmp.mapping.scroll_docs(scroll_docs_offset),
-				['<c-h>'] = cmp.mapping(function()
-					if cmp.visible() then
-						if cmp.get_selected_entry() then
-							cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace })
+				['<c-b>'] = cmp.mapping.scroll_docs(-opts.scroll_docs_offset),
+				['<c-f>'] = cmp.mapping.scroll_docs(opts.scroll_docs_offset),
+				['<c-e>'] = cmp.mapping({
+					i = is,
+					n = function()
+						if cmp.visible() then
+							if cmp.get_selected_entry() then
+								cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace })
+							end
+						else
+							cmp.complete()
+							cmp.select_next_item()
 						end
-					else
-						cmp.complete()
-						cmp.select_next_item()
-					end
-				end),
-				['<c-e>'] = cmp.mapping(function(fallback)
-					if luasnip.expand_or_jumpable() then
-						luasnip.expand_or_jump()
-					elseif opts.has_words_before() then
-						cmp.complete()
-					else
-						fallback()
-					end
-				end, { 'i', 's' }),
+					end,
+					s = is,
+				}),
 				['<c-y>'] = cmp.mapping(function(fallback)
 					if luasnip.jumpable(-1) then
 						luasnip.jump(-1)
@@ -68,8 +68,8 @@ return {
 				{ name = 'luasnip' },
 			}, { { name = 'buffer' } }),
 			window = {
-				completion = win_options,
-				documentation = win_options,
+				completion = opts.win_options,
+				documentation = opts.win_options,
 			},
 		})
 
@@ -124,6 +124,7 @@ return {
 		'InsertEnter',
 	},
 	opts = {
+		scroll_docs_offset = 4,
 		has_words_before = function()
 			local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 			return col ~= 0
@@ -133,5 +134,8 @@ return {
 						:match('%s')
 					== nil
 		end,
+		win_options = {
+			border = 'rounded',
+		},
 	},
 }
