@@ -1,16 +1,19 @@
+for xpcall, value in pairs(t) do
+end
 return {
 	'hrsh7th/nvim-cmp',
 	config = function(_, opts)
 		local cmp = require('cmp')
 		local luasnip = require('luasnip')
 
-		local is = function(fallback)
-			if luasnip.expand_or_jumpable() then
-				luasnip.expand_or_jump()
-			elseif opts.has_words_before() then
-				cmp.complete()
+		local i = function()
+			if cmp.visible() then
+				if cmp.get_selected_entry() then
+					cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace })
+				end
 			else
-				fallback()
+				cmp.complete()
+				cmp.select_next_item()
 			end
 		end
 
@@ -25,20 +28,25 @@ return {
 			mapping = cmp.mapping.preset.insert({
 				['<c-b>'] = cmp.mapping.scroll_docs(-opts.scroll_docs_offset),
 				['<c-f>'] = cmp.mapping.scroll_docs(opts.scroll_docs_offset),
-				['<c-e>'] = cmp.mapping({
-					i = is,
-					n = function()
-						if cmp.visible() then
-							if cmp.get_selected_entry() then
-								cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace })
-							end
-						else
-							cmp.complete()
-							cmp.select_next_item()
+				['<c-h>'] = cmp.mapping(function()
+					if cmp.visible() then
+						if cmp.get_selected_entry() then
+							cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace })
 						end
-					end,
-					s = is,
-				}),
+					else
+						cmp.complete()
+						cmp.select_next_item()
+					end
+				end),
+				['<c-e>'] = cmp.mapping(function(fallback)
+					if luasnip.expand_or_jumpable() then
+						luasnip.expand_or_jump()
+					elseif opts.has_words_before() then
+						cmp.complete()
+					else
+						fallback()
+					end
+				end, { 'i', 's' }),
 				['<c-y>'] = cmp.mapping(function(fallback)
 					if luasnip.jumpable(-1) then
 						luasnip.jump(-1)
