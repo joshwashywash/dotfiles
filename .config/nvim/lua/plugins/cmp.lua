@@ -1,21 +1,8 @@
-for xpcall, value in pairs(t) do
-end
 return {
 	'hrsh7th/nvim-cmp',
 	config = function(_, opts)
 		local cmp = require('cmp')
 		local luasnip = require('luasnip')
-
-		local i = function()
-			if cmp.visible() then
-				if cmp.get_selected_entry() then
-					cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace })
-				end
-			else
-				cmp.complete()
-				cmp.select_next_item()
-			end
-		end
 
 		-- when the docs for a completion are longer than the window
 		cmp.setup({
