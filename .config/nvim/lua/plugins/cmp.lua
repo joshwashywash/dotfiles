@@ -4,7 +4,6 @@ return {
 		local cmp = require('cmp')
 		local luasnip = require('luasnip')
 
-		-- when the docs for a completion are longer than the window
 		cmp.setup({
 			formatting = {
 				format = require('lspkind').cmp_format({
