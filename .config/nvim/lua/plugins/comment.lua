@@ -12,6 +12,9 @@ return {
 		},
 		dependencies = {
 			'JoosepAlviste/nvim-ts-context-commentstring',
+			config = {
+				enable_autocmd = false,
+			},
 			lazy = true,
 		},
 	},
