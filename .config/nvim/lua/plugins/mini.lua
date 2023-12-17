@@ -15,10 +15,20 @@ return {
 				clue.gen_clues.g(),
 				clue.gen_clues.marks(),
 				clue.gen_clues.registers(),
-				clue.gen_clues.windows(),
+				clue.gen_clues.windows({
+					submode_resize = true,
+				}),
 				clue.gen_clues.z(),
+
+				{ mode = 'n', keys = ']b', postkeys = ']' },
+				{ mode = 'n', keys = ']w', postkeys = ']' },
+
+				{ mode = 'n', keys = '[b', postkeys = '[' },
+				{ mode = 'n', keys = '[w', postkeys = '[' },
 			},
 			triggers = {
+				{ mode = 'n', keys = ']' },
+				{ mode = 'n', keys = '[' },
 
 				-- Leader triggers
 				{ mode = 'n', keys = '<Leader>' },
