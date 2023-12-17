@@ -44,5 +44,11 @@ return {
 		{ 'b0o/schemastore.nvim' },
 		{ 'neovim/nvim-lspconfig' },
 		{ 'williamboman/mason-lspconfig.nvim' },
+		{
+			'onsails/lspkind.nvim',
+			config = function()
+				require('lspkind').init({ mode = 'symbol' })
+			end,
+		},
 	},
 }
