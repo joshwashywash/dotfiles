@@ -65,10 +65,10 @@ return {
 		require('mini.files').setup({
 			mappings = {
 				close = '<esc>',
-				go_in = '<s-right>',
-				go_in_plus = '<right>',
-				go_out = '<s-left>',
-				go_out_plus = '<left>',
+				go_in = '<m-right>',
+				go_in_plus = '<s-right>',
+				go_out = '<m-left>',
+				go_out_plus = '<s-left>',
 			},
 		})
 		require('mini.fuzzy').setup()
