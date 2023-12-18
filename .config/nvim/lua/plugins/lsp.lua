@@ -2,6 +2,26 @@ return {
 	'williamboman/mason.nvim',
 	build = ':MasonUpdate',
 	config = function()
+		vim.api.nvim_create_autocmd('LspAttach', {
+			group = vim.api.nvim_create_augroup('LspConfig', {}),
+			callback = function(event)
+				vim.bo[event.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+				local opts = { buffer = event.buf }
+
+				vim.keymap.set('n', '<c-k>', vim.lsp.buf.signature_help, opts)
+				vim.keymap.set('n', '<leader>lf', function()
+					vim.lsp.buf.format({ async = true })
+				end, opts)
+				vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, opts)
+				vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+				vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+				vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+				vim.keymap.set('n', 'gl', vim.lsp.buf.code_action, opts)
+				vim.keymap.set({ 'n', 'v' }, '<leader>la', vim.lsp.buf.code_action, opts)
+			end,
+		})
+
 		require('mason').setup({
 			ensure_installed = {
 				'html',
@@ -12,7 +32,9 @@ return {
 				'tsserver',
 			},
 		})
+
 		require('mason-lspconfig').setup()
+
 		require('mason-lspconfig').setup_handlers({
 			['jsonls'] = function()
 				require('lspconfig').jsonls.setup({

@@ -8,23 +8,19 @@ return {
 		local clue = require('mini.clue')
 		clue.setup({
 			clues = {
-				{ mode = 'n', keys = '<leader>b', desc = 'buffer' },
-				{ mode = 'n', keys = '<leader>p', desc = 'pick' },
-				-- Enhance this by adding descriptions for <Leader> mapping groups
 				clue.gen_clues.builtin_completion(),
 				clue.gen_clues.g(),
 				clue.gen_clues.marks(),
 				clue.gen_clues.registers(),
-				clue.gen_clues.windows({
-					submode_resize = true,
-				}),
+				clue.gen_clues.windows({ submode_resize = true }),
 				clue.gen_clues.z(),
-
-				{ mode = 'n', keys = ']b', postkeys = ']' },
-				{ mode = 'n', keys = ']w', postkeys = ']' },
-
+				{ mode = 'n', keys = '<leader>b', desc = 'buffer' },
+				{ mode = 'n', keys = '<leader>l', desc = 'lsp' },
+				{ mode = 'n', keys = '<leader>p', desc = 'pick' },
 				{ mode = 'n', keys = '[b', postkeys = '[' },
 				{ mode = 'n', keys = '[w', postkeys = '[' },
+				{ mode = 'n', keys = ']b', postkeys = ']' },
+				{ mode = 'n', keys = ']w', postkeys = ']' },
 			},
 			triggers = {
 				{ mode = 'n', keys = ']' },
