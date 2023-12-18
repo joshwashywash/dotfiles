@@ -7,18 +7,20 @@ return {
 			callback = function(event)
 				vim.bo[event.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-				local opts = { buffer = event.buf }
+				local map = function(mode, lhs, rhs, desc)
+					vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = event.buf })
+				end
 
-				vim.keymap.set('n', '<c-k>', vim.lsp.buf.signature_help, opts)
-				vim.keymap.set('n', '<leader>lf', function()
+				map('n', '<c-k>', vim.lsp.buf.signature_help, 'signature help')
+				map('n', '<leader>lf', function()
 					vim.lsp.buf.format({ async = true })
-				end, opts)
-				vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, opts)
-				vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-				vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-				vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-				vim.keymap.set('n', 'gl', vim.lsp.buf.code_action, opts)
-				vim.keymap.set({ 'n', 'v' }, '<leader>la', vim.lsp.buf.code_action, opts)
+				end, 'format')
+				map('n', '<leader>lr', vim.lsp.buf.rename, 'rename')
+				map('n', 'K', vim.lsp.buf.hover, 'hover')
+				map('n', 'gD', vim.lsp.buf.declaration, 'go to declaration')
+				map('n', 'gd', vim.lsp.buf.definition, 'go to definition')
+				map('n', 'gl', vim.lsp.buf.implementation, 'go to implementation')
+				map({ 'n', 'v' }, '<leader>la', vim.lsp.buf.code_action, 'code action')
 			end,
 		})
 
