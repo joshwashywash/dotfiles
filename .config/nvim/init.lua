@@ -14,7 +14,7 @@ nmap_leader('bq', '<cmd>lua MiniBufremove.delete()<cr>', 'quit')
 nmap_leader('bw', '<cmd>lua MiniBufremove.wipeout()<cr>', 'wipeout')
 
 -- files
-nmap_leader('f', '<cmd>lua MiniFiles.open()<cr>', 'open files')
+nmap_leader('f', '<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<cr>', 'open files')
 
 -- pick
 nmap_leader('pC', '<cmd>Pick cli<cr>', 'cli')
