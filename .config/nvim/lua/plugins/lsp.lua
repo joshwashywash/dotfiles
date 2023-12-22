@@ -12,6 +12,7 @@ return {
 				end
 
 				map('n', '<c-k>', vim.lsp.buf.signature_help, 'signature help')
+				map('n', '<leader>lR', '<cmd>LspRestart<cr>', 'restart lsps')
 				map('n', '<leader>lf', function()
 					vim.lsp.buf.format({ async = true })
 				end, 'format')
