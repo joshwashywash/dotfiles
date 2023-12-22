@@ -16,7 +16,7 @@ return {
 				clue.gen_clues.z(),
 				{ mode = 'n', keys = '<leader>b', desc = 'buffer' },
 				{ mode = 'n', keys = '<leader>l', desc = 'lsp' },
-				{ mode = 'n', keys = '<leader>p', desc = 'pick' },
+				{ mode = 'n', keys = '<leader>e', desc = 'explore' },
 				{ mode = 'n', keys = '[b', postkeys = '[' },
 				{ mode = 'n', keys = '[w', postkeys = '[' },
 				{ mode = 'n', keys = ']b', postkeys = ']' },
