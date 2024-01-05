@@ -45,7 +45,7 @@ vim.opt.shiftwidth = 2
 vim.opt.showmode = false
 vim.opt.signcolumn = 'yes'
 vim.opt.splitbelow = true
-vim.opt.statusline = '%f %m %= %l:%c ♥'
+vim.opt.statusline = '%f %= %m'
 vim.opt.tabstop = 2
 
 vim.diagnostic.config({
