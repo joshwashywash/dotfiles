@@ -1,6 +1,5 @@
 return {
 	'echasnovski/mini.nvim',
-	version = false,
 	config = function()
 		require('mini.ai').setup()
 		require('mini.bracketed').setup()
@@ -57,7 +56,13 @@ return {
 				{ mode = 'x', keys = 'z' },
 			},
 		})
-		require('mini.comment').setup()
+		require('mini.comment').setup({
+			options = {
+				custom_commentstring = function()
+					return require('ts_context_commentstring').calculate_commentstring() or vim.bo.commentstring
+				end,
+			},
+		})
 		require('mini.completion').setup()
 		require('mini.cursorword').setup()
 		local extra = require('mini.extra')
@@ -105,4 +110,12 @@ return {
 		require('mini.surround').setup()
 		require('mini.visits').setup()
 	end,
+	dependencies = {
+		'JoosepAlviste/nvim-ts-context-commentstring',
+		lazy = true,
+		opts = {
+			enable_autocmd = false,
+		},
+	},
+	version = false,
 }
