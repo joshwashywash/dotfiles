@@ -63,7 +63,12 @@ return {
 				end,
 			},
 		})
-		require('mini.completion').setup()
+		require('mini.completion').setup({
+			lsp_completion = {
+				source_func = 'omnifunc',
+				auto_setup = false,
+			},
+		})
 		require('mini.cursorword').setup()
 		local extra = require('mini.extra')
 		extra.setup()
