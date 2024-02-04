@@ -36,33 +36,33 @@ return {
 			},
 		})
 
-		require('mason-lspconfig').setup()
-
-		require('mason-lspconfig').setup_handlers({
-			['jsonls'] = function()
-				require('lspconfig').jsonls.setup({
-					settings = {
-						json = {
-							schemas = require('schemastore').json.schemas(),
-							validate = { enable = true },
-						},
-					},
-				})
-			end,
-			['lua_ls'] = function()
-				require('lspconfig').lua_ls.setup({
-					settings = {
-						Lua = {
-							diagnostics = {
-								globals = { 'vim' },
+		require('mason-lspconfig').setup({
+			handlers = {
+				['jsonls'] = function()
+					require('lspconfig').jsonls.setup({
+						settings = {
+							json = {
+								schemas = require('schemastore').json.schemas(),
+								validate = { enable = true },
 							},
 						},
-					},
-				})
-			end,
-			function(server_name)
-				require('lspconfig')[server_name].setup({})
-			end,
+					})
+				end,
+				['lua_ls'] = function()
+					require('lspconfig').lua_ls.setup({
+						settings = {
+							Lua = {
+								diagnostics = {
+									globals = { 'vim' },
+								},
+							},
+						},
+					})
+				end,
+				function(server_name)
+					require('lspconfig')[server_name].setup({})
+				end,
+			},
 		})
 	end,
 	dependencies = {
