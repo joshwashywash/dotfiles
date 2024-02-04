@@ -5,7 +5,7 @@ return {
 		vim.api.nvim_create_autocmd('LspAttach', {
 			group = vim.api.nvim_create_augroup('LspConfig', {}),
 			callback = function(event)
-				vim.bo[event.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+				vim.bo[event.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
 
 				local map = function(mode, lhs, rhs, desc)
 					vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = event.buf })
