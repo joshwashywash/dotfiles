@@ -147,6 +147,10 @@ later(function()
 end)
 
 later(function()
+	require('mini.diff').setup()
+end)
+
+later(function()
 	local extra = require('mini.extra')
 	extra.setup()
 
