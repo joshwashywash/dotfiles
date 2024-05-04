@@ -417,10 +417,6 @@ later(function()
 end)
 
 later(function()
-	add({ source = 'neovim/nvim-lspconfig', depends = { 'williamboman/mason.nvim' } })
-end)
-
-later(function()
 	add({
 		checkout = 'master',
 		hooks = {
@@ -542,7 +538,10 @@ later(function()
 			}
 
 			for _, keymap in ipairs(keymaps) do
-				vim.keymap.set(keymap.mode, keymap.lhs, keymap.rhs, { desc = keymap.desc, buffer = event.buf })
+				vim.keymap.set(keymap.mode, keymap.lhs, keymap.rhs, {
+					desc = keymap.desc,
+					buffer = event.buf,
+				})
 			end
 		end,
 	})
@@ -562,12 +561,20 @@ later(function()
 
 	require('mason-lspconfig').setup({
 		handlers = {
+			function(server_name)
+				lspconfig[server_name].setup({})
+			end,
 			['jsonls'] = function()
+				local capabilities = vim.lsp.protocol.make_client_capabilities()
+				capabilities.textDocument.completion.completionItem.snippetSupport = true
 				lspconfig.jsonls.setup({
+					capabilities = capabilities,
 					settings = {
 						json = {
 							schemas = require('schemastore').json.schemas(),
-							validate = { enable = true },
+							validate = {
+								enable = true,
+							},
 						},
 					},
 				})
@@ -576,39 +583,34 @@ later(function()
 				lspconfig.lua_ls.setup({
 					on_init = function(client)
 						local path = client.workspace_folders[1].name
-						if
-							not vim.loop.fs_stat(path .. '/.luarc.json')
-							and not vim.loop.fs_stat(path .. '/.luarc.jsonc')
-						then
-							client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
-								Lua = {
-									runtime = {
-										-- Tell the language server which version of Lua you're using
-										-- (most likely LuaJIT in the case of Neovim)
-										version = 'LuaJIT',
-									},
-									-- Make the server aware of Neovim runtime files
-									workspace = {
-										checkThirdParty = false,
-										library = {
-											vim.env.VIMRUNTIME,
-											-- Depending on the usage, you might want to add additional paths here.
-											-- E.g.: For using `vim.*` functions, add vim.env.VIMRUNTIME/lua.
-											-- "${3rd}/luv/library"
-											-- "${3rd}/busted/library",
-										},
-										-- or pull in all of 'runtimepath'. NOTE: this is a lot slower
-										-- library = vim.api.nvim_get_runtime_file("", true)
-									},
-								},
-							})
+						if vim.loop.fs_stat(path .. '/.luarc.json') or vim.loop.fs_stat(path .. '/.luarc.jsonc') then
+							return
 						end
-						return true
+
+						client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+							runtime = {
+								-- Tell the language server which version of Lua you're using
+								-- (most likely LuaJIT in the case of Neovim)
+								version = 'LuaJIT',
+							},
+							-- Make the server aware of Neovim runtime files
+							workspace = {
+								checkThirdParty = false,
+								library = {
+									vim.env.VIMRUNTIME,
+									-- Depending on the usage, you might want to add additional paths here.
+									-- "${3rd}/luv/library"
+									-- "${3rd}/busted/library",
+								},
+								-- or pull in all of 'runtimepath'. NOTE: this is a lot slower
+								-- library = vim.api.nvim_get_runtime_file("", true)
+							},
+						})
 					end,
+					settings = {
+						Lua = {},
+					},
 				})
-			end,
-			function(server_name)
-				lspconfig[server_name].setup({})
 			end,
 		},
 	})
@@ -616,7 +618,9 @@ end)
 
 later(function()
 	add('onsails/lspkind.nvim')
-	require('lspkind').init({ mode = 'symbol' })
+	require('lspkind').init({
+		mode = 'symbol',
+	})
 end)
 
 later(function()
@@ -639,6 +643,12 @@ later(function()
 	})
 
 	add('stevearc/conform.nvim')
+
+	local prettier = {
+		'prettierd',
+		'prettier',
+	}
+
 	require('conform').setup({
 		format_on_save = function(bufnr)
 			-- Disable with a global or buffer-local variable
@@ -648,11 +658,21 @@ later(function()
 			return { timeout_ms = 500, lsp_fallback = true }
 		end,
 		formatters_by_ft = {
-			javascript = { { 'prettierd', 'prettier' } },
-			lua = { 'stylua' },
-			markdown = { { 'prettierd', 'prettier' } },
-			svelte = { { 'prettierd', 'prettier' } },
-			typescript = { { 'prettierd', 'prettier' } },
+			javascript = {
+				prettier,
+			},
+			lua = {
+				'stylua',
+			},
+			markdown = {
+				prettier,
+			},
+			svelte = {
+				prettier,
+			},
+			typescript = {
+				prettier,
+			},
 		},
 	})
 end)
