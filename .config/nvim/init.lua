@@ -36,6 +36,7 @@ now(function()
 		splitbelow = true,
 		statusline = '%f %= %m',
 		tabstop = 2,
+		termguicolors = true,
 	}
 
 	for key, value in pairs(opts) do
@@ -43,6 +44,7 @@ now(function()
 	end
 
 	vim.diagnostic.config({
+		underline = false,
 		virtual_text = false,
 	})
 end)
@@ -127,10 +129,6 @@ later(function()
 			{ mode = 'x', keys = 'z' },
 		},
 	})
-end)
-
-later(function()
-	require('mini.comment').setup()
 end)
 
 later(function()
@@ -290,13 +288,11 @@ later(function()
 			hack = hi_words(f('hack'), 'MiniHipatternsHack'),
 			todo = hi_words(f('todo'), 'MiniHipatternsTodo'),
 			note = hi_words(f('note'), 'MiniHipatternsNote'),
-			hex_color = hipatterns.gen_highlighter.hex_color(),
+			hex_color = hipatterns.gen_highlighter.hex_color({
+				style = 'inline',
+			}),
 		},
 	})
-end)
-
-later(function()
-	require('mini.fuzzy').setup()
 end)
 
 later(function()
@@ -504,12 +500,6 @@ later(function()
 					lhs = '<leader>lr',
 					rhs = vim.lsp.buf.rename,
 					desc = 'rename',
-				},
-				{
-					mode = 'n',
-					lhs = 'K',
-					rhs = vim.lsp.buf.hover,
-					desc = 'hover',
 				},
 				{
 					mode = 'n',
