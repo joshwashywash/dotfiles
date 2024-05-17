@@ -503,15 +503,9 @@ later(function()
 				},
 				{
 					mode = 'n',
-					lhs = 'gD',
+					lhs = 'gd',
 					rhs = vim.lsp.buf.declaration,
 					desc = 'go to declaration',
-				},
-				{
-					mode = 'n',
-					lhs = 'gd',
-					rhs = vim.lsp.buf.definition,
-					desc = 'go to definition',
 				},
 				{
 					mode = 'n',
