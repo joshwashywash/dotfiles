@@ -1,8 +1,3 @@
---- @class Pick
---- @field pick string
---- @field opts {desc:string}
---- @field key string
-
 local path_package = vim.fn.stdpath('data') .. '/site/'
 local mini_path = path_package .. 'pack/deps/start/mini.nvim'
 if not vim.loop.fs_stat(mini_path) then
@@ -88,7 +83,7 @@ later(function()
 			clue.gen_clues.z(),
 			{ mode = 'n', keys = '<leader>b', desc = 'buffer' },
 			{ mode = 'n', keys = '<leader>l', desc = 'lsp' },
-			{ mode = 'n', keys = '<leader>e', desc = 'explore' },
+			{ mode = 'n', keys = '<leader>p', desc = 'picks' },
 			{ mode = 'n', keys = '[b', postkeys = '[' },
 			{ mode = 'n', keys = '[w', postkeys = '[' },
 			{ mode = 'n', keys = ']b', postkeys = ']' },
@@ -99,11 +94,11 @@ later(function()
 			{ mode = 'n', keys = '[' },
 
 			-- Leader triggers
-			{ mode = 'n', keys = '<Leader>' },
-			{ mode = 'x', keys = '<Leader>' },
+			{ mode = 'n', keys = '<leader>' },
+			{ mode = 'x', keys = '<leader>' },
 
 			-- Built-in completion
-			{ mode = 'i', keys = '<C-x>' },
+			{ mode = 'i', keys = '<c-x>' },
 
 			-- `g` key
 			{ mode = 'n', keys = 'g' },
@@ -149,131 +144,48 @@ later(function()
 end)
 
 later(function()
+	require('mini.pick').setup()
 	local extra = require('mini.extra')
 	extra.setup()
 
-	---@type Pick[]
+	--- @class Pick
+	--- @field opts {desc: string}
+	--- @field pick function
+
+	--- @type { [string]: Pick}
 	local picks = {
-		{
-			key = 'B',
-			opts = {
-				desc = 'lines in buffer',
-			},
-			pick = MiniExtra.pickers.buf_lines,
-		},
-		{
-			key = 'C',
-			opts = {
-				desc = 'commands',
-			},
-			pick = MiniExtra.pickers.commands,
-		},
-		{
-			key = 'D',
-			opts = {
-				desc = 'diagnostic',
-			},
-			pick = MiniExtra.pickers.diagnostic,
-		},
-		{
-			key = 'E',
-			opts = {
-				desc = 'explorer',
-			},
-			pick = MiniExtra.pickers.explorer,
-		},
-		{
-			key = 'P',
-			opts = {
-				desc = 'highlight patterns',
-			},
-			pick = MiniExtra.pickers.hipatterns,
-		},
-		{
-			key = 'S',
-			opts = {
-				desc = 'history',
-			},
-			pick = MiniExtra.pickers.history,
-		},
-		{
-			key = 'H',
-			opts = {
-				desc = 'highlight groups',
-			},
-			pick = MiniExtra.pickers.hl_groups,
-		},
-		{
-			key = 'K',
-			opts = {
-				desc = 'keymaps',
-			},
-			pick = MiniExtra.pickers.keymaps,
-		},
-		{
-			key = 'L',
-			opts = {
-				desc = 'lsp',
-			},
-			pick = MiniExtra.pickers.lsp,
-		},
-		{
-			key = 'M',
-			opts = {
-				desc = 'marks',
-			},
-			pick = MiniExtra.pickers.marks,
-		},
-		{
-			key = 'F',
-			opts = {
-				desc = 'recent files',
-			},
-			pick = MiniExtra.pickers.oldfiles,
-		},
-		{
-			key = 'O',
-			opts = {
-				desc = 'options',
-			},
-			pick = MiniExtra.pickers.options,
-		},
-		{
-			key = 'G',
-			opts = {
-				desc = 'registers',
-			},
-			pick = MiniExtra.pickers.registers,
-		},
-		{
-			key = 'T',
-			opts = {
-				desc = 'treesitter',
-			},
-			pick = MiniExtra.pickers.treesitter,
-		},
-		{
-			key = 'U',
-			opts = {
-				desc = 'spellsuggest',
-			},
-			pick = MiniExtra.pickers.spellsuggest,
-		},
-		{
-			key = 'V',
-			opts = {
-				desc = 'visits',
-			},
-			pick = MiniExtra.pickers.visit_paths,
-		},
+		B = { opts = { desc = 'lines in buffer' }, pick = MiniExtra.pickers.buf_lines },
+		C = { opts = { desc = 'cli' }, pick = MiniPick.builtin.cli },
+		F = { opts = { desc = 'files' }, pick = MiniPick.builtin.files },
+		H = { opts = { desc = 'highlight groups' }, pick = MiniExtra.pickers.hl_groups },
+		L = { opts = { desc = 'lsp' }, pick = MiniExtra.pickers.lsp },
+		R = { opts = { desc = 'registers' }, pick = MiniExtra.pickers.registers },
+		b = { opts = { desc = 'buffers' }, pick = MiniPick.builtin.buffers },
+		c = { opts = { desc = 'commands' }, pick = MiniExtra.pickers.commands },
+		d = { opts = { desc = 'diagnostic' }, pick = MiniExtra.pickers.diagnostic },
+		e = { opts = { desc = 'explorer' }, pick = MiniExtra.pickers.explorer },
+		f = { opts = { desc = 'recent files' }, pick = MiniExtra.pickers.oldfiles },
+		g = { opts = { desc = 'grep' }, pick = MiniPick.builtin.grep },
+		h = { opts = { desc = 'help' }, pick = MiniPick.builtin.help },
+		k = { opts = { desc = 'keymaps' }, pick = MiniExtra.pickers.keymaps },
+		l = { opts = { desc = 'live grep' }, pick = MiniPick.builtin.grep_live },
+		m = { opts = { desc = 'marks' }, pick = MiniExtra.pickers.marks },
+		o = { opts = { desc = 'options' }, pick = MiniExtra.pickers.options },
+		p = { opts = { desc = 'highlight patterns' }, pick = MiniExtra.pickers.hipatterns },
+		r = { opts = { desc = 'resume' }, pick = MiniPick.builtin.resume },
+		s = { opts = { desc = 'history' }, pick = MiniExtra.pickers.history },
+		t = { opts = { desc = 'treesitter' }, pick = MiniExtra.pickers.treesitter },
+		u = { opts = { desc = 'spellsuggest' }, pick = MiniExtra.pickers.spellsuggest },
+		v = { opts = { desc = 'visits' }, pick = MiniExtra.pickers.visit_paths },
 	}
 
-	for _, pick in ipairs(picks) do
-		vim.keymap.set('n', '<leader>e' .. pick.key, pick.pick, pick.opts)
+	for key, pick in pairs(picks) do
+		vim.keymap.set('n', '<leader>p' .. key, pick.pick, pick.opts)
 	end
 
 	local hi_words = extra.gen_highlighter.words
 	local hipatterns = require('mini.hipatterns')
+
 	---@param s string
 	local f = function(s)
 		return {
@@ -313,67 +225,6 @@ end)
 
 later(function()
 	require('mini.jump').setup()
-end)
-
-later(function()
-	require('mini.pick').setup()
-
-	---@type Pick[]
-	local picks = {
-		{
-			key = 'b',
-			opts = {
-				desc = 'buffers',
-			},
-			pick = MiniPick.builtin.buffers,
-		},
-		{
-			key = 'c',
-			opts = {
-				desc = 'cli',
-			},
-			pick = MiniPick.builtin.cli,
-		},
-		{
-			key = 'f',
-			opts = {
-				desc = 'files',
-			},
-			pick = MiniPick.builtin.files,
-		},
-		{
-			key = 'g',
-			opts = {
-				desc = 'grep',
-			},
-			pick = MiniPick.builtin.grep,
-		},
-		{
-			key = 'l',
-			opts = {
-				desc = 'live grep',
-			},
-			pick = MiniPick.builtin.grep_live,
-		},
-		{
-			key = 'h',
-			opts = {
-				desc = 'help',
-			},
-			pick = MiniPick.builtin.help,
-		},
-		{
-			key = 'r',
-			opts = {
-				desc = 'resume',
-			},
-			pick = MiniPick.builtin.resume,
-		},
-	}
-
-	for _, pick in ipairs(picks) do
-		vim.keymap.set('n', '<leader>e' .. pick.key, pick.pick, pick.opts)
-	end
 end)
 
 later(function()
@@ -471,58 +322,34 @@ later(function()
 		callback = function(event)
 			vim.bo[event.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
 
-			---@type {mode:string|table,lhs:string,rhs:function,desc:string}[]
+			---@type {[string]: {mode:string|table,rhs:function,desc:string}}
 			local keymaps = {
-				{
+				['<leader>lR'] = {
 					mode = 'n',
-					lhs = '<c-k>',
-					rhs = vim.lsp.buf.signature_help,
-					desc = 'signature help',
-				},
-				{
-					mode = 'n',
-					lhs = '<leader>lR',
 					rhs = function()
 						vim.cmd('LspRestart')
 					end,
 					desc = 'restart lsps',
 				},
-				{
+				['<leader>lr'] = {
 					mode = 'n',
-					lhs = '<leader>lf',
-					rhs = function()
-						vim.lsp.buf.format({ async = true })
-					end,
-					desc = 'format',
-				},
-				{
-					mode = 'n',
-					lhs = '<leader>lr',
 					rhs = vim.lsp.buf.rename,
 					desc = 'rename',
 				},
-				{
+				gd = {
 					mode = 'n',
-					lhs = 'gd',
 					rhs = vim.lsp.buf.declaration,
 					desc = 'go to declaration',
 				},
-				{
-					mode = 'n',
-					lhs = 'gl',
-					rhs = vim.lsp.buf.implementation,
-					desc = 'go to implementation',
-				},
-				{
+				['<leader>la'] = {
 					mode = { 'n', 'v' },
-					lhs = '<leader>la',
 					rhs = vim.lsp.buf.code_action,
 					desc = 'code action',
 				},
 			}
 
-			for _, keymap in ipairs(keymaps) do
-				vim.keymap.set(keymap.mode, keymap.lhs, keymap.rhs, {
+			for lhs, keymap in pairs(keymaps) do
+				vim.keymap.set(keymap.mode, lhs, keymap.rhs, {
 					desc = keymap.desc,
 					buffer = event.buf,
 				})
