@@ -82,6 +82,7 @@ later(function()
 			clue.gen_clues.windows({ submode_resize = true }),
 			clue.gen_clues.z(),
 			{ mode = 'n', keys = '<leader>b', desc = 'buffer' },
+			{ mode = 'n', keys = '<leader>g', desc = 'git' },
 			{ mode = 'n', keys = '<leader>l', desc = 'lsp' },
 			{ mode = 'n', keys = '<leader>p', desc = 'picks' },
 			{ mode = 'n', keys = '[b', postkeys = '[' },
@@ -221,6 +222,12 @@ later(function()
 	vim.keymap.set('n', '<leader>f', function()
 		MiniFiles.open(vim.api.nvim_buf_get_name(0))
 	end, { desc = 'open files' })
+end)
+
+later(function()
+	require('mini.git').setup()
+	local rhs = '<cmd>lua MiniGit.show_at_cursor()<cr>'
+	vim.keymap.set({ 'n', 'x' }, '<leader>gs', rhs, { desc = 'Show at cursor' })
 end)
 
 later(function()
