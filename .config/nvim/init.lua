@@ -128,12 +128,7 @@ later(function()
 end)
 
 later(function()
-	require('mini.completion').setup({
-		lsp_completion = {
-			source_func = 'omnifunc',
-			auto_setup = false,
-		},
-	})
+	require('mini.completion').setup()
 end)
 
 later(function()
@@ -327,8 +322,6 @@ later(function()
 	vim.api.nvim_create_autocmd('LspAttach', {
 		group = vim.api.nvim_create_augroup('LspConfig', {}),
 		callback = function(event)
-			vim.bo[event.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
-
 			---@type {[string]: {mode:string|table,rhs:function,desc:string}}
 			local keymaps = {
 				['<leader>lR'] = {
