@@ -114,11 +114,11 @@ later(function()
 			-- Registers
 			{ mode = 'n', keys = '"' },
 			{ mode = 'x', keys = '"' },
-			{ mode = 'i', keys = '<C-r>' },
-			{ mode = 'c', keys = '<C-r>' },
+			{ mode = 'i', keys = '<c-r>' },
+			{ mode = 'c', keys = '<c-r>' },
 
 			-- Window commands
-			{ mode = 'n', keys = '<C-w>' },
+			{ mode = 'n', keys = '<c-w>' },
 
 			-- `z` key
 			{ mode = 'n', keys = 'z' },
@@ -128,7 +128,13 @@ later(function()
 end)
 
 later(function()
-	require('mini.completion').setup()
+	require('mini.completion').setup({
+		-- <c-h> is an alias for <bs>
+		mappings = {
+			force_twostep = '<c-h>',
+			force_fallback = '<a-h>',
+		},
+	})
 end)
 
 later(function()
@@ -190,6 +196,7 @@ later(function()
 			string.upper(s),
 		}
 	end
+
 	hipatterns.setup({
 		highlighters = {
 			fixme = hi_words(f('fixme'), 'MiniHipatternsFixme'),
