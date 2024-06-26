@@ -345,8 +345,8 @@ later(function()
 				},
 				gd = {
 					mode = 'n',
-					rhs = vim.lsp.buf.declaration,
-					desc = 'go to declaration',
+					rhs = vim.lsp.buf.definition,
+					desc = 'go to definition',
 				},
 				['<leader>la'] = {
 					mode = { 'n', 'v' },
