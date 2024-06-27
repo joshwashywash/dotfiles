@@ -14,6 +14,7 @@ local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
 now(function()
 	vim.g.mapleader = ' '
+	vim.g.maplocalleader = ' '
 
 	vim.keymap.set('n', '<s-down>', '<c-w>j', { desc = 'go to lower window' })
 	vim.keymap.set('n', '<s-left>', '<c-w>h', { desc = 'go to left window' })
@@ -29,6 +30,7 @@ now(function()
 		showmode = false,
 		signcolumn = 'yes',
 		splitbelow = true,
+		splitright = true,
 		statusline = '%f %= %m',
 		tabstop = 2,
 		termguicolors = true,
@@ -131,8 +133,8 @@ later(function()
 	require('mini.completion').setup({
 		-- <c-h> is an alias for <bs>
 		mappings = {
-			force_twostep = '<c-h>',
 			force_fallback = '<a-h>',
+			force_twostep = '<c-h>',
 		},
 	})
 end)
@@ -326,35 +328,35 @@ later(function()
 		},
 	})
 
+	---@type {[string]: {mode:string|table,rhs:function,desc:string}}
+	local keymaps = {
+		['<leader>lR'] = {
+			mode = 'n',
+			rhs = function()
+				vim.cmd('LspRestart')
+			end,
+			desc = 'restart lsps',
+		},
+		['<leader>lr'] = {
+			mode = 'n',
+			rhs = vim.lsp.buf.rename,
+			desc = 'rename',
+		},
+		gd = {
+			mode = 'n',
+			rhs = vim.lsp.buf.definition,
+			desc = 'go to definition',
+		},
+		['<leader>la'] = {
+			mode = { 'n', 'v' },
+			rhs = vim.lsp.buf.code_action,
+			desc = 'code action',
+		},
+	}
+
 	vim.api.nvim_create_autocmd('LspAttach', {
 		group = vim.api.nvim_create_augroup('LspConfig', {}),
 		callback = function(event)
-			---@type {[string]: {mode:string|table,rhs:function,desc:string}}
-			local keymaps = {
-				['<leader>lR'] = {
-					mode = 'n',
-					rhs = function()
-						vim.cmd('LspRestart')
-					end,
-					desc = 'restart lsps',
-				},
-				['<leader>lr'] = {
-					mode = 'n',
-					rhs = vim.lsp.buf.rename,
-					desc = 'rename',
-				},
-				gd = {
-					mode = 'n',
-					rhs = vim.lsp.buf.definition,
-					desc = 'go to definition',
-				},
-				['<leader>la'] = {
-					mode = { 'n', 'v' },
-					rhs = vim.lsp.buf.code_action,
-					desc = 'code action',
-				},
-			}
-
 			for lhs, keymap in pairs(keymaps) do
 				vim.keymap.set(keymap.mode, lhs, keymap.rhs, {
 					desc = keymap.desc,
