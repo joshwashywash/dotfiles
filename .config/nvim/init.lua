@@ -29,7 +29,6 @@ now(function()
 		shiftwidth = 2,
 		showmode = false,
 		signcolumn = 'yes',
-		smartindent = true,
 		splitbelow = true,
 		splitright = true,
 		statusline = '%f %= %m',
