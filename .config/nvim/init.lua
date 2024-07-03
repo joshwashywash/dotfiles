@@ -59,13 +59,8 @@ now(function()
 	require(icons).setup()
 end)
 
-later(function()
-	require('mini.ai').setup()
-end)
-
-later(function()
-	require('mini.bracketed').setup()
-end)
+later(require('mini.ai').setup)
+later(require('mini.bracketed').setup)
 
 later(function()
 	require('mini.bufremove').setup()
@@ -139,13 +134,8 @@ later(function()
 	})
 end)
 
-later(function()
-	require('mini.cursorword').setup()
-end)
-
-later(function()
-	require('mini.diff').setup()
-end)
+later(require('mini.cursorword').setup)
+later(require('mini.diff').setup)
 
 later(function()
 	require('mini.pick').setup()
@@ -234,9 +224,7 @@ later(function()
 	vim.keymap.set({ 'n', 'x' }, '<leader>gs', rhs, { desc = 'Show at cursor' })
 end)
 
-later(function()
-	require('mini.jump').setup()
-end)
+later(require('mini.jump').setup)
 
 later(function()
 	require('mini.move').setup({
@@ -254,25 +242,11 @@ later(function()
 	})
 end)
 
-later(function()
-	require('mini.operators').setup()
-end)
-
-later(function()
-	require('mini.pairs').setup()
-end)
-
-later(function()
-	require('mini.splitjoin').setup()
-end)
-
-later(function()
-	require('mini.surround').setup()
-end)
-
-later(function()
-	require('mini.visits').setup()
-end)
+later(require('mini.operators').setup)
+later(require('mini.pairs').setup)
+later(require('mini.splitjoin').setup)
+later(require('mini.surround').setup)
+later(require('mini.visits').setup)
 
 later(function()
 	add({
