@@ -55,6 +55,22 @@ now(function()
 	vim.cmd.colorscheme(n)
 end)
 
+now(function()
+	local icons = require('mini.icons')
+	icons.setup()
+
+	local kinds = vim.lsp.protocol.CompletionItemKind
+	for i, kind in ipairs(kinds) do
+		kinds[i] = icons.get('lsp', kind)
+	end
+end)
+
+now(function()
+	local notify = require('mini.notify')
+	notify.setup()
+	vim.notify = notify.make_notify()
+end)
+
 local plugins = {
 	'ai',
 	'bracketed',
@@ -252,16 +268,6 @@ later(function()
 end)
 
 later(function()
-	local icons = require('mini.icons')
-	icons.setup()
-
-	local kinds = vim.lsp.protocol.CompletionItemKind
-	for i, kind in ipairs(kinds) do
-		kinds[i] = icons.get('lsp', kind)
-	end
-end)
-
-later(function()
 	add({
 		checkout = 'master',
 		hooks = {
@@ -287,7 +293,6 @@ later(function()
 			'markdown_inline',
 			'svelte',
 			'typescript',
-			'vim',
 			'vimdoc',
 		},
 		incremental_selection = {
@@ -330,11 +335,11 @@ later(function()
 			rhs = vim.lsp.buf.rename,
 			desc = 'rename',
 		},
-		gd = {
-			mode = 'n',
-			rhs = vim.lsp.buf.definition,
-			desc = 'go to definition',
-		},
+		-- gd = {
+		-- 	mode = 'n',
+		-- 	rhs = vim.lsp.buf.definition,
+		-- 	desc = 'go to definition',
+		-- },
 		['<leader>la'] = {
 			mode = { 'n', 'v' },
 			rhs = vim.lsp.buf.code_action,
@@ -372,7 +377,17 @@ later(function()
 			function(server_name)
 				lspconfig[server_name].setup({})
 			end,
-			['jsonls'] = function()
+			gopls = function()
+				lspconfig.gopls.setup({
+					settings = {
+						analyses = {
+							unusedparams = true,
+						},
+						staticcheck = true,
+					},
+				})
+			end,
+			jsonls = function()
 				local capabilities = vim.lsp.protocol.make_client_capabilities()
 				capabilities.textDocument.completion.completionItem.snippetSupport = true
 				lspconfig.jsonls.setup({
@@ -387,17 +402,8 @@ later(function()
 					},
 				})
 			end,
-			['gopls'] = function()
-				lspconfig.gopls.setup({
-					settings = {
-						analyses = {
-							unusedparams = true,
-						},
-						staticcheck = true,
-					},
-				})
-			end,
-			['lua_ls'] = function()
+
+			lua_ls = function()
 				lspconfig.lua_ls.setup({
 					on_init = function(client)
 						local path = client.workspace_folders[1].name
