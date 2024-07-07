@@ -8,9 +8,11 @@ if not vim.loop.fs_stat(mini_path) then
 	vim.cmd('packadd mini.nvim | helptags ALL')
 end
 
-require('mini.deps').setup({ path = { package = path_package } })
+local deps = require('mini.deps')
 
-local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
+deps.setup({ path = { package = path_package } })
+
+local add, now, later = deps.add, deps.now, deps.later
 
 now(function()
 	vim.g.mapleader = ' '
@@ -53,19 +55,28 @@ now(function()
 	vim.cmd.colorscheme(n)
 end)
 
-now(function()
-	local icons = 'nvim-web-devicons'
-	add('nvim-tree/' .. icons)
-	require(icons).setup()
-end)
+local plugins = {
+	'ai',
+	'bracketed',
+	'cursorword',
+	'diff',
+	'jump',
+	'operators',
+	'pairs',
+	'splitjoin',
+	'surround',
+	'visits',
+}
 
-later(require('mini.ai').setup)
-later(require('mini.bracketed').setup)
+for _, p in ipairs(plugins) do
+	later(require('mini.' .. p).setup)
+end
 
 later(function()
-	require('mini.bufremove').setup()
-	vim.keymap.set('n', '<leader>bq', MiniBufremove.delete, { desc = 'quit' })
-	vim.keymap.set('n', '<leader>bw', MiniBufremove.wipeout, { desc = 'wipeout' })
+	local bufremove = require('mini.bufremove')
+	bufremove.setup()
+	vim.keymap.set('n', '<leader>bq', bufremove.delete, { desc = 'quit' })
+	vim.keymap.set('n', '<leader>bw', bufremove.wipeout, { desc = 'wipeout' })
 end)
 
 later(function()
@@ -134,11 +145,10 @@ later(function()
 	})
 end)
 
-later(require('mini.cursorword').setup)
-later(require('mini.diff').setup)
-
 later(function()
-	require('mini.pick').setup()
+	local pick = require('mini.pick')
+	pick.setup()
+
 	local extra = require('mini.extra')
 	extra.setup()
 
@@ -148,33 +158,33 @@ later(function()
 
 	--- @type { [string]: Pick}
 	local picks = {
-		B = { opts = { desc = 'lines in buffer' }, pick = MiniExtra.pickers.buf_lines },
-		C = { opts = { desc = 'cli' }, pick = MiniPick.builtin.cli },
-		F = { opts = { desc = 'files' }, pick = MiniPick.builtin.files },
-		H = { opts = { desc = 'highlight groups' }, pick = MiniExtra.pickers.hl_groups },
-		L = { opts = { desc = 'lsp' }, pick = MiniExtra.pickers.lsp },
-		R = { opts = { desc = 'registers' }, pick = MiniExtra.pickers.registers },
-		b = { opts = { desc = 'buffers' }, pick = MiniPick.builtin.buffers },
-		c = { opts = { desc = 'commands' }, pick = MiniExtra.pickers.commands },
-		d = { opts = { desc = 'diagnostic' }, pick = MiniExtra.pickers.diagnostic },
-		e = { opts = { desc = 'explorer' }, pick = MiniExtra.pickers.explorer },
-		f = { opts = { desc = 'recent files' }, pick = MiniExtra.pickers.oldfiles },
-		g = { opts = { desc = 'grep' }, pick = MiniPick.builtin.grep },
-		h = { opts = { desc = 'help' }, pick = MiniPick.builtin.help },
-		k = { opts = { desc = 'keymaps' }, pick = MiniExtra.pickers.keymaps },
-		l = { opts = { desc = 'live grep' }, pick = MiniPick.builtin.grep_live },
-		m = { opts = { desc = 'marks' }, pick = MiniExtra.pickers.marks },
-		o = { opts = { desc = 'options' }, pick = MiniExtra.pickers.options },
-		p = { opts = { desc = 'highlight patterns' }, pick = MiniExtra.pickers.hipatterns },
-		r = { opts = { desc = 'resume' }, pick = MiniPick.builtin.resume },
-		s = { opts = { desc = 'history' }, pick = MiniExtra.pickers.history },
-		t = { opts = { desc = 'treesitter' }, pick = MiniExtra.pickers.treesitter },
-		u = { opts = { desc = 'spellsuggest' }, pick = MiniExtra.pickers.spellsuggest },
-		v = { opts = { desc = 'visits' }, pick = MiniExtra.pickers.visit_paths },
+		B = { opts = { desc = 'lines in buffer' }, pick = extra.pickers.buf_lines },
+		C = { opts = { desc = 'cli' }, pick = pick.builtin.cli },
+		F = { opts = { desc = 'files' }, pick = pick.builtin.files },
+		H = { opts = { desc = 'highlight groups' }, pick = extra.pickers.hl_groups },
+		L = { opts = { desc = 'lsp' }, pick = extra.pickers.lsp },
+		R = { opts = { desc = 'registers' }, pick = extra.pickers.registers },
+		b = { opts = { desc = 'buffers' }, pick = pick.builtin.buffers },
+		c = { opts = { desc = 'commands' }, pick = extra.pickers.commands },
+		d = { opts = { desc = 'diagnostic' }, pick = extra.pickers.diagnostic },
+		e = { opts = { desc = 'explorer' }, pick = extra.pickers.explorer },
+		f = { opts = { desc = 'recent files' }, pick = extra.pickers.oldfiles },
+		g = { opts = { desc = 'grep' }, pick = pick.builtin.grep },
+		h = { opts = { desc = 'help' }, pick = pick.builtin.help },
+		k = { opts = { desc = 'keymaps' }, pick = extra.pickers.keymaps },
+		l = { opts = { desc = 'live grep' }, pick = pick.builtin.grep_live },
+		m = { opts = { desc = 'marks' }, pick = extra.pickers.marks },
+		o = { opts = { desc = 'options' }, pick = extra.pickers.options },
+		p = { opts = { desc = 'highlight patterns' }, pick = extra.pickers.hipatterns },
+		r = { opts = { desc = 'resume' }, pick = pick.builtin.resume },
+		s = { opts = { desc = 'history' }, pick = extra.pickers.history },
+		t = { opts = { desc = 'treesitter' }, pick = extra.pickers.treesitter },
+		u = { opts = { desc = 'spellsuggest' }, pick = extra.pickers.spellsuggest },
+		v = { opts = { desc = 'visits' }, pick = extra.pickers.visit_paths },
 	}
 
-	for key, pick in pairs(picks) do
-		vim.keymap.set('n', '<leader>p' .. key, pick.pick, pick.opts)
+	for key, p in pairs(picks) do
+		vim.keymap.set('n', '<leader>p' .. key, p.pick, p.opts)
 	end
 
 	local hi_words = extra.gen_highlighter.words
@@ -203,7 +213,8 @@ later(function()
 end)
 
 later(function()
-	require('mini.files').setup({
+	local files = require('mini.files')
+	files.setup({
 		mappings = {
 			close = '<esc>',
 			go_in = '<m-right>',
@@ -214,7 +225,7 @@ later(function()
 	})
 
 	vim.keymap.set('n', '<leader>f', function()
-		MiniFiles.open(vim.api.nvim_buf_get_name(0))
+		files.open(vim.api.nvim_buf_get_name(0))
 	end, { desc = 'open files' })
 end)
 
@@ -223,8 +234,6 @@ later(function()
 	local rhs = '<cmd>lua MiniGit.show_at_cursor()<cr>'
 	vim.keymap.set({ 'n', 'x' }, '<leader>gs', rhs, { desc = 'Show at cursor' })
 end)
-
-later(require('mini.jump').setup)
 
 later(function()
 	require('mini.move').setup({
@@ -242,11 +251,15 @@ later(function()
 	})
 end)
 
-later(require('mini.operators').setup)
-later(require('mini.pairs').setup)
-later(require('mini.splitjoin').setup)
-later(require('mini.surround').setup)
-later(require('mini.visits').setup)
+later(function()
+	local icons = require('mini.icons')
+	icons.setup()
+
+	local kinds = vim.lsp.protocol.CompletionItemKind
+	for i, kind in ipairs(kinds) do
+		kinds[i] = icons.get('lsp', kind)
+	end
+end)
 
 later(function()
 	add({
@@ -264,6 +277,7 @@ later(function()
 			'astro',
 			'css',
 			'dart',
+			'go',
 			'html',
 			'javascript',
 			'jsdoc',
@@ -373,6 +387,16 @@ later(function()
 					},
 				})
 			end,
+			['gopls'] = function()
+				lspconfig.gopls.setup({
+					settings = {
+						analyses = {
+							unusedparams = true,
+						},
+						staticcheck = true,
+					},
+				})
+			end,
 			['lua_ls'] = function()
 				lspconfig.lua_ls.setup({
 					on_init = function(client)
@@ -411,13 +435,7 @@ later(function()
 end)
 
 later(function()
-	add('onsails/lspkind.nvim')
-	require('lspkind').init({
-		mode = 'symbol',
-	})
-end)
-
-later(function()
+	add('stevearc/conform.nvim')
 	vim.api.nvim_create_user_command('FormatDisable', function(args)
 		if args.bang then
 			-- FormatDisable! will disable formatting just for this buffer
@@ -436,8 +454,6 @@ later(function()
 		desc = 'Enable autoformat-on-save',
 	})
 
-	add('stevearc/conform.nvim')
-
 	local prettier = {
 		'prettierd',
 		'prettier',
@@ -455,6 +471,10 @@ later(function()
 			}
 		end,
 		formatters_by_ft = {
+			go = {
+				'goimports',
+				'gofumpt',
+			},
 			javascript = {
 				prettier,
 			},
