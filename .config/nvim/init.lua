@@ -68,7 +68,18 @@ end)
 now(function()
 	local notify = require('mini.notify')
 	notify.setup()
-	vim.notify = notify.make_notify()
+
+	local n = notify.make_notify()
+
+	local disallowed_messages = {
+		'No information available',
+	}
+
+	vim.notify = function(msg, ...)
+		if not vim.tbl_contains(disallowed_messages, msg) then
+			n(msg, ...)
+		end
+	end
 end)
 
 local plugins = {
