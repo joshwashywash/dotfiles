@@ -83,13 +83,13 @@ now(function()
 end)
 
 local plugins = {
-	'ai',
 	'bracketed',
 	'cursorword',
 	'diff',
 	'jump',
 	'operators',
 	'pairs',
+	'pick',
 	'splitjoin',
 	'surround',
 	'visits',
@@ -173,11 +173,24 @@ later(function()
 end)
 
 later(function()
+	local gen_ai_spec = require('mini.extra').gen_ai_spec
+
+	require('mini.ai').setup({
+		custom_textobjects = {
+			B = gen_ai_spec.buffer(),
+			D = gen_ai_spec.diagnostic(),
+			I = gen_ai_spec.indent(),
+			L = gen_ai_spec.line(),
+			N = gen_ai_spec.number(),
+		},
+	})
+end)
+
+later(function()
 	local pick = require('mini.pick')
 	pick.setup()
 
-	local extra = require('mini.extra')
-	extra.setup()
+	local pickers = require('mini.extra').pickers
 
 	--- @class Pick
 	--- @field opts {desc: string}
@@ -185,37 +198,38 @@ later(function()
 
 	--- @type { [string]: Pick}
 	local picks = {
-		B = { opts = { desc = 'lines in buffer' }, pick = extra.pickers.buf_lines },
+		B = { opts = { desc = 'lines in buffer' }, pick = pickers.buf_lines },
 		C = { opts = { desc = 'cli' }, pick = pick.builtin.cli },
 		F = { opts = { desc = 'files' }, pick = pick.builtin.files },
-		H = { opts = { desc = 'highlight groups' }, pick = extra.pickers.hl_groups },
-		L = { opts = { desc = 'lsp' }, pick = extra.pickers.lsp },
-		R = { opts = { desc = 'registers' }, pick = extra.pickers.registers },
+		H = { opts = { desc = 'highlight groups' }, pick = pickers.hl_groups },
+		L = { opts = { desc = 'lsp' }, pick = pickers.lsp },
+		R = { opts = { desc = 'registers' }, pick = pickers.registers },
 		b = { opts = { desc = 'buffers' }, pick = pick.builtin.buffers },
-		c = { opts = { desc = 'commands' }, pick = extra.pickers.commands },
-		d = { opts = { desc = 'diagnostic' }, pick = extra.pickers.diagnostic },
-		e = { opts = { desc = 'explorer' }, pick = extra.pickers.explorer },
-		f = { opts = { desc = 'recent files' }, pick = extra.pickers.oldfiles },
+		c = { opts = { desc = 'commands' }, pick = pickers.commands },
+		d = { opts = { desc = 'diagnostic' }, pick = pickers.diagnostic },
+		e = { opts = { desc = 'explorer' }, pick = pickers.explorer },
+		f = { opts = { desc = 'recent files' }, pick = pickers.oldfiles },
 		g = { opts = { desc = 'grep' }, pick = pick.builtin.grep },
 		h = { opts = { desc = 'help' }, pick = pick.builtin.help },
-		k = { opts = { desc = 'keymaps' }, pick = extra.pickers.keymaps },
+		k = { opts = { desc = 'keymaps' }, pick = pickers.keymaps },
 		l = { opts = { desc = 'live grep' }, pick = pick.builtin.grep_live },
-		m = { opts = { desc = 'marks' }, pick = extra.pickers.marks },
-		o = { opts = { desc = 'options' }, pick = extra.pickers.options },
-		p = { opts = { desc = 'highlight patterns' }, pick = extra.pickers.hipatterns },
+		m = { opts = { desc = 'marks' }, pick = pickers.marks },
+		o = { opts = { desc = 'options' }, pick = pickers.options },
+		p = { opts = { desc = 'highlight patterns' }, pick = pickers.hipatterns },
 		r = { opts = { desc = 'resume' }, pick = pick.builtin.resume },
-		s = { opts = { desc = 'history' }, pick = extra.pickers.history },
-		t = { opts = { desc = 'treesitter' }, pick = extra.pickers.treesitter },
-		u = { opts = { desc = 'spellsuggest' }, pick = extra.pickers.spellsuggest },
-		v = { opts = { desc = 'visits' }, pick = extra.pickers.visit_paths },
+		s = { opts = { desc = 'history' }, pick = pickers.history },
+		t = { opts = { desc = 'treesitter' }, pick = pickers.treesitter },
+		u = { opts = { desc = 'spellsuggest' }, pick = pickers.spellsuggest },
+		v = { opts = { desc = 'visits' }, pick = pickers.visit_paths },
 	}
 
 	for key, p in pairs(picks) do
 		vim.keymap.set('n', '<leader>p' .. key, p.pick, p.opts)
 	end
+end)
 
-	local hi_words = extra.gen_highlighter.words
-	local hipatterns = require('mini.hipatterns')
+later(function()
+	local hi_words = require('mini.extra').gen_highlighter.words
 
 	---@param s string
 	local f = function(s)
@@ -226,6 +240,7 @@ later(function()
 		}
 	end
 
+	local hipatterns = require('mini.hipatterns')
 	hipatterns.setup({
 		highlighters = {
 			fixme = hi_words(f('fixme'), 'MiniHipatternsFixme'),
@@ -257,9 +272,9 @@ later(function()
 end)
 
 later(function()
-	require('mini.git').setup()
-	local rhs = '<cmd>lua MiniGit.show_at_cursor()<cr>'
-	vim.keymap.set({ 'n', 'x' }, '<leader>gs', rhs, { desc = 'Show at cursor' })
+	local git = require('mini.git')
+	git.setup()
+	vim.keymap.set({ 'n', 'x' }, '<leader>gs', git.show_at_cursor, { desc = 'Show at cursor' })
 end)
 
 later(function()
@@ -361,10 +376,12 @@ later(function()
 	vim.api.nvim_create_autocmd('LspAttach', {
 		group = vim.api.nvim_create_augroup('LspConfig', {}),
 		callback = function(event)
+			local buffer = event.buf
+			vim.bo[buffer].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
 			for lhs, keymap in pairs(keymaps) do
 				vim.keymap.set(keymap.mode, lhs, keymap.rhs, {
 					desc = keymap.desc,
-					buffer = event.buf,
+					buffer = buffer,
 				})
 			end
 		end,
