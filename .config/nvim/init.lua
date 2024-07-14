@@ -165,6 +165,10 @@ end)
 later(function()
 	require('mini.completion').setup({
 		-- <c-h> is an alias for <bs>
+		lsp_completion = {
+			auto_setup = false,
+			source_func = 'omnifunc',
+		},
 		mappings = {
 			force_fallback = '<a-h>',
 			force_twostep = '<c-h>',
