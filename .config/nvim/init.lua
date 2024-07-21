@@ -45,6 +45,9 @@ now(function()
 	vim.diagnostic.config({
 		underline = false,
 		virtual_text = false,
+		float = {
+			border = 'single',
+		},
 	})
 end)
 
@@ -75,7 +78,7 @@ now(function()
 		'No information available',
 	}
 
-	vim.notify = function(msg, ...)
+	function vim.notify(msg, ...)
 		if not vim.tbl_contains(disallowed_messages, msg) then
 			n(msg, ...)
 		end
@@ -393,6 +396,13 @@ later(function()
 	})
 end)
 
+local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+	opts = opts or {}
+	opts.border = opts.border or 'single'
+	return orig_util_open_floating_preview(contents, syntax, opts, ...)
+end
+
 later(function()
 	add({
 		source = 'neovim/nvim-lspconfig',
@@ -432,10 +442,10 @@ later(function()
 	vim.api.nvim_create_autocmd('LspAttach', {
 		group = vim.api.nvim_create_augroup('LspConfig', {}),
 		callback = function(event)
-			local buffer = event.buf
-			vim.bo[buffer].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
+			local bufnr = event.buf
+			vim.bo[bufnr].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
 			for lhs, keymap in pairs(keymaps) do
-				keymap.opts.buffer = buffer
+				keymap.opts.buffer = bufnr
 				print(keymap.opts)
 				vim.keymap.set(keymap.mode, '<leader>l' .. lhs, keymap.rhs, keymap.opts)
 			end
@@ -450,6 +460,9 @@ later(function()
 			'svelte',
 			'tailwindcss',
 			'tsserver',
+		},
+		ui = {
+			border = 'single',
 		},
 	})
 
