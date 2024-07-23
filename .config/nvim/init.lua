@@ -559,9 +559,25 @@ later(function()
 	local prettier = {
 		'prettierd',
 		'prettier',
+		stop_after_first = true,
 	}
 
-	require('conform').setup({
+	local conform = require('conform')
+
+	---@param bufnr integer
+	---@param ... string
+	---@return string
+	local function first(bufnr, ...)
+		for i = 1, select('#', ...) do
+			local formatter = select(i, ...)
+			if conform.get_formatter_info(formatter, bufnr).available then
+				return formatter
+			end
+		end
+		return select(1, ...)
+	end
+
+	conform.setup({
 		format_on_save = function(bufnr)
 			-- Disable with a global or buffer-local variable
 			if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
@@ -577,21 +593,15 @@ later(function()
 				'goimports',
 				'gofumpt',
 			},
-			javascript = {
-				prettier,
-			},
+			javascript = prettier,
 			lua = {
 				'stylua',
 			},
-			markdown = {
-				prettier,
-			},
-			svelte = {
-				prettier,
-			},
-			typescript = {
-				prettier,
-			},
+			markdown = function(bufnr)
+				return { first(bufnr, 'prettierd', 'prettier'), 'injected' }
+			end,
+			svelte = prettier,
+			typescript = prettier,
 		},
 	})
 end)
