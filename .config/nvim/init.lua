@@ -61,11 +61,7 @@ end)
 now(function()
 	local icons = require('mini.icons')
 	icons.setup()
-
-	local kinds = vim.lsp.protocol.CompletionItemKind
-	for i, kind in ipairs(kinds) do
-		kinds[i] = icons.get('lsp', kind)
-	end
+	icons.tweak_lsp_kind('replace')
 end)
 
 now(function()
