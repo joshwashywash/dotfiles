@@ -205,7 +205,6 @@ later(function()
 		C = { opts = { desc = 'cli' }, rhs = pick.builtin.cli },
 		F = { opts = { desc = 'files' }, rhs = pick.builtin.files },
 		H = { opts = { desc = 'highlight groups' }, rhs = pickers.hl_groups },
-		L = { opts = { desc = 'lsp' }, rhs = pickers.lsp },
 		R = { opts = { desc = 'registers' }, rhs = pickers.registers },
 		b = { opts = { desc = 'buffers' }, rhs = pick.builtin.buffers },
 		c = { opts = { desc = 'commands' }, rhs = pickers.commands },

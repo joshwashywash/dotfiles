@@ -103,6 +103,10 @@ alias icat="kitty +kitten icat"
 
 alias config="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+export PATH=$PATH:$(go env GOPATH)/bin
+
 # pnpm
 export PNPM_HOME="/Users/josh/Library/pnpm"
 case ":$PATH:" in
