@@ -18,29 +18,49 @@ now(function()
 	vim.g.mapleader = ' '
 	vim.g.maplocalleader = ' '
 
-	vim.keymap.set('n', '<s-down>', '<c-w>j', { desc = 'go to lower window' })
-	vim.keymap.set('n', '<s-left>', '<c-w>h', { desc = 'go to left window' })
-	vim.keymap.set('n', '<s-right>', '<c-w>l', { desc = 'go to right window' })
-	vim.keymap.set('n', '<s-up>', '<c-w>k', { desc = 'go to upper window' })
-
-	local opts = {
-		cmdheight = 0,
-		fillchars = { eob = ' ' },
-		incsearch = true,
-		pumheight = 10,
-		shiftwidth = 2,
-		showmode = false,
-		signcolumn = 'yes',
-		splitbelow = true,
-		splitright = true,
-		statusline = '%f %= %m',
-		tabstop = 2,
-		termguicolors = true,
+	local window_focus_keymaps = {
+		{
+			lhs_shift_key = 'down',
+			rhs_ctrl_w_key = 'j',
+			direction = 'lower',
+		},
+		{
+			lhs_shift_key = 'left',
+			rhs_ctrl_w_key = 'h',
+			direction = 'left',
+		},
+		{
+			lhs_shift_key = 'right',
+			rhs_ctrl_w_key = 'l',
+			direction = 'right',
+		},
+		{
+			lhs_shift_key = 'up',
+			rhs_ctrl_w_key = 'k',
+			direction = 'upper',
+		},
 	}
 
-	for key, value in pairs(opts) do
-		vim.opt[key] = value
+	for _, v in ipairs(window_focus_keymaps) do
+		vim.keymap.set(
+			'n',
+			'<s-' .. v.lhs_shift_key .. '>',
+			'<c-w>' .. v.rhs_ctrl_w_key,
+			{ desc = 'focus' .. v.direction .. 'window' }
+		)
 	end
+
+	vim.o.cmdheight = 0
+	vim.o.incsearch = true
+	vim.o.pumheight = 4
+	vim.o.shiftwidth = 2
+	vim.o.signcolumn = 'yes'
+	vim.o.splitbelow = true
+	vim.o.splitright = true
+	vim.o.statusline = '%f %= %m'
+	vim.o.tabstop = 2
+	vim.o.termguicolors = true
+	vim.opt.fillchars = { eob = ' ' }
 
 	vim.diagnostic.config({
 		underline = false,
@@ -59,26 +79,24 @@ now(function()
 end)
 
 now(function()
-	local icons = require('mini.icons')
-	icons.setup()
-	icons.tweak_lsp_kind('replace')
-end)
+	local mini_notify = require('mini.notify')
+	mini_notify.setup()
 
-now(function()
-	local notify = require('mini.notify')
-	notify.setup()
+	---@param notify function
+	local create_notify = function(notify)
+		local disallowed_messages = {
+			'No information available',
+		}
 
-	local n = notify.make_notify()
-
-	local disallowed_messages = {
-		'No information available',
-	}
-
-	function vim.notify(msg, ...)
-		if not vim.tbl_contains(disallowed_messages, msg) then
-			n(msg, ...)
+		---@param msg string
+		return function(msg, ...)
+			if not vim.tbl_contains(disallowed_messages, msg) then
+				notify(msg, ...)
+			end
 		end
 	end
+
+	vim.notify = create_notify(mini_notify.make_notify())
 end)
 
 local plugins = {
@@ -96,6 +114,12 @@ local plugins = {
 for _, p in ipairs(plugins) do
 	later(require('mini.' .. p).setup)
 end
+
+later(function()
+	local icons = require('mini.icons')
+	icons.setup()
+	icons.tweak_lsp_kind('replace')
+end)
 
 later(function()
 	local bufremove = require('mini.bufremove')
@@ -163,11 +187,11 @@ end)
 
 later(function()
 	require('mini.completion').setup({
-		-- <c-h> is an alias for <bs>
 		lsp_completion = {
 			auto_setup = false,
 			source_func = 'omnifunc',
 		},
+		-- <c-h> is an alias for <bs>
 		mappings = {
 			force_fallback = '<a-h>',
 			force_twostep = '<c-h>',
@@ -195,38 +219,122 @@ later(function()
 
 	local pickers = require('mini.extra').pickers
 
-	--- @class Pick
-	--- @field opts {desc: string}
-	--- @field rhs function
-
-	--- @type { [string]: Pick}
+	--- @type {lhs_suffix_key: string, rhs: string|function, opts: vim.keymap.set.Opts}[]
 	local picks = {
-		B = { opts = { desc = 'lines in buffer' }, rhs = pickers.buf_lines },
-		C = { opts = { desc = 'cli' }, rhs = pick.builtin.cli },
-		F = { opts = { desc = 'files' }, rhs = pick.builtin.files },
-		H = { opts = { desc = 'highlight groups' }, rhs = pickers.hl_groups },
-		R = { opts = { desc = 'registers' }, rhs = pickers.registers },
-		b = { opts = { desc = 'buffers' }, rhs = pick.builtin.buffers },
-		c = { opts = { desc = 'commands' }, rhs = pickers.commands },
-		d = { opts = { desc = 'diagnostic' }, rhs = pickers.diagnostic },
-		e = { opts = { desc = 'explorer' }, rhs = pickers.explorer },
-		f = { opts = { desc = 'recent files' }, rhs = pickers.oldfiles },
-		g = { opts = { desc = 'grep' }, rhs = pick.builtin.grep },
-		h = { opts = { desc = 'help' }, rhs = pick.builtin.help },
-		k = { opts = { desc = 'keymaps' }, rhs = pickers.keymaps },
-		l = { opts = { desc = 'live grep' }, rhs = pick.builtin.grep_live },
-		m = { opts = { desc = 'marks' }, rhs = pickers.marks },
-		o = { opts = { desc = 'options' }, rhs = pickers.options },
-		p = { opts = { desc = 'highlight patterns' }, rhs = pickers.hipatterns },
-		r = { opts = { desc = 'resume' }, rhs = pick.builtin.resume },
-		s = { opts = { desc = 'history' }, rhs = pickers.history },
-		t = { opts = { desc = 'treesitter' }, rhs = pickers.treesitter },
-		u = { opts = { desc = 'spellsuggest' }, rhs = pickers.spellsuggest },
-		v = { opts = { desc = 'visits' }, rhs = pickers.visit_paths },
+		{
+			lhs_suffix_key = 'B',
+			rhs = pickers.buf_lines,
+			opts = { desc = 'lines in buffer' },
+		},
+		{
+			lhs_suffix_key = 'C',
+			rhs = pick.builtin.cli,
+			opts = { desc = 'cli' },
+		},
+		{
+			lhs_suffix_key = 'F',
+			rhs = pick.builtin.files,
+			opts = { desc = 'files' },
+		},
+		{
+			lhs_suffix_key = 'H',
+			rhs = pickers.hl_groups,
+			opts = { desc = 'highlight groups' },
+		},
+		{
+			lhs_suffix_key = 'R',
+			rhs = pickers.registers,
+			opts = { desc = 'registers' },
+		},
+		{
+			lhs_suffix_key = 'b',
+			rhs = pick.builtin.buffers,
+			opts = { desc = 'buffers' },
+		},
+		{
+			lhs_suffix_key = 'c',
+			rhs = pickers.commands,
+			opts = { desc = 'commands' },
+		},
+		{
+			lhs_suffix_key = 'd',
+			rhs = pickers.diagnostic,
+			opts = { desc = 'diagnostic' },
+		},
+		{
+			lhs_suffix_key = 'e',
+			rhs = pickers.explorer,
+			opts = { desc = 'explorer' },
+		},
+		{
+			lhs_suffix_key = 'f',
+			rhs = pickers.oldfiles,
+			opts = { desc = 'recent files' },
+		},
+		{
+			lhs_suffix_key = 'g',
+			rhs = pick.builtin.grep,
+			opts = { desc = 'grep' },
+		},
+		{
+			lhs_suffix_key = 'h',
+			rhs = pick.builtin.help,
+			opts = { desc = 'help' },
+		},
+		{
+			lhs_suffix_key = 'k',
+			rhs = pickers.keymaps,
+			opts = { desc = 'keymaps' },
+		},
+		{
+			lhs_suffix_key = 'l',
+			rhs = pick.builtin.grep_live,
+			opts = { desc = 'live grep' },
+		},
+		{
+			lhs_suffix_key = 'm',
+			rhs = pickers.marks,
+			opts = { desc = 'marks' },
+		},
+		{
+			lhs_suffix_key = 'o',
+			rhs = pickers.options,
+			opts = { desc = 'options' },
+		},
+		{
+			lhs_suffix_key = 'p',
+			rhs = pickers.hipatterns,
+			opts = { desc = 'highlight patterns' },
+		},
+		{
+			lhs_suffix_key = 'r',
+			rhs = pick.builtin.resume,
+			opts = { desc = 'resume' },
+		},
+		{
+			lhs_suffix_key = 's',
+			rhs = pickers.history,
+			opts = { desc = 'history' },
+		},
+		{
+			lhs_suffix_key = 't',
+			rhs = pickers.treesitter,
+			opts = { desc = 'treesitter' },
+		},
+		{
+			lhs_suffix_key = 'u',
+			rhs = pickers.spellsuggest,
+			opts = { desc = 'spellsuggest' },
+		},
+		{
+			lhs_suffix_key = 'v',
+			rhs = pickers.visit_paths,
+			opts = { desc = 'visits' },
+		},
 	}
 
-	for key, p in pairs(picks) do
-		vim.keymap.set('n', '<leader>f' .. key, p.rhs, p.opts)
+	for _, p in ipairs(picks) do
+		vim.keymap.set('n', '<leader>f' .. p.lhs_suffix_key, p.rhs, p.opts)
 	end
 end)
 
@@ -295,27 +403,31 @@ later(function()
 		end,
 	})
 
+	---@ type {lhs_suffix_key: string, rhs: function, opts: vim.keymap.set.Opts}[]
 	local keymaps = {
-		c = {
-			opts = { desc = 'config' },
+		{
+			lhs_suffix_key = 'c',
 			rhs = function()
 				files.open(vim.fn.stdpath('config'))
 			end,
+			opts = { desc = 'config' },
 		},
-		d = {
-			opts = { desc = 'directory' },
+		{
+			lhs_suffix_key = 'd',
 			rhs = files.open,
+			opts = { desc = 'directory' },
 		},
-		f = {
-			opts = { desc = 'file directory' },
+		{
+			lhs_suffix_key = 'f',
 			rhs = function()
 				files.open(vim.api.nvim_buf_get_name(0))
 			end,
+			opts = { desc = 'file directory' },
 		},
 	}
 
-	for lhs, rest in pairs(keymaps) do
-		vim.keymap.set('n', '<leader>e' .. lhs, rest.rhs, rest.opts)
+	for _, v in ipairs(keymaps) do
+		vim.keymap.set('n', '<leader>e' .. v.lhs_suffix_key, v.rhs, v.opts)
 	end
 end)
 
@@ -326,26 +438,31 @@ later(function()
 	local diff = require('mini.diff')
 	diff.setup()
 
+	---@type {lhs_suffix_key: string, rhs: string|function, opts: vim.keymap.set.Opts}[]
 	local keymaps = {
-		c = {
+		{
+			lhs_suffix_key = 'c',
 			rhs = '<cmd>Git commit<cr>',
 			opts = {
 				desc = 'commit',
 			},
 		},
-		C = {
+		{
+			lhs_suffix_key = 'C',
 			rhs = '<cmd>Git commit --amend<cr>',
 			opts = {
 				desc = 'amend commit',
 			},
 		},
-		o = {
+		{
+			lhs_suffix_key = 'o',
 			rhs = diff.toggle_overlay,
 			opts = {
 				desc = 'toggle overlay',
 			},
 		},
-		s = {
+		{
+			lhs_suffix_key = 's',
 			rhs = git.show_at_cursor,
 			opts = {
 				desc = 'show at cursor',
@@ -353,8 +470,8 @@ later(function()
 		},
 	}
 
-	for lhs, k in pairs(keymaps) do
-		vim.keymap.set('n', '<leader>g' .. lhs, k.rhs, k.opts)
+	for _, v in ipairs(keymaps) do
+		vim.keymap.set('n', '<leader>g' .. v.lhs_suffix_key, v.rhs, v.opts)
 	end
 end)
 
@@ -419,11 +536,14 @@ later(function()
 end)
 
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+
+local open_floating_preview = function(contents, syntax, opts, ...)
 	opts = opts or {}
 	opts.border = opts.border or 'single'
 	return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
+
+vim.lsp.util.open_floating_preview = open_floating_preview
 
 later(function()
 	add({
@@ -435,9 +555,11 @@ later(function()
 		},
 	})
 
+	---@type {mode: string|string[], lhs_suffix_key: string, rhs: string|function, opts: vim.keymap.set.Opts}[]
 	local keymaps = {
-		R = {
+		{
 			mode = 'n',
+			lhs_suffix_key = 'R',
 			rhs = function()
 				vim.cmd('LspRestart')
 			end,
@@ -445,15 +567,17 @@ later(function()
 				desc = 'restart lsps',
 			},
 		},
-		r = {
+		{
 			mode = 'n',
+			lhs_suffix_key = 'r',
 			rhs = vim.lsp.buf.rename,
 			opts = {
 				desc = 'rename',
 			},
 		},
-		a = {
+		{
 			mode = { 'n', 'v' },
+			lhs_suffix_key = 'a',
 			rhs = vim.lsp.buf.code_action,
 			opts = {
 				desc = 'code action',
@@ -466,10 +590,9 @@ later(function()
 		callback = function(event)
 			local bufnr = event.buf
 			vim.bo[bufnr].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
-			for lhs, keymap in pairs(keymaps) do
-				keymap.opts.buffer = bufnr
-				print(keymap.opts)
-				vim.keymap.set(keymap.mode, '<leader>l' .. lhs, keymap.rhs, keymap.opts)
+			for _, v in ipairs(keymaps) do
+				v.opts.buffer = bufnr
+				vim.keymap.set(v.mode, '<leader>l' .. v.lhs_suffix_key, v.rhs, v.opts)
 			end
 		end,
 	})
