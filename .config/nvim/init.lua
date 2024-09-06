@@ -548,9 +548,9 @@ later(function()
 	add({
 		source = 'neovim/nvim-lspconfig',
 		depends = {
-			'williamboman/mason.nvim',
-			'williamboman/mason-lspconfig.nvim',
 			'b0o/schemastore.nvim',
+			'williamboman/mason-lspconfig.nvim',
+			'williamboman/mason.nvim',
 		},
 	})
 
@@ -632,6 +632,7 @@ later(function()
 				})
 			end,
 			jsonls = function()
+				-- TODO remove capabilities when mini.snippets is out?
 				local capabilities = vim.lsp.protocol.make_client_capabilities()
 				capabilities.textDocument.completion.completionItem.snippetSupport = true
 				lspconfig.jsonls.setup({
