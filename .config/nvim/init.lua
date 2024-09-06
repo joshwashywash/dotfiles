@@ -615,11 +615,11 @@ later(function()
 	require('mason-lspconfig').setup({
 		handlers = {
 			function(server_name)
-				-- TODO when mason adds ts_ls fix this
-				if server_name == 'tsserver' then
-					server_name = 'ts_ls'
-				end
 				lspconfig[server_name].setup({})
+			end,
+			-- TODO when mason adds ts_ls fix this
+			tsserver = function()
+				lspconfig.ts_ls.setup({})
 			end,
 			gopls = function()
 				lspconfig.gopls.setup({
