@@ -597,14 +597,7 @@ later(function()
 	})
 
 	require('mason').setup({
-		ensure_installed = {
-			'html',
-			'jsonls',
-			'lua_ls',
-			'svelte',
-			'tailwindcss',
-			'tsserver',
-		},
+
 		ui = {
 			border = 'single',
 		},
@@ -613,6 +606,14 @@ later(function()
 	local lspconfig = require('lspconfig')
 
 	require('mason-lspconfig').setup({
+		ensure_installed = {
+			'html',
+			'jsonls',
+			'lua_ls',
+			'svelte',
+			'tailwindcss',
+			'tsserver',
+		},
 		handlers = {
 			function(server_name)
 				lspconfig[server_name].setup({})
@@ -647,7 +648,6 @@ later(function()
 					},
 				})
 			end,
-
 			lua_ls = function()
 				lspconfig.lua_ls.setup({
 					on_init = function(client)
