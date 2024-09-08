@@ -597,7 +597,6 @@ later(function()
 	})
 
 	require('mason').setup({
-
 		ui = {
 			border = 'single',
 		},
@@ -612,15 +611,11 @@ later(function()
 			'lua_ls',
 			'svelte',
 			'tailwindcss',
-			'tsserver',
+			'ts_ls',
 		},
 		handlers = {
 			function(server_name)
 				lspconfig[server_name].setup({})
-			end,
-			-- TODO when mason adds ts_ls fix this
-			tsserver = function()
-				lspconfig.ts_ls.setup({})
 			end,
 			gopls = function()
 				lspconfig.gopls.setup({
