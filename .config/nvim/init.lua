@@ -184,7 +184,6 @@ later(function()
 		},
 	})
 end)
-
 later(function()
 	require('mini.completion').setup({
 		lsp_completion = {
@@ -195,6 +194,14 @@ later(function()
 		mappings = {
 			force_fallback = '<a-h>',
 			force_twostep = '<c-h>',
+		},
+		window = {
+			info = {
+				border = 'single',
+			},
+			signature = {
+				border = 'single',
+			},
 		},
 	})
 end)
