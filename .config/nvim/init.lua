@@ -224,112 +224,142 @@ later(function()
 		{
 			lhs_suffix_key = 'B',
 			rhs = pickers.buf_lines,
-			opts = { desc = 'lines in buffer' },
-		},
-		{
-			lhs_suffix_key = 'C',
-			rhs = pick.builtin.cli,
-			opts = { desc = 'cli' },
+			opts = {
+				desc = 'lines in buffer',
+			},
 		},
 		{
 			lhs_suffix_key = 'F',
 			rhs = pick.builtin.files,
-			opts = { desc = 'files' },
+			opts = {
+				desc = 'files',
+			},
 		},
 		{
 			lhs_suffix_key = 'H',
 			rhs = pickers.hl_groups,
-			opts = { desc = 'highlight groups' },
+			opts = {
+				desc = 'highlight groups',
+			},
 		},
 		{
 			lhs_suffix_key = 'R',
 			rhs = pickers.registers,
-			opts = { desc = 'registers' },
+			opts = {
+				desc = 'registers',
+			},
 		},
 		{
 			lhs_suffix_key = 'b',
 			rhs = pick.builtin.buffers,
-			opts = { desc = 'buffers' },
+			opts = {
+				desc = 'buffers',
+			},
 		},
 		{
 			lhs_suffix_key = 'c',
 			rhs = pickers.commands,
-			opts = { desc = 'commands' },
+			opts = {
+				desc = 'commands',
+			},
 		},
 		{
 			lhs_suffix_key = 'd',
 			rhs = pickers.diagnostic,
-			opts = { desc = 'diagnostic' },
+			opts = {
+				desc = 'diagnostic',
+			},
 		},
 		{
 			lhs_suffix_key = 'e',
 			rhs = pickers.explorer,
-			opts = { desc = 'explorer' },
+			opts = {
+				desc = 'explorer',
+			},
 		},
 		{
 			lhs_suffix_key = 'f',
 			rhs = pickers.oldfiles,
-			opts = { desc = 'recent files' },
+			opts = {
+				desc = 'recent files',
+			},
 		},
 		{
 			lhs_suffix_key = 'g',
-			rhs = pick.builtin.grep,
-			opts = { desc = 'grep' },
+			rhs = pick.builtin.grep_live,
+			opts = {
+				desc = 'live grep',
+			},
 		},
 		{
 			lhs_suffix_key = 'h',
 			rhs = pick.builtin.help,
-			opts = { desc = 'help' },
+			opts = {
+				desc = 'help',
+			},
 		},
 		{
 			lhs_suffix_key = 'k',
 			rhs = pickers.keymaps,
-			opts = { desc = 'keymaps' },
-		},
-		{
-			lhs_suffix_key = 'l',
-			rhs = pick.builtin.grep_live,
-			opts = { desc = 'live grep' },
+			opts = {
+				desc = 'keymaps',
+			},
 		},
 		{
 			lhs_suffix_key = 'm',
 			rhs = pickers.marks,
-			opts = { desc = 'marks' },
+			opts = {
+				desc = 'marks',
+			},
 		},
 		{
 			lhs_suffix_key = 'o',
 			rhs = pickers.options,
-			opts = { desc = 'options' },
+			opts = {
+				desc = 'options',
+			},
 		},
 		{
 			lhs_suffix_key = 'p',
 			rhs = pickers.hipatterns,
-			opts = { desc = 'highlight patterns' },
+			opts = {
+				desc = 'highlight patterns',
+			},
 		},
 		{
 			lhs_suffix_key = 'r',
 			rhs = pick.builtin.resume,
-			opts = { desc = 'resume' },
+			opts = {
+				desc = 'resume',
+			},
 		},
 		{
 			lhs_suffix_key = 's',
 			rhs = pickers.history,
-			opts = { desc = 'history' },
+			opts = {
+				desc = 'history',
+			},
 		},
 		{
 			lhs_suffix_key = 't',
 			rhs = pickers.treesitter,
-			opts = { desc = 'treesitter' },
+			opts = {
+				desc = 'treesitter',
+			},
 		},
 		{
 			lhs_suffix_key = 'u',
 			rhs = pickers.spellsuggest,
-			opts = { desc = 'spellsuggest' },
+			opts = {
+				desc = 'spellsuggest',
+			},
 		},
 		{
 			lhs_suffix_key = 'v',
 			rhs = pickers.visit_paths,
-			opts = { desc = 'visits' },
+			opts = {
+				desc = 'visits',
+			},
 		},
 	}
 
