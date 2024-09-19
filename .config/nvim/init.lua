@@ -472,7 +472,12 @@ later(function()
 	git.setup()
 
 	local diff = require('mini.diff')
-	diff.setup()
+	diff.setup({
+		view = {
+			-- vim diagnostic signs have a default priority of 10
+			priority = 9,
+		},
+	})
 
 	---@type {lhs_suffix_key: string, rhs: string|function, opts: vim.keymap.set.Opts}[]
 	local keymaps = {
