@@ -8,6 +8,12 @@ if not vim.loop.fs_stat(mini_path) then
 	vim.cmd('packadd mini.nvim | helptags ALL')
 end
 
+vim.filetype.add({
+	extension = {
+		mdx = 'markdown',
+	},
+})
+
 local deps = require('mini.deps')
 
 deps.setup({ path = { package = path_package } })
@@ -222,7 +228,9 @@ end)
 
 later(function()
 	local pick = require('mini.pick')
+
 	pick.setup()
+	vim.ui.select = pick.ui_select
 
 	local pickers = require('mini.extra').pickers
 
