@@ -24,34 +24,35 @@ now(function()
 	vim.g.mapleader = ' '
 	vim.g.maplocalleader = ' '
 
+	--- @type {direction: string, lhs_suffix_key: string, rhs_suffix_key: string}[]
 	local window_focus_keymaps = {
 		{
-			lhs_shift_key = 'down',
-			rhs_ctrl_w_key = 'j',
 			direction = 'lower',
+			lhs_suffix_key = 'down',
+			rhs_suffix_key = 'j',
 		},
 		{
-			lhs_shift_key = 'left',
-			rhs_ctrl_w_key = 'h',
 			direction = 'left',
+			lhs_suffix_key = 'left',
+			rhs_suffix_key = 'h',
 		},
 		{
-			lhs_shift_key = 'right',
-			rhs_ctrl_w_key = 'l',
 			direction = 'right',
+			lhs_suffix_key = 'right',
+			rhs_suffix_key = 'l',
 		},
 		{
-			lhs_shift_key = 'up',
-			rhs_ctrl_w_key = 'k',
 			direction = 'upper',
+			lhs_suffix_key = 'up',
+			rhs_suffix_key = 'k',
 		},
 	}
 
 	for _, v in ipairs(window_focus_keymaps) do
 		vim.keymap.set(
 			'n',
-			'<s-' .. v.lhs_shift_key .. '>',
-			'<c-w>' .. v.rhs_ctrl_w_key,
+			'<s-' .. v.lhs_suffix_key .. '>',
+			'<c-w>' .. v.rhs_suffix_key,
 			{ desc = 'focus' .. v.direction .. 'window' }
 		)
 	end
@@ -122,6 +123,26 @@ for _, p in ipairs(plugins) do
 end
 
 later(function()
+	---@type {lhs_suffix_key: string, rhs: string|function, opts: vim.keymap.set.Opts}[]
+	local keymaps = {
+		{
+			lhs_suffix_key = 'u',
+			rhs = deps.update,
+			opts = { desc = 'update' },
+		},
+		{
+			lhs_suffix_key = 'c',
+			rhs = deps.clean,
+			opts = { desc = 'clean' },
+		},
+	}
+
+	for _, k in ipairs(keymaps) do
+		vim.keymap.set('n', '<leader>d' .. k.lhs_suffix_key, k.rhs, k.opts)
+	end
+end)
+
+later(function()
 	local icons = require('mini.icons')
 	icons.setup()
 	icons.tweak_lsp_kind('replace')
@@ -144,10 +165,11 @@ later(function()
 			clue.gen_clues.windows({ submode_resize = true }),
 			clue.gen_clues.z(),
 			{ mode = 'n', keys = '<leader>b', desc = 'buffer' },
+			{ mode = 'n', keys = '<leader>d', desc = 'deps' },
 			{ mode = 'n', keys = '<leader>e', desc = 'explore' },
+			{ mode = 'n', keys = '<leader>f', desc = 'find' },
 			{ mode = 'n', keys = '<leader>g', desc = 'git' },
 			{ mode = 'n', keys = '<leader>l', desc = 'lsp' },
-			{ mode = 'n', keys = '<leader>f', desc = 'find' },
 			{ mode = 'n', keys = '[b', postkeys = '[' },
 			{ mode = 'n', keys = '[w', postkeys = '[' },
 			{ mode = 'n', keys = ']b', postkeys = ']' },
@@ -293,7 +315,11 @@ later(function()
 		},
 		{
 			lhs_suffix_key = 'f',
-			rhs = pickers.oldfiles,
+			rhs = function()
+				pickers.oldfiles({
+					current_dir = true,
+				})
+			end,
 			opts = {
 				desc = 'recent files',
 			},
