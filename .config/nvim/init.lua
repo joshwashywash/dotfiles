@@ -432,7 +432,7 @@ later(function()
 			todo = hi_words(f('todo'), 'MiniHipatternsTodo'),
 			note = hi_words(f('note'), 'MiniHipatternsNote'),
 			hex_color = hipatterns.gen_highlighter.hex_color({
-				style = 'inline',
+				style = 'bg',
 			}),
 		},
 	})
