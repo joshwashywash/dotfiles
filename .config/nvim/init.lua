@@ -14,6 +14,10 @@ vim.filetype.add({
 	},
 })
 
+vim.g.markdown_fenced_languages = {
+	'ts=typescript',
+}
+
 local deps = require('mini.deps')
 
 deps.setup({ path = { package = path_package } })
@@ -111,7 +115,7 @@ local plugins = {
 	'cursorword',
 	'jump',
 	'operators',
-	'pairs',
+	-- 'pairs',
 	'pick',
 	'splitjoin',
 	'surround',
@@ -677,7 +681,7 @@ later(function()
 		},
 	})
 
-	local lspconfig = require('lspconfig')
+	local lsp = require('lspconfig')
 
 	require('mason-lspconfig').setup({
 		ensure_installed = {
@@ -690,10 +694,10 @@ later(function()
 		},
 		handlers = {
 			function(server_name)
-				lspconfig[server_name].setup({})
+				lsp[server_name].setup({})
 			end,
 			gopls = function()
-				lspconfig.gopls.setup({
+				lsp.gopls.setup({
 					settings = {
 						analyses = {
 							unusedparams = true,
@@ -702,11 +706,16 @@ later(function()
 					},
 				})
 			end,
+			denols = function()
+				lsp.denols.setup({
+					root_dir = lsp.util.root_pattern('deno.json', 'deno.jsonc'),
+				})
+			end,
 			jsonls = function()
 				-- TODO remove capabilities when mini.snippets is out?
 				local capabilities = vim.lsp.protocol.make_client_capabilities()
 				capabilities.textDocument.completion.completionItem.snippetSupport = true
-				lspconfig.jsonls.setup({
+				lsp.jsonls.setup({
 					capabilities = capabilities,
 					settings = {
 						json = {
@@ -719,7 +728,7 @@ later(function()
 				})
 			end,
 			lua_ls = function()
-				lspconfig.lua_ls.setup({
+				lsp.lua_ls.setup({
 					on_init = function(client)
 						local path = client.workspace_folders[1].name
 						if vim.loop.fs_stat(path .. '/.luarc.json') or vim.loop.fs_stat(path .. '/.luarc.jsonc') then
@@ -749,6 +758,11 @@ later(function()
 					settings = {
 						Lua = {},
 					},
+				})
+			end,
+			ts_ls = function()
+				lsp.ts_ls.setup({
+					single_file_support = false,
 				})
 			end,
 		},
