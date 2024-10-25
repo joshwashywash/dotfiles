@@ -83,15 +83,33 @@ now(function()
 end)
 
 now(function()
-	local n = 'rose-pine'
-	add(n .. '/neovim')
-	require(n).setup()
-	vim.cmd.colorscheme(n)
+	-- local n = 'rose-pine'
+	-- add(n .. '/neovim')
+	-- require(n).setup()
+	-- vim.cmd.colorscheme(n)
+
+	require('mini.hues').setup({
+		background = '#222222',
+		foreground = '#f8f8f8',
+		saturation = 'high',
+	})
 end)
 
 now(function()
 	local mini_notify = require('mini.notify')
-	mini_notify.setup()
+	mini_notify.setup({
+		window = {
+			config = function()
+				local has_statusline = vim.o.laststatus > 0
+				local pad = vim.o.cmdheight + (has_statusline and 1 or 0)
+				return {
+					anchor = 'SE',
+					col = vim.o.columns,
+					row = vim.o.lines - pad,
+				}
+			end,
+		},
+	})
 
 	---@param notify function
 	local create_notify = function(notify)
@@ -594,6 +612,7 @@ later(function()
 			'markdown',
 			'markdown_inline',
 			'svelte',
+			'tsx',
 			'typescript',
 			'vimdoc',
 		},
@@ -762,6 +781,7 @@ later(function()
 			end,
 			ts_ls = function()
 				lsp.ts_ls.setup({
+					root_dir = lsp.util.root_pattern('package.json'),
 					single_file_support = false,
 				})
 			end,
@@ -822,6 +842,7 @@ later(function()
 			}
 		end,
 		formatters_by_ft = {
+			astro = { 'prettier' },
 			go = {
 				'goimports',
 				'gofumpt',
