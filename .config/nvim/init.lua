@@ -14,10 +14,6 @@ vim.filetype.add({
 	},
 })
 
-vim.g.markdown_fenced_languages = {
-	'ts=typescript',
-}
-
 local deps = require('mini.deps')
 
 deps.setup({ path = { package = path_package } })
@@ -83,16 +79,10 @@ now(function()
 end)
 
 now(function()
-	-- local n = 'rose-pine'
-	-- add(n .. '/neovim')
-	-- require(n).setup()
-	-- vim.cmd.colorscheme(n)
-
-	require('mini.hues').setup({
-		background = '#222222',
-		foreground = '#f8f8f8',
-		saturation = 'high',
-	})
+	local n = 'rose-pine'
+	add(n .. '/neovim')
+	require(n).setup()
+	vim.cmd.colorscheme(n)
 end)
 
 now(function()
@@ -111,21 +101,21 @@ now(function()
 		},
 	})
 
-	---@param notify function
-	local create_notify = function(notify)
-		local disallowed_messages = {
-			'No information available',
-		}
-
-		---@param msg string
-		return function(msg, ...)
-			if not vim.tbl_contains(disallowed_messages, msg) then
-				notify(msg, ...)
-			end
-		end
-	end
-
-	vim.notify = create_notify(mini_notify.make_notify())
+	-- ---@param notify function
+	-- local create_notify = function(notify)
+	-- 	local disallowed_messages = {
+	-- 		'No information available',
+	-- 	}
+	--
+	-- 	---@param msg string
+	-- 	return function(msg, ...)
+	-- 		if not vim.tbl_contains(disallowed_messages, msg) then
+	-- 			notify(msg, ...)
+	-- 		end
+	-- 	end
+	-- end
+	--
+	-- vim.notify = create_notify(mini_notify.make_notify())
 end)
 
 local plugins = {
@@ -233,6 +223,7 @@ later(function()
 		},
 	})
 end)
+
 later(function()
 	require('mini.completion').setup({
 		lsp_completion = {
@@ -494,7 +485,7 @@ later(function()
 		end,
 	})
 
-	---@ type {lhs_suffix_key: string, rhs: function, opts: vim.keymap.set.Opts}[]
+	---@type {lhs_suffix_key: string, rhs: function, opts: vim.keymap.set.Opts}[]
 	local keymaps = {
 		{
 			lhs_suffix_key = 'c',
@@ -615,6 +606,7 @@ later(function()
 			'tsx',
 			'typescript',
 			'vimdoc',
+			'wgsl',
 		},
 		incremental_selection = {
 			enable = true,
@@ -686,7 +678,10 @@ later(function()
 		group = vim.api.nvim_create_augroup('LspConfig', {}),
 		callback = function(event)
 			local bufnr = event.buf
-			vim.bo[bufnr].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
+			local client = vim.lsp.get_client_by_id(event.data.client_id)
+			if client and client.server_capabilities.completionProvider then
+				vim.bo[bufnr].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
+			end
 			for _, v in ipairs(keymaps) do
 				v.opts.buffer = bufnr
 				vim.keymap.set(v.mode, '<leader>l' .. v.lhs_suffix_key, v.rhs, v.opts)
@@ -749,9 +744,11 @@ later(function()
 			lua_ls = function()
 				lsp.lua_ls.setup({
 					on_init = function(client)
-						local path = client.workspace_folders[1].name
-						if vim.loop.fs_stat(path .. '/.luarc.json') or vim.loop.fs_stat(path .. '/.luarc.jsonc') then
-							return
+						if client.workspace_folders then
+							local path = client.workspace_folders[1].name
+							if vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc') then
+								return
+							end
 						end
 
 						client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
@@ -769,7 +766,7 @@ later(function()
 									-- "${3rd}/luv/library"
 									-- "${3rd}/busted/library",
 								},
-								-- or pull in all of 'runtimepath'. NOTE: this is a lot slower
+								-- or pull in all of 'runtimepath'. NOTE: this is a lot slower and will cause issues when working on your own configuration (see https://github.com/neovim/nvim-lspconfig/issues/3189)
 								-- library = vim.api.nvim_get_runtime_file("", true)
 							},
 						})
@@ -809,12 +806,6 @@ later(function()
 		desc = 'Enable autoformat-on-save',
 	})
 
-	local prettier = {
-		'prettierd',
-		'prettier',
-		stop_after_first = true,
-	}
-
 	local conform = require('conform')
 
 	---@param bufnr integer
@@ -829,6 +820,12 @@ later(function()
 		end
 		return select(1, ...)
 	end
+
+	local prettier = {
+		'prettierd',
+		'prettier',
+		stop_after_first = true,
+	}
 
 	conform.setup({
 		format_on_save = function(bufnr)
