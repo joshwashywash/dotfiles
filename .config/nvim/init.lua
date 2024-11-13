@@ -678,11 +678,12 @@ later(function()
 	}
 
 	---@param buf_id number
+	---@param client vim.lsp.Client
 	local on_attach = function(client, buf_id)
 		vim.bo[buf_id].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
 		-- let conform handle formatting
-		client.resolved_capabilities.document_formatting = false
-		client.resolved_capabilities.document_range_formatting = false
+		client.server_capabilities.documentFormattingProvider = false
+		client.server_capabilities.documentRangeFormattingProvider = false
 		for _, v in ipairs(keymaps) do
 			v.opts.buffer = buf_id
 			vim.keymap.set(v.mode, '<leader>l' .. v.lhs_suffix_key, v.rhs, v.opts)
