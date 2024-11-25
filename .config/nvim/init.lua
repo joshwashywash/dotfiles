@@ -123,11 +123,31 @@ now(function()
 	-- vim.notify = create_notify(mini_notify.make_notify())
 end)
 
+later(function()
+	require('mini.operators').setup({
+		evaluate = {
+			prefix = '<leader>o=',
+		},
+		exchange = {
+			prefix = '<leader>ox',
+		},
+		multiply = {
+			prefix = '<leader>om',
+		},
+		replace = {
+			prefix = '<leader>or',
+			reindent_linewise = true,
+		},
+		sort = {
+			prefix = '<leader>os',
+		},
+	})
+end)
+
 local plugins = {
 	'bracketed',
 	'cursorword',
 	'jump',
-	'operators',
 	-- 'pairs',
 	'pick',
 	'splitjoin',
@@ -187,6 +207,9 @@ later(function()
 			{ mode = 'n', keys = '<leader>f', desc = 'find' },
 			{ mode = 'n', keys = '<leader>g', desc = 'git' },
 			{ mode = 'n', keys = '<leader>l', desc = 'lsp' },
+			{ mode = 'x', keys = '<leader>l', desc = 'lsp' },
+			{ mode = 'n', keys = '<leader>o', desc = 'operators' },
+			{ mode = 'x', keys = '<leader>o', desc = 'operators' },
 			{ mode = 'n', keys = '[b', postkeys = '[' },
 			{ mode = 'n', keys = '[w', postkeys = '[' },
 			{ mode = 'n', keys = ']b', postkeys = ']' },
@@ -252,14 +275,20 @@ end)
 
 later(function()
 	local gen_ai_spec = require('mini.extra').gen_ai_spec
+	local ai = require('mini.ai')
 
-	require('mini.ai').setup({
+	ai.setup({
 		custom_textobjects = {
 			B = gen_ai_spec.buffer(),
 			D = gen_ai_spec.diagnostic(),
+			F = ai.gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }),
 			I = gen_ai_spec.indent(),
 			L = gen_ai_spec.line(),
 			N = gen_ai_spec.number(),
+			o = ai.gen_spec.treesitter({
+				a = { '@conditional.outer', '@loop.outer' },
+				i = { '@conditional.inner', '@loop.inner' },
+			}),
 		},
 	})
 end)
@@ -271,9 +300,10 @@ later(function()
 
 	local pickers = require('mini.extra').pickers
 
-	--- @type {lhs_suffix_key: string, rhs: string|function, opts: vim.keymap.set.Opts}[]
+	--- @type {mode: string|string[], lhs_suffix_key: string, rhs: string|function, opts: vim.keymap.set.Opts}[]
 	local picks = {
 		{
+			mode = 'n',
 			lhs_suffix_key = 'B',
 			rhs = pickers.buf_lines,
 			opts = {
@@ -281,6 +311,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'F',
 			rhs = pick.builtin.files,
 			opts = {
@@ -288,6 +319,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'H',
 			rhs = pickers.hl_groups,
 			opts = {
@@ -295,6 +327,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'R',
 			rhs = pickers.registers,
 			opts = {
@@ -302,6 +335,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'b',
 			rhs = pick.builtin.buffers,
 			opts = {
@@ -309,6 +343,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'c',
 			rhs = pickers.commands,
 			opts = {
@@ -316,6 +351,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'd',
 			rhs = pickers.diagnostic,
 			opts = {
@@ -323,6 +359,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'e',
 			rhs = pickers.explorer,
 			opts = {
@@ -330,6 +367,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'f',
 			rhs = function()
 				pickers.oldfiles({
@@ -341,6 +379,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'g',
 			rhs = pick.builtin.grep_live,
 			opts = {
@@ -348,6 +387,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'h',
 			rhs = pick.builtin.help,
 			opts = {
@@ -355,6 +395,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'k',
 			rhs = pickers.keymaps,
 			opts = {
@@ -362,6 +403,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'm',
 			rhs = pickers.marks,
 			opts = {
@@ -369,6 +411,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'o',
 			rhs = pickers.options,
 			opts = {
@@ -376,6 +419,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'p',
 			rhs = pickers.hipatterns,
 			opts = {
@@ -383,6 +427,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'r',
 			rhs = pick.builtin.resume,
 			opts = {
@@ -390,6 +435,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 's',
 			rhs = pickers.history,
 			opts = {
@@ -397,6 +443,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 't',
 			rhs = pickers.treesitter,
 			opts = {
@@ -404,6 +451,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'u',
 			rhs = pickers.spellsuggest,
 			opts = {
@@ -411,6 +459,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'v',
 			rhs = pickers.visit_paths,
 			opts = {
@@ -420,7 +469,7 @@ later(function()
 	}
 
 	for _, p in ipairs(picks) do
-		vim.keymap.set('n', '<leader>f' .. p.lhs_suffix_key, p.rhs, p.opts)
+		vim.keymap.set(p.mode, '<leader>f' .. p.lhs_suffix_key, p.rhs, p.opts)
 	end
 end)
 
@@ -488,7 +537,7 @@ later(function()
 		end,
 	})
 
-	---@type {lhs_suffix_key: string, rhs: function, opts: vim.keymap.set.Opts}[]
+	--- @type {lhs_suffix_key: string, rhs: function, opts: vim.keymap.set.Opts}[]
 	local keymaps = {
 		{
 			lhs_suffix_key = 'c',
@@ -528,9 +577,10 @@ later(function()
 		},
 	})
 
-	---@type {lhs_suffix_key: string, rhs: string|function, opts: vim.keymap.set.Opts}[]
+	--- @type {mode: string|string[], lhs_suffix_key: string, rhs: string|function, opts: vim.keymap.set.Opts}[]
 	local keymaps = {
 		{
+			mode = 'n',
 			lhs_suffix_key = 'c',
 			rhs = '<cmd>Git commit<cr>',
 			opts = {
@@ -538,6 +588,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'C',
 			rhs = '<cmd>Git commit --amend<cr>',
 			opts = {
@@ -545,6 +596,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 'o',
 			rhs = diff.toggle_overlay,
 			opts = {
@@ -552,6 +604,7 @@ later(function()
 			},
 		},
 		{
+			mode = 'n',
 			lhs_suffix_key = 's',
 			rhs = git.show_at_cursor,
 			opts = {
@@ -561,7 +614,7 @@ later(function()
 	}
 
 	for _, v in ipairs(keymaps) do
-		vim.keymap.set('n', '<leader>g' .. v.lhs_suffix_key, v.rhs, v.opts)
+		vim.keymap.set(v.mode, '<leader>g' .. v.lhs_suffix_key, v.rhs, v.opts)
 	end
 end)
 
@@ -620,6 +673,9 @@ later(function()
 				scope_incremental = false,
 			},
 		},
+		indent = {
+			enable = true,
+		},
 		highlight = {
 			additional_vim_regex_highlighting = false,
 			enable = true,
@@ -647,7 +703,7 @@ later(function()
 		},
 	})
 
-	---@type {mode: string|string[], lhs_suffix_key: string, rhs: string|function, opts: vim.keymap.set.Opts}[]
+	--- @type {mode: string|string[], lhs_suffix_key: string, rhs: string|function, opts: vim.keymap.set.Opts}[]
 	local keymaps = {
 		{
 			mode = { 'n', 'v' },
@@ -814,6 +870,25 @@ later(function()
 				})
 			end,
 		},
+	})
+end)
+
+later(function()
+	add('mfussenegger/nvim-lint')
+	local lint = require('lint')
+
+	local eslint = { 'eslint_d' }
+	lint.linters_by_ft = {
+		javascript = eslint,
+		svelte = eslint,
+		typescript = eslint,
+	}
+
+	vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
+		callback = function()
+			lint.try_lint()
+		end,
+		group = vim.api.nvim_create_augroup('lint', {}),
 	})
 end)
 
