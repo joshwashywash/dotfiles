@@ -63,6 +63,7 @@ now(function()
 	end
 
 	vim.o.cmdheight = 0
+	vim.o.fillchars = table.concat({ 'eob: ' }, ',')
 	vim.o.incsearch = true
 	vim.o.pumheight = 4
 	vim.o.shiftwidth = 2
@@ -72,7 +73,6 @@ now(function()
 	vim.o.statusline = '%f %= %m'
 	vim.o.tabstop = 2
 	vim.o.termguicolors = true
-	vim.opt.fillchars = { eob = ' ' }
 
 	vim.diagnostic.config({
 		underline = false,
@@ -106,13 +106,13 @@ now(function()
 		},
 	})
 
-	-- ---@param notify function
+	-- --- @param notify function
 	-- local create_notify = function(notify)
 	-- 	local disallowed_messages = {
 	-- 		'No information available',
 	-- 	}
 	--
-	-- 	---@param msg string
+	-- 	--- @param msg string
 	-- 	return function(msg, ...)
 	-- 		if not vim.tbl_contains(disallowed_messages, msg) then
 	-- 			notify(msg, ...)
@@ -160,7 +160,7 @@ for _, p in ipairs(plugins) do
 end
 
 later(function()
-	---@type {lhs_suffix_key: string, rhs: string|function, opts: vim.keymap.set.Opts}[]
+	--- @type {lhs_suffix_key: string, rhs: string|function, opts: vim.keymap.set.Opts}[]
 	local keymaps = {
 		{
 			lhs_suffix_key = 'u',
@@ -476,7 +476,7 @@ end)
 later(function()
 	local hi_words = require('mini.extra').gen_highlighter.words
 
-	---@param s string
+	--- @param s string
 	local f = function(s)
 		return {
 			s,
@@ -884,12 +884,17 @@ later(function()
 		typescript = eslint,
 	}
 
-	vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
-		callback = function()
-			lint.try_lint()
-		end,
-		group = vim.api.nvim_create_augroup('lint', {}),
-	})
+	vim.api.nvim_create_user_command('TryLint', function()
+		lint.try_lint()
+	end, { desc = 'try linting the buffer' })
+
+	-- vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
+	-- 	callback = function()
+	-- 		lint.try_lint()
+	-- 	end,
+	-- 	desc = 'lint on write',
+	-- 	group = vim.api.nvim_create_augroup('lint', {}),
+	-- })
 end)
 
 later(function()
@@ -914,9 +919,9 @@ later(function()
 
 	local conform = require('conform')
 
-	---@param bufnr integer
-	---@param ... string
-	---@return string
+	--- @param bufnr integer
+	--- @param ... string
+	--- @return string
 	local function first(bufnr, ...)
 		for i = 1, select('#', ...) do
 			local formatter = select(i, ...)
