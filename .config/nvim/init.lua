@@ -87,7 +87,7 @@ now(function()
 	local n = 'rose-pine'
 	add(n .. '/neovim')
 	require(n).setup()
-	vim.cmd.colorscheme(n)
+	vim.cmd.colorscheme(n .. '-moon')
 end)
 
 now(function()
@@ -124,22 +124,33 @@ now(function()
 end)
 
 later(function()
+	vim.api.nvim_create_autocmd('TextYankPost', {
+		callback = function()
+			vim.highlight.on_yank()
+		end,
+		desc = 'highlight on yank',
+		group = vim.api.nvim_create_augroup('highlight-on-yank', { clear = true }),
+	})
+end)
+
+later(function()
+	local prefix = '<leader>o'
 	require('mini.operators').setup({
 		evaluate = {
-			prefix = '<leader>o=',
+			prefix = prefix .. '=',
 		},
 		exchange = {
-			prefix = '<leader>ox',
+			prefix = prefix .. 'x',
 		},
 		multiply = {
-			prefix = '<leader>om',
+			prefix = prefix .. 'm',
 		},
 		replace = {
-			prefix = '<leader>or',
+			prefix = prefix .. 'or',
 			reindent_linewise = true,
 		},
 		sort = {
-			prefix = '<leader>os',
+			prefix = prefix .. 's',
 		},
 	})
 end)
@@ -656,11 +667,13 @@ later(function()
 			'jsdoc',
 			'json',
 			'lua',
+			'query',
 			'markdown',
 			'markdown_inline',
 			'svelte',
 			'tsx',
 			'typescript',
+			'vim',
 			'vimdoc',
 			'wgsl',
 		},
@@ -893,12 +906,13 @@ later(function()
 	-- 		lint.try_lint()
 	-- 	end,
 	-- 	desc = 'lint on write',
-	-- 	group = vim.api.nvim_create_augroup('lint', {}),
+	-- 	group = vim.api.nvim_create_augroup('lint', { clear = true }),
 	-- })
 end)
 
 later(function()
 	add('stevearc/conform.nvim')
+
 	vim.api.nvim_create_user_command('FormatDisable', function(args)
 		if args.bang then
 			-- FormatDisable! will disable formatting just for this buffer
@@ -910,6 +924,7 @@ later(function()
 		desc = 'Disable autoformat-on-save',
 		bang = true,
 	})
+
 	vim.api.nvim_create_user_command('FormatEnable', function()
 		vim.b.disable_autoformat = false
 		vim.g.disable_autoformat = false
