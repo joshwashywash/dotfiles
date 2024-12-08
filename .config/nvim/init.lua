@@ -1,5 +1,15 @@
-local path_package = vim.fn.stdpath('data') .. '/site/'
-local mini_path = path_package .. 'pack/deps/start/mini.nvim'
+_G.Config = {
+	path_package = vim.fn.stdpath('data') .. '/site/',
+	path_source = vim.fn.stdpath('config') .. '/src/',
+}
+
+--- @param path string
+local source_file = function(path)
+	dofile(Config.path_source .. path)
+end
+
+local mini_path = Config.path_package .. 'pack/deps/start/mini.nvim'
+
 if not vim.loop.fs_stat(mini_path) then
 	vim.cmd('echo "Installing `mini.nvim`" | redraw')
 	local clone_cmd = {
@@ -13,22 +23,21 @@ if not vim.loop.fs_stat(mini_path) then
 	vim.cmd('packadd mini.nvim | helptags ALL')
 end
 
-vim.filetype.add({
-	extension = {
-		mdx = 'markdown',
-	},
-})
-
 local deps = require('mini.deps')
 
-deps.setup({ path = { package = path_package } })
+deps.setup({ path = { package = Config.path_package } })
 
 local add, now, later = deps.add, deps.now, deps.later
 
 now(function()
-	vim.g.mapleader = ' '
-	vim.g.maplocalleader = ' '
+	source_file('settings.lua')
+end)
 
+now(function()
+	source_file('filetypes.lua')
+end)
+
+now(function()
 	--- @type {direction: string, lhs_suffix_key: string, rhs_suffix_key: string}[]
 	local window_focus_keymaps = {
 		{
@@ -61,26 +70,6 @@ now(function()
 			{ desc = 'focus' .. v.direction .. 'window' }
 		)
 	end
-
-	vim.o.cmdheight = 0
-	vim.o.fillchars = table.concat({ 'eob: ' }, ',')
-	vim.o.incsearch = true
-	vim.o.pumheight = 4
-	vim.o.shiftwidth = 2
-	vim.o.signcolumn = 'yes'
-	vim.o.splitbelow = true
-	vim.o.splitright = true
-	vim.o.statusline = '%f %= %m'
-	vim.o.tabstop = 2
-	vim.o.termguicolors = true
-
-	vim.diagnostic.config({
-		underline = false,
-		virtual_text = false,
-		float = {
-			border = 'single',
-		},
-	})
 end)
 
 now(function()
@@ -540,7 +529,7 @@ later(function()
 	end
 
 	local set_cwd = function()
-		local path = MiniFiles.get_fs_entry().path
+		local path = files.get_fs_entry().path
 		if path ~= nil then
 			vim.fn.chdir(vim.fs.dirname(path))
 		else
@@ -549,7 +538,7 @@ later(function()
 	end
 
 	local yank_path = function()
-		local path = MiniFiles.get_fs_entry().path
+		local path = files.get_fs_entry().path
 		if path ~= nil then
 			vim.fn.setreg(vim.v.register, path)
 		end
@@ -601,8 +590,7 @@ later(function()
 	local diff = require('mini.diff')
 	diff.setup({
 		view = {
-			-- vim diagnostic signs have a default priority of 10
-			priority = 9,
+			priority = vim.diagnostic.config().signs.priority - 1,
 		},
 	})
 
@@ -674,55 +662,8 @@ later(function()
 		monitor = 'main',
 		source = 'nvim-treesitter/nvim-treesitter',
 	})
-	require('nvim-treesitter.configs').setup({
-		ensure_installed = {
-			'astro',
-			'css',
-			'dart',
-			'go',
-			'html',
-			'javascript',
-			'jsdoc',
-			'json',
-			'lua',
-			'query',
-			'markdown',
-			'markdown_inline',
-			'svelte',
-			'tsx',
-			'typescript',
-			'vim',
-			'vimdoc',
-			'wgsl',
-		},
-		incremental_selection = {
-			enable = true,
-			keymaps = {
-				init_selection = '<leader>n',
-				node_incremental = 'n',
-				node_decremental = 'N',
-				scope_incremental = false,
-			},
-		},
-		indent = {
-			enable = true,
-		},
-		highlight = {
-			additional_vim_regex_highlighting = false,
-			enable = true,
-		},
-	})
+	source_file('plugins/treesitter.lua')
 end)
-
-local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-
-local open_floating_preview = function(contents, syntax, opts, ...)
-	opts = opts or {}
-	opts.border = opts.border or 'single'
-	return orig_util_open_floating_preview(contents, syntax, opts, ...)
-end
-
-vim.lsp.util.open_floating_preview = open_floating_preview
 
 later(function()
 	add({
@@ -881,7 +822,7 @@ later(function()
 									library = {
 										vim.env.VIMRUNTIME,
 										-- Depending on the usage, you might want to add additional paths here.
-										-- "${3rd}/luv/library"
+										'${3rd}/luv/library',
 										-- "${3rd}/busted/library",
 									},
 									-- or pull in all of 'runtimepath'. NOTE: this is a lot slower and will cause issues when working on your own configuration (see https://github.com/neovim/nvim-lspconfig/issues/3189)
@@ -906,97 +847,10 @@ end)
 
 later(function()
 	add('mfussenegger/nvim-lint')
-	local lint = require('lint')
-
-	local eslint = { 'eslint_d' }
-	lint.linters_by_ft = {
-		javascript = eslint,
-		svelte = eslint,
-		typescript = eslint,
-	}
-
-	vim.api.nvim_create_user_command('TryLint', function()
-		lint.try_lint()
-	end, { desc = 'try linting the buffer' })
-
-	-- vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
-	-- 	callback = function()
-	-- 		lint.try_lint()
-	-- 	end,
-	-- 	desc = 'lint on write',
-	-- 	group = vim.api.nvim_create_augroup('lint', { clear = true }),
-	-- })
+	source_file('plugins/nvim-lint.lua')
 end)
 
 later(function()
 	add('stevearc/conform.nvim')
-
-	vim.api.nvim_create_user_command('FormatDisable', function(args)
-		if args.bang then
-			-- FormatDisable! will disable formatting just for this buffer
-			vim.b.disable_autoformat = true
-		else
-			vim.g.disable_autoformat = true
-		end
-	end, {
-		desc = 'Disable autoformat-on-save',
-		bang = true,
-	})
-
-	vim.api.nvim_create_user_command('FormatEnable', function()
-		vim.b.disable_autoformat = false
-		vim.g.disable_autoformat = false
-	end, {
-		desc = 'Enable autoformat-on-save',
-	})
-
-	local conform = require('conform')
-
-	--- @param bufnr integer
-	--- @param ... string
-	--- @return string
-	local function first(bufnr, ...)
-		for i = 1, select('#', ...) do
-			local formatter = select(i, ...)
-			if conform.get_formatter_info(formatter, bufnr).available then
-				return formatter
-			end
-		end
-		return select(1, ...)
-	end
-
-	local prettier = {
-		'prettierd',
-		'prettier',
-		stop_after_first = true,
-	}
-
-	conform.setup({
-		format_on_save = function(bufnr)
-			-- Disable with a global or buffer-local variable
-			if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-				return
-			end
-			return {
-				timeout_ms = 500,
-				lsp_format = 'fallback',
-			}
-		end,
-		formatters_by_ft = {
-			astro = { 'prettier' },
-			go = {
-				'goimports',
-				'gofumpt',
-			},
-			javascript = prettier,
-			lua = {
-				'stylua',
-			},
-			markdown = function(bufnr)
-				return { first(bufnr, 'prettierd', 'prettier'), 'injected' }
-			end,
-			svelte = prettier,
-			typescript = prettier,
-		},
-	})
+	source_file('/plugins/conform.lua')
 end)
