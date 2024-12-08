@@ -539,12 +539,30 @@ later(function()
 		vim.keymap.set('n', lhs, rhs, { buffer = buf_id, desc = desc })
 	end
 
+	local set_cwd = function()
+		local path = MiniFiles.get_fs_entry().path
+		if path ~= nil then
+			vim.fn.chdir(vim.fs.dirname(path))
+		else
+			vim.notify('Cursor is not on valid entry')
+		end
+	end
+
+	local yank_path = function()
+		local path = MiniFiles.get_fs_entry().path
+		if path ~= nil then
+			vim.fn.setreg(vim.v.register, path)
+		end
+	end
+
 	vim.api.nvim_create_autocmd('User', {
 		pattern = 'MiniFilesBufferCreate',
 		callback = function(args)
-			local buf_id = args.data.buf_id
-			map_split(buf_id, '<c-s>', 'belowright horizontal')
-			map_split(buf_id, '<c-v>', 'belowright vertical')
+			local buffer = args.data.buf_id
+			map_split(buffer, '<c-s>', 'belowright horizontal')
+			map_split(buffer, '<c-v>', 'belowright vertical')
+			vim.keymap.set('n', 'g~', set_cwd, { buffer = buffer, desc = 'Set cwd' })
+			vim.keymap.set('n', 'gy', yank_path, { buffer = buffer, desc = 'Yank path' })
 		end,
 	})
 
