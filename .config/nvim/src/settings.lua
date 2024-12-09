@@ -12,12 +12,10 @@ vim.o.statusline = '%f %= %m'
 vim.o.tabstop = 2
 vim.o.termguicolors = true
 
-local border = 'rounded'
+local ui = { border = 'rounded' }
 
 vim.diagnostic.config({
-	float = {
-		border = border,
-	},
+	float = ui,
 	-- TODO priority ever gets exposed through some api, remove this
 	signs = {
 		priority = 10,
@@ -26,9 +24,7 @@ vim.diagnostic.config({
 	virtual_text = false,
 })
 
-local singleBorderConfig = vim.lsp.with(vim.lsp.handlers.hover, {
-	border = border,
-})
+local singleBorderConfig = vim.lsp.with(vim.lsp.handlers.hover, ui)
 
 local handlers = { 'hover', 'signatureHelp' }
 
