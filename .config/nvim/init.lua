@@ -26,7 +26,7 @@ deps.setup({ path = { package = path_package } })
 
 local add, now, later = deps.add, deps.now, deps.later
 
-now(function()
+later(function()
 	--- @type {lhs_suffix_key: string, rhs: string|function, opts: vim.keymap.set.Opts}[]
 	local keymaps = {
 		{
@@ -214,6 +214,13 @@ later(function()
 			-- `z` key
 			{ mode = 'n', keys = 'z' },
 			{ mode = 'x', keys = 'z' },
+		},
+		window = {
+			config = {
+				anchor = 'SW',
+				col = 'auto',
+				row = 'auto',
+			},
 		},
 	})
 end)
