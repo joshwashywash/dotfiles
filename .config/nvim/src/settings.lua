@@ -26,7 +26,10 @@ vim.diagnostic.config({
 
 local singleBorderConfig = vim.lsp.with(vim.lsp.handlers.hover, ui)
 
-local handlers = { 'hover', 'signatureHelp' }
+local handlers = {
+	'hover',
+	'signatureHelp',
+}
 
 for _, handler in ipairs(handlers) do
 	vim.lsp.handlers['textDocument/' .. handler] = singleBorderConfig

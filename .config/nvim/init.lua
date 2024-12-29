@@ -6,6 +6,11 @@ local source_file = function(path)
 	dofile(path_source .. path)
 end
 
+--- @param path string
+local source_plugin = function(path)
+	source_file('/plugins/' .. path)
+end
+
 local mini_path = path_package .. 'pack/deps/start/mini.nvim'
 
 if not vim.loop.fs_stat(mini_path) then
@@ -32,12 +37,16 @@ later(function()
 		{
 			lhs_suffix_key = 'u',
 			rhs = deps.update,
-			opts = { desc = 'update' },
+			opts = {
+				desc = 'update',
+			},
 		},
 		{
 			lhs_suffix_key = 'c',
 			rhs = deps.clean,
-			opts = { desc = 'clean' },
+			opts = {
+				desc = 'clean',
+			},
 		},
 	}
 
@@ -59,10 +68,10 @@ now(function()
 end)
 
 now(function()
-	local n = 'rose-pine'
-	add(n .. '/neovim')
-	require(n).setup()
-	vim.cmd.colorscheme(n .. '-moon')
+	local name = 'rose-pine'
+	add(name .. '/neovim')
+	require(name).setup()
+	vim.cmd.colorscheme(name)
 end)
 
 now(function()
@@ -99,12 +108,13 @@ now(function()
 end)
 
 later(function()
+	local group = vim.api.nvim_create_augroup('highlight-on-yank', {})
 	vim.api.nvim_create_autocmd('TextYankPost', {
 		callback = function()
 			vim.highlight.on_yank()
 		end,
 		desc = 'highlight on yank',
-		group = vim.api.nvim_create_augroup('highlight-on-yank', { clear = true }),
+		group = group,
 	})
 end)
 
@@ -154,7 +164,13 @@ end)
 later(function()
 	local bufremove = require('mini.bufremove')
 	bufremove.setup()
-	vim.keymap.set('n', '<leader>be', bufremove.delete, { desc = 'delete' })
+	local prefix = '<leader>b'
+	vim.keymap.set('n', prefix .. 'e', bufremove.delete, {
+		desc = 'delete',
+	})
+	vim.keymap.set('n', prefix .. 'w', bufremove.wipeout, {
+		desc = 'wipeout',
+	})
 end)
 
 later(function()
@@ -165,7 +181,9 @@ later(function()
 			clue.gen_clues.g(),
 			clue.gen_clues.marks(),
 			clue.gen_clues.registers(),
-			clue.gen_clues.windows({ submode_resize = true }),
+			clue.gen_clues.windows({
+				submode_resize = true,
+			}),
 			clue.gen_clues.z(),
 			{ mode = 'n', keys = '<leader>b', desc = 'buffer' },
 			{ mode = 'n', keys = '<leader>d', desc = 'deps' },
@@ -226,7 +244,10 @@ later(function()
 end)
 
 later(function()
-	local ui = { border = 'single' }
+	local ui = {
+		border = 'single',
+	}
+
 	require('mini.completion').setup({
 		lsp_completion = {
 			auto_setup = false,
@@ -251,7 +272,10 @@ later(function()
 		custom_textobjects = {
 			B = gen_ai_spec.buffer(),
 			D = gen_ai_spec.diagnostic(),
-			F = ai.gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }),
+			F = ai.gen_spec.treesitter({
+				a = '@function.outer',
+				i = '@function.inner',
+			}),
 			I = gen_ai_spec.indent(),
 			L = gen_ai_spec.line(),
 			N = gen_ai_spec.number(),
@@ -621,6 +645,24 @@ later(function()
 	})
 end)
 
+-- later(function()
+-- 	add('rafamadriz/friendly-snippets')
+--
+-- 	local snip = require('mini.snippets')
+-- 	local gen_loader = snip.gen_loader
+-- 	snip.setup({
+-- 		mappings = {},
+-- 		snippets = {
+-- 			-- Load custom file with global snippets first (adjust for Windows)
+-- 			gen_loader.from_file('~/.config/nvim/snippets/global.json'),
+--
+-- 			-- Load snippets based on current language by reading files from
+-- 			-- "snippets/" subdirectories from 'runtimepath' directories.
+-- 			gen_loader.from_lang(),
+-- 		},
+-- 	})
+-- end)
+
 later(function()
 	add({
 		checkout = 'master',
@@ -632,27 +674,27 @@ later(function()
 		monitor = 'main',
 		source = 'nvim-treesitter/nvim-treesitter',
 	})
-	source_file('plugins/treesitter.lua')
+	source_plugin('treesitter.lua')
 end)
 
 later(function()
 	add({
-		source = 'neovim/nvim-lspconfig',
 		depends = {
 			'b0o/schemastore.nvim',
 			'williamboman/mason-lspconfig.nvim',
 			'williamboman/mason.nvim',
 		},
+		source = 'neovim/nvim-lspconfig',
 	})
-	source_file('/plugins/lspconfig.lua')
+	source_plugin('lspconfig.lua')
 end)
 
 later(function()
 	add('mfussenegger/nvim-lint')
-	source_file('plugins/nvim-lint.lua')
+	source_plugin('nvim-lint.lua')
 end)
 
 later(function()
 	add('stevearc/conform.nvim')
-	source_file('/plugins/conform.lua')
+	source_plugin('conform.lua')
 end)
