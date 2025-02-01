@@ -1,6 +1,9 @@
 local lint = require('lint')
 
-local eslint = { 'eslint_d' }
+local eslint = {
+	'eslint_d',
+}
+
 lint.linters_by_ft = {
 	javascript = eslint,
 	svelte = eslint,
@@ -9,7 +12,9 @@ lint.linters_by_ft = {
 
 vim.api.nvim_create_user_command('TryLint', function()
 	lint.try_lint()
-end, { desc = 'try linting the buffer' })
+end, {
+	desc = 'try linting the buffer',
+})
 
 -- vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
 -- 	callback = function()

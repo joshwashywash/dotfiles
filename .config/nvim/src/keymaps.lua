@@ -27,6 +27,8 @@ for _, v in ipairs(window_focus_keymaps) do
 		'n',
 		'<s-' .. v.lhs_suffix_key .. '>',
 		'<c-w>' .. v.rhs_suffix_key,
-		{ desc = 'focus' .. v.direction .. 'window' }
+		{
+			desc = 'focus' .. v.direction .. 'window',
+		}
 	)
 end

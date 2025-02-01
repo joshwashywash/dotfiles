@@ -27,7 +27,11 @@ if not vim.loop.fs_stat(mini_path) then
 end
 
 local deps = require('mini.deps')
-deps.setup({ path = { package = path_package } })
+deps.setup({
+	path = {
+		package = path_package,
+	},
+})
 
 local add, now, later = deps.add, deps.now, deps.later
 
@@ -289,7 +293,12 @@ end)
 
 later(function()
 	local pick = require('mini.pick')
-	pick.setup()
+	pick.setup({
+		mappings = {
+			refine = '<C-n>',
+			refine_marked = '<C-p>',
+		},
+	})
 	vim.ui.select = pick.ui_select
 
 	local pickers = require('mini.extra').pickers
@@ -519,7 +528,10 @@ later(function()
 
 		-- Adding `desc` will result into `show_help` entries
 		local desc = 'Split ' .. direction
-		vim.keymap.set('n', lhs, rhs, { buffer = buf_id, desc = desc })
+		vim.keymap.set('n', lhs, rhs, {
+			buffer = buf_id,
+			desc = desc,
+		})
 	end
 
 	local set_cwd = function()
@@ -556,19 +568,25 @@ later(function()
 			rhs = function()
 				files.open(vim.fn.stdpath('config'))
 			end,
-			opts = { desc = 'config' },
+			opts = {
+				desc = 'config',
+			},
 		},
 		{
 			lhs_suffix_key = 'd',
 			rhs = files.open,
-			opts = { desc = 'directory' },
+			opts = {
+				desc = 'directory',
+			},
 		},
 		{
 			lhs_suffix_key = 'f',
 			rhs = function()
 				files.open(vim.api.nvim_buf_get_name(0))
 			end,
-			opts = { desc = 'file directory' },
+			opts = {
+				desc = 'file directory',
+			},
 		},
 	}
 

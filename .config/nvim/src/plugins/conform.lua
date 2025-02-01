@@ -50,7 +50,9 @@ conform.setup({
 		}
 	end,
 	formatters_by_ft = {
-		astro = { 'prettier' },
+		astro = {
+			'prettier',
+		},
 		go = {
 			'goimports',
 			'gofumpt',
@@ -60,7 +62,10 @@ conform.setup({
 			'stylua',
 		},
 		markdown = function(bufnr)
-			return { first(bufnr, 'prettierd', 'prettier'), 'injected' }
+			return {
+				first(bufnr, 'prettierd', 'prettier'),
+				'injected',
+			}
 		end,
 		svelte = prettier,
 		typescript = prettier,

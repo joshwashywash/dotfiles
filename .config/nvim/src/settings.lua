@@ -1,7 +1,9 @@
 vim.g.mapleader = ' '
 
 vim.o.cmdheight = 0
-vim.o.fillchars = table.concat({ 'eob: ' }, ',')
+vim.o.fillchars = table.concat({
+	'eob: ',
+}, ',')
 vim.o.incsearch = true
 vim.o.pumheight = 4
 vim.o.shiftwidth = 2
@@ -12,7 +14,9 @@ vim.o.statusline = '%f %= %m'
 vim.o.tabstop = 2
 vim.o.termguicolors = true
 
-local ui = { border = 'rounded' }
+local ui = {
+	border = 'rounded',
+}
 
 vim.diagnostic.config({
 	float = ui,
