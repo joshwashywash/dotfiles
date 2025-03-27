@@ -247,27 +247,6 @@ later(function()
 end)
 
 later(function()
-	local ui = {
-		border = 'single',
-	}
-
-	require('mini.completion').setup({
-		lsp_completion = {
-			auto_setup = false,
-			source_func = 'omnifunc',
-		},
-		mappings = {
-			force_fallback = '<a-h>',
-			force_twostep = '<c-h>',
-		},
-		window = {
-			info = ui,
-			signature = ui,
-		},
-	})
-end)
-
-later(function()
 	local gen_ai_spec = require('mini.extra').gen_ai_spec
 	local ai = require('mini.ai')
 
@@ -294,8 +273,8 @@ later(function()
 	local pick = require('mini.pick')
 	pick.setup({
 		mappings = {
-			refine = '<C-n>',
-			refine_marked = '<C-p>',
+			refine = '<c-n>',
+			refine_marked = '<c-p>',
 		},
 	})
 	vim.ui.select = pick.ui_select
@@ -659,23 +638,6 @@ later(function()
 			line_right = '<m-right>',
 			line_up = '<m-up>',
 		},
-	})
-end)
-
-later(function()
-	-- 	add('rafamadriz/friendly-snippets')
-	local snip = require('mini.snippets')
-	-- 	local gen_loader = snip.gen_loader
-	snip.setup({
-		-- 		mappings = {},
-		-- 		snippets = {
-		-- 			-- Load custom file with global snippets first (adjust for Windows)
-		-- 			gen_loader.from_file('~/.config/nvim/snippets/global.json'),
-		--
-		-- 			-- Load snippets based on current language by reading files from
-		-- 			-- "snippets/" subdirectories from 'runtimepath' directories.
-		-- 			gen_loader.from_lang(),
-		-- 		},
 	})
 end)
 
