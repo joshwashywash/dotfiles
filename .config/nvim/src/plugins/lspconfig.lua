@@ -22,9 +22,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 			client.server_capabilities.documentRangeFormattingProvider = false
 		end
 	end,
-	group = vim.api.nvim_create_augroup('lsp-attach', {
-		clear = true,
-	}),
+	group = vim.api.nvim_create_augroup('lsp-attach', {}),
 })
 
 local lsp = require('lspconfig')
@@ -54,11 +52,6 @@ require('mason-lspconfig').setup({
 				},
 			})
 		end,
-		denols = function()
-			lsp.denols.setup({
-				root_dir = lsp.util.root_pattern('deno.json', 'deno.jsonc'),
-			})
-		end,
 		jsonls = function()
 			lsp.jsonls.setup({
 				settings = {
@@ -77,8 +70,11 @@ require('mason-lspconfig').setup({
 					if client.workspace_folders then
 						local path = client.workspace_folders[1].name
 						if
-							vim.uv.fs_stat(path .. '/.luarc.json')
-							or vim.uv.fs_stat(path .. '/.luarc.jsonc')
+							path ~= vim.fn.stdpath('config')
+							and (
+								vim.loop.fs_stat(path .. '/.luarc.json')
+								or vim.loop.fs_stat(path .. '/.luarc.jsonc')
+							)
 						then
 							return
 						end
