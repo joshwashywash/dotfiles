@@ -5,7 +5,6 @@ vim.o.completeopt = 'fuzzy,menuone,noinsert,popup'
 vim.o.fillchars = table.concat({
 	'eob: ',
 }, ',')
-vim.o.incsearch = true
 vim.o.pumheight = 4
 vim.o.shiftwidth = 2
 vim.o.signcolumn = 'yes'

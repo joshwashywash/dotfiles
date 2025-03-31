@@ -10,19 +10,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 		if client:supports_method('textDocument/completion') then
 			if client.server_capabilities.completionProvider then
-				vim.lsp.completion.enable(
-					true,
-					client.id,
-					event.buf,
-					{ autotrigger = true }
-				)
+				vim.lsp.completion.enable(true, client.id, event.buf, {
+					autotrigger = true,
+				})
 			end
-			-- let conform handle formatting
-			client.server_capabilities.documentFormattingProvider = false
-			client.server_capabilities.documentRangeFormattingProvider = false
 		end
 	end,
-	group = vim.api.nvim_create_augroup('lsp-attach', {}),
+	group = vim.api.nvim_create_augroup('', {}),
 })
 
 local lsp = require('lspconfig')

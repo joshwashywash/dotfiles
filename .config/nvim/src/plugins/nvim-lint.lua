@@ -10,9 +10,7 @@ lint.linters_by_ft = {
 	typescript = eslint,
 }
 
-vim.api.nvim_create_user_command('TryLint', function()
-	lint.try_lint()
-end, {
+vim.api.nvim_create_user_command('TryLint', lint.try_lint, {
 	desc = 'try linting the buffer',
 })
 
