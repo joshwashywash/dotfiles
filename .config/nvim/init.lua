@@ -646,11 +646,10 @@ end)
 
 later(function()
 	add({
-		depends = {
-			'b0o/schemastore.nvim',
-			'williamboman/mason.nvim',
-		},
-		source = 'neovim/nvim-lspconfig',
+		source = 'b0o/schemastore.nvim',
+	})
+	add({
+		source = 'williamboman/mason.nvim',
 	})
 
 	require('mason').setup()
