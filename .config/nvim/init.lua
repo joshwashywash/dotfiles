@@ -1,17 +1,12 @@
 local path_package = vim.fn.stdpath('data') .. '/site/'
-local path_source = vim.fn.stdpath('config') .. '/src/'
-
---- @param path string
-local source_file = function(path)
-	dofile(path_source .. path)
-end
-
---- @param path string
-local source_plugin = function(path)
-	source_file('/plugins/' .. path)
-end
 
 local mini_path = path_package .. 'pack/deps/start/mini.nvim'
+
+local config_path = vim.fn.stdpath('config')
+
+local source_plugin = function(fname)
+	dofile(config_path .. '/plugins/' .. fname)
+end
 
 if not vim.loop.fs_stat(mini_path) then
 	vim.cmd('echo "Installing `mini.nvim`" | redraw')
@@ -60,15 +55,9 @@ later(function()
 end)
 
 now(function()
-	source_file('keymaps.lua')
-end)
-
-now(function()
-	source_file('settings.lua')
-end)
-
-now(function()
-	source_file('filetypes.lua')
+	dofile(config_path .. '/keymaps.lua')
+	dofile(config_path .. '/settings.lua')
+	dofile(config_path .. '/filetypes.lua')
 end)
 
 now(function()
@@ -659,12 +648,39 @@ later(function()
 	add({
 		depends = {
 			'b0o/schemastore.nvim',
-			'williamboman/mason-lspconfig.nvim',
 			'williamboman/mason.nvim',
 		},
 		source = 'neovim/nvim-lspconfig',
 	})
-	source_plugin('lspconfig.lua')
+
+	require('mason').setup()
+
+	local lsps = {}
+	for _, fname in ipairs(vim.api.nvim_get_runtime_file('lsp/*.lua', true)) do
+		local server_name = vim.fn.fnamemodify(fname, ':t:r')
+		table.insert(lsps, server_name)
+	end
+
+	vim.lsp.enable(lsps)
+
+	vim.api.nvim_create_autocmd('LspAttach', {
+		callback = function(event)
+			local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+			if client == nil then
+				return
+			end
+
+			if client:supports_method('textDocument/completion') then
+				if client.server_capabilities.completionProvider then
+					vim.lsp.completion.enable(true, client.id, event.buf, {
+						autotrigger = true,
+					})
+				end
+			end
+		end,
+		group = vim.api.nvim_create_augroup('', {}),
+	})
 end)
 
 later(function()
