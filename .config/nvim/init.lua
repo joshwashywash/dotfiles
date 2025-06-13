@@ -110,38 +110,24 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 	}),
 })
 
-later(function()
-	local prefix = '<leader>o'
-	require('mini.operators').setup({
-		evaluate = {
-			prefix = prefix .. '=',
-		},
-		exchange = {
-			prefix = prefix .. 'x',
-		},
-		multiply = {
-			prefix = prefix .. 'm',
-		},
-		replace = {
-			prefix = prefix .. 'r',
-			reindent_linewise = true,
-		},
-		sort = {
-			prefix = prefix .. 's',
-		},
-	})
-end)
-
 local plugins = {
 	'bracketed',
 	'cursorword',
 	'jump',
-	-- 'pairs',
 	'pick',
 	'splitjoin',
 	'surround',
 	'visits',
+	-- 'pairs',
 }
+
+later(function()
+	require('mini.operators').setup({
+		replace = {
+			prefix = 'gl',
+		},
+	})
+end)
 
 for _, p in ipairs(plugins) do
 	later(require('mini.' .. p).setup)
@@ -251,8 +237,14 @@ later(function()
 			L = gen_ai_spec.line(),
 			N = gen_ai_spec.number(),
 			o = ai.gen_spec.treesitter({
-				a = { '@conditional.outer', '@loop.outer' },
-				i = { '@conditional.inner', '@loop.inner' },
+				a = {
+					'@conditional.outer',
+					'@loop.outer',
+				},
+				i = {
+					'@conditional.inner',
+					'@loop.inner',
+				},
 			}),
 		},
 	})
