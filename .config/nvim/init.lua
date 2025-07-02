@@ -102,7 +102,7 @@ end)
 
 vim.api.nvim_create_autocmd('TextYankPost', {
 	callback = function()
-		vim.highlight.on_yank()
+		vim.hl.on_yank()
 	end,
 	desc = 'highlight on yank',
 	group = vim.api.nvim_create_augroup('highlight-on-yank', {
@@ -142,11 +142,15 @@ end)
 later(function()
 	local bufremove = require('mini.bufremove')
 	bufremove.setup()
+
 	local prefix = '<leader>b'
 	vim.keymap.set('n', prefix .. 'e', bufremove.delete, {
 		desc = 'delete',
 	})
 	vim.keymap.set('n', prefix .. 'w', bufremove.wipeout, {
+		desc = 'wipeout',
+	})
+	vim.keymap.set('n', prefix .. 'u', bufremove.unshow, {
 		desc = 'wipeout',
 	})
 end)
@@ -170,8 +174,6 @@ later(function()
 			{ mode = 'n', keys = '<leader>g', desc = 'git' },
 			{ mode = 'n', keys = '<leader>l', desc = 'lsp' },
 			{ mode = 'x', keys = '<leader>l', desc = 'lsp' },
-			{ mode = 'n', keys = '<leader>o', desc = 'operators' },
-			{ mode = 'x', keys = '<leader>o', desc = 'operators' },
 			{ mode = 'n', keys = '[b', postkeys = '[' },
 			{ mode = 'n', keys = '[w', postkeys = '[' },
 			{ mode = 'n', keys = ']b', postkeys = ']' },

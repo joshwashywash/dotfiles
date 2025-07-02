@@ -1,7 +1,7 @@
 vim.g.mapleader = ' '
 
 vim.o.cmdheight = 0
-vim.o.completeopt = 'fuzzy,menuone,popup,noselect'
+vim.o.completeopt = 'fuzzy,menuone,noselect,popup'
 vim.o.fillchars = table.concat({
 	'eob: ',
 }, ',')

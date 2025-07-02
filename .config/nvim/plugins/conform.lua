@@ -45,8 +45,8 @@ conform.setup({
 			return
 		end
 		return {
-			timeout_ms = 500,
 			lsp_format = 'fallback',
+			timeout_ms = 500,
 		}
 	end,
 	formatters_by_ft = {
