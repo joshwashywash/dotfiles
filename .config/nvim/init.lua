@@ -151,7 +151,7 @@ later(function()
 		desc = 'wipeout',
 	})
 	vim.keymap.set('n', prefix .. 'u', bufremove.unshow, {
-		desc = 'wipeout',
+		desc = 'unload',
 	})
 end)
 
