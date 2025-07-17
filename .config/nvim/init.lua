@@ -226,27 +226,19 @@ end)
 later(function()
 	local gen_ai_spec = require('mini.extra').gen_ai_spec
 	local ai = require('mini.ai')
+	local spec_treesitter = require('mini.ai').gen_spec.treesitter
 
 	ai.setup({
 		custom_textobjects = {
 			B = gen_ai_spec.buffer(),
 			D = gen_ai_spec.diagnostic(),
-			F = ai.gen_spec.treesitter({
-				a = '@function.outer',
-				i = '@function.inner',
-			}),
 			I = gen_ai_spec.indent(),
 			L = gen_ai_spec.line(),
 			N = gen_ai_spec.number(),
-			o = ai.gen_spec.treesitter({
-				a = {
-					'@conditional.outer',
-					'@loop.outer',
-				},
-				i = {
-					'@conditional.inner',
-					'@loop.inner',
-				},
+			F = spec_treesitter({ a = '@function.outer', i = '@function.inner' }),
+			o = spec_treesitter({
+				a = { '@conditional.outer', '@loop.outer' },
+				i = { '@conditional.inner', '@loop.inner' },
 			}),
 		},
 	})
