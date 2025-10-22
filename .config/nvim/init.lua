@@ -1,13 +1,5 @@
 local config_path = vim.fn.stdpath('config')
 
-local source_plugin = function(fname)
-	dofile(config_path .. '/plugins/' .. fname)
-end
-
-local source_mini_plugin = function(fname)
-	dofile(config_path .. '/mini/' .. fname)
-end
-
 local mini_path = vim.fn.stdpath('data') .. '/site/pack/deps/start/mini.nvim'
 if not vim.loop.fs_stat(mini_path) then
 	vim.cmd('echo "Installing `mini.nvim`" | redraw')
@@ -48,12 +40,6 @@ later(function()
 end)
 
 now(function()
-	for _, fname in ipairs(vim.api.nvim_get_runtime_file('config/*.lua', true)) do
-		dofile(vim.fn.fnamemodify(fname, ':.'))
-	end
-end)
-
-now(function()
 	local name = 'rose-pine'
 	add(name .. '/neovim')
 	require(name).setup()
@@ -75,35 +61,11 @@ for _, p in ipairs(plugins) do
 end
 
 now(function()
-	source_mini_plugin('notify.lua')
-end)
-
-later(function()
-	source_mini_plugin('operators.lua')
-end)
-
-now(function()
 	local icons = require('mini.icons')
 	icons.setup()
 	later(function()
 		icons.tweak_lsp_kind('replace')
 	end)
-end)
-
-later(function()
-	source_mini_plugin('bufremove.lua')
-end)
-
-later(function()
-	source_mini_plugin('clue.lua')
-end)
-
-later(function()
-	source_mini_plugin('ai.lua')
-end)
-
-later(function()
-	source_mini_plugin('pick.lua')
 end)
 
 later(function()
@@ -130,10 +92,6 @@ later(function()
 			}),
 		},
 	})
-end)
-
-later(function()
-	source_mini_plugin('files.lua')
 end)
 
 later(function()
@@ -186,34 +144,6 @@ later(function()
 	for _, v in ipairs(keymaps) do
 		vim.keymap.set(v.mode, '<leader>g' .. v.lhs_suffix_key, v.rhs, v.opts)
 	end
-end)
-
-later(function()
-	source_mini_plugin('move.lua')
-end)
-
-later(function()
-	add({
-		checkout = 'main',
-		hooks = {
-			post_checkout = function()
-				vim.cmd('TSUpdate')
-			end,
-		},
-		source = 'nvim-treesitter/nvim-treesitter',
-	})
-
-	source_plugin('treesitter.lua')
-end)
-
-later(function()
-	add('mfussenegger/nvim-lint')
-	source_plugin('nvim-lint.lua')
-end)
-
-later(function()
-	add('stevearc/conform.nvim')
-	source_plugin('conform.lua')
 end)
 
 later(function()
