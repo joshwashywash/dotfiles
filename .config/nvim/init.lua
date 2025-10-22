@@ -1,7 +1,3 @@
-local path_package = vim.fn.stdpath('data') .. '/site/'
-
-local mini_path = path_package .. 'pack/deps/start/mini.nvim'
-
 local config_path = vim.fn.stdpath('config')
 
 local source_plugin = function(fname)
@@ -12,25 +8,18 @@ local source_mini_plugin = function(fname)
 	dofile(config_path .. '/mini/' .. fname)
 end
 
+local mini_path = vim.fn.stdpath('data') .. '/site/pack/deps/start/mini.nvim'
 if not vim.loop.fs_stat(mini_path) then
 	vim.cmd('echo "Installing `mini.nvim`" | redraw')
-	local clone_cmd = {
-		'git',
-		'clone',
-		'--filter=blob:none',
-		'https://github.com/nvim-mini/mini.nvim',
-		mini_path,
-	}
+	local origin = 'https://github.com/nvim-mini/mini.nvim'
+	local clone_cmd = { 'git', 'clone', '--filter=blob:none', origin, mini_path }
 	vim.fn.system(clone_cmd)
 	vim.cmd('packadd mini.nvim | helptags ALL')
+	vim.cmd('echo "Installed `mini.nvim`" | redraw')
 end
 
 local deps = require('mini.deps')
-deps.setup({
-	path = {
-		package = path_package,
-	},
-})
+deps.setup()
 
 local add, now, later = deps.add, deps.now, deps.later
 
@@ -205,26 +194,16 @@ end)
 
 later(function()
 	add({
-		checkout = 'master',
+		checkout = 'main',
 		hooks = {
 			post_checkout = function()
 				vim.cmd('TSUpdate')
 			end,
 		},
-		monitor = 'main',
 		source = 'nvim-treesitter/nvim-treesitter',
 	})
-	source_plugin('treesitter.lua')
-end)
 
-later(function()
-	add({
-		source = 'williamboman/mason.nvim',
-		depends = {
-			'b0o/schemastore.nvim',
-		},
-	})
-	source_plugin('mason.lua')
+	source_plugin('treesitter.lua')
 end)
 
 later(function()
@@ -235,4 +214,29 @@ end)
 later(function()
 	add('stevearc/conform.nvim')
 	source_plugin('conform.lua')
+end)
+
+later(function()
+	local lsps = {}
+	for _, fname in ipairs(vim.api.nvim_get_runtime_file('lsp/*.lua', true)) do
+		local server_name = vim.fn.fnamemodify(fname, ':t:r')
+		table.insert(lsps, server_name)
+	end
+
+	vim.lsp.enable(lsps)
+
+	vim.api.nvim_create_autocmd('LspAttach', {
+		callback = function(args)
+			local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+
+			if client:supports_method('textDocument/completion') then
+				if client.server_capabilities.completionProvider then
+					vim.lsp.completion.enable(true, client.id, args.buf, {
+						autotrigger = true,
+					})
+				end
+			end
+		end,
+		group = vim.api.nvim_create_augroup('my.lsp', {}),
+	})
 end)
