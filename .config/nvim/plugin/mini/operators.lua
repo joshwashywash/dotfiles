@@ -1,7 +1,3 @@
 MiniDeps.later(function()
-	require('mini.operators').setup({
-		replace = {
-			prefix = 'gl',
-		},
-	})
+	require('mini.operators').setup()
 end)
