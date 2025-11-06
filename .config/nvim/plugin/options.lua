@@ -5,7 +5,6 @@ vim.o.completeopt = table.concat({
 	'fuzzy',
 	'menuone',
 	'noinsert',
-	'nosort',
 	'popup',
 }, ',')
 vim.o.fillchars = table.concat({
