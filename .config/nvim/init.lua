@@ -60,14 +60,6 @@ for _, p in ipairs(plugins) do
 	later(require('mini.' .. p).setup)
 end
 
-now(function()
-	local icons = require('mini.icons')
-	icons.setup()
-	later(function()
-		icons.tweak_lsp_kind('replace')
-	end)
-end)
-
 later(function()
 	local hi_words = require('mini.extra').gen_highlighter.words
 
