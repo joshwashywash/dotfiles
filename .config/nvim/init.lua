@@ -60,13 +60,16 @@ for _, p in ipairs(plugins) do
 end
 
 later(function()
-	local lsps = {}
-	for _, fname in ipairs(vim.api.nvim_get_runtime_file('lsp/*.lua', true)) do
-		local server_name = vim.fn.fnamemodify(fname, ':t:r')
-		table.insert(lsps, server_name)
-	end
+	add('neovim/nvim-lspconfig')
 
-	vim.lsp.enable(lsps)
+	vim.lsp.enable({
+		'html',
+		'jsonls',
+		'lua_ls',
+		'svelte',
+		'tailwindcss',
+		'ts_ls',
+	})
 
 	vim.api.nvim_create_autocmd('LspAttach', {
 		callback = function(args)
