@@ -46,6 +46,7 @@ end)
 
 local plugins = {
 	'bracketed',
+	'cmdline',
 	'cursorword',
 	'git',
 	'jump',
@@ -63,26 +64,12 @@ later(function()
 	add('neovim/nvim-lspconfig')
 
 	vim.lsp.enable({
+		'denols',
 		'html',
 		'jsonls',
 		'lua_ls',
 		'svelte',
 		'tailwindcss',
 		'ts_ls',
-	})
-
-	vim.api.nvim_create_autocmd('LspAttach', {
-		callback = function(args)
-			local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-
-			if client:supports_method('textDocument/completion') then
-				if client.server_capabilities.completionProvider then
-					vim.lsp.completion.enable(true, client.id, args.buf, {
-						autotrigger = true,
-					})
-				end
-			end
-		end,
-		group = vim.api.nvim_create_augroup('my.lsp', {}),
 	})
 end)

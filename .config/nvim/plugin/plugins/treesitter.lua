@@ -31,7 +31,13 @@ MiniDeps.now(function()
 		'wgsl',
 	}
 
-	require('nvim-treesitter').install(languages)
+	require('nvim-treesitter.configs').setup({
+		ensure_installed = languages,
+		highlight = {
+			additional_vim_regex_highlighting = false,
+			enabled = true,
+		},
+	})
 
 	local filetypes = {}
 	for _, lang in ipairs(languages) do
