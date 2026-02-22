@@ -52,7 +52,6 @@ local plugins = {
 	'jump',
 	'splitjoin',
 	'surround',
-	'visits',
 	-- 'pairs',
 }
 
@@ -68,6 +67,7 @@ later(function()
 		'html',
 		'jsonls',
 		'lua_ls',
+		'mdx_analyzer',
 		'svelte',
 		'tailwindcss',
 		'ts_ls',

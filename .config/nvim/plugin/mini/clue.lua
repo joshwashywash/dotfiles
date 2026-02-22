@@ -56,17 +56,15 @@ MiniDeps.later(function()
 		{ mode = 'x', keys = 'z' },
 	}
 
-	local window = {
-		config = {
-			anchor = 'SW',
-			col = 'auto',
-			row = 'auto',
-		},
-	}
-
 	clue.setup({
 		clues = clues,
 		triggers = triggers,
-		window = window,
+		window = {
+			config = {
+				anchor = 'SW',
+				col = 'auto',
+				row = 'auto',
+			},
+		},
 	})
 end)

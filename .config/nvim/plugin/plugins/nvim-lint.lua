@@ -3,6 +3,8 @@ MiniDeps.later(function()
 
 	local lint = require('lint')
 
+	vim.env.ESLINT_D_PPID = vim.fn.getpid()
+
 	local eslint = {
 		'eslint_d',
 	}
@@ -13,7 +15,9 @@ MiniDeps.later(function()
 		typescript = eslint,
 	}
 
-	vim.api.nvim_create_user_command('TryLint', lint.try_lint, {
+	vim.api.nvim_create_user_command('TryLint', function()
+		lint.try_lint()
+	end, {
 		desc = 'try linting the buffer',
 	})
 
