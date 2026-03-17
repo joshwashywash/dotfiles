@@ -1,7 +1,3 @@
 MiniDeps.later(function()
-	require('mini.operators').setup({
-		replace = {
-			prefix = 'cr',
-		},
-	})
+	require('mini.operators').setup()
 end)
