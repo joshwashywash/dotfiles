@@ -60,7 +60,6 @@ local plugins = {
 	'cursorword',
 	'git',
 	'jump',
-	'operators',
 	'splitjoin',
 	'surround',
 	-- 'pairs',
