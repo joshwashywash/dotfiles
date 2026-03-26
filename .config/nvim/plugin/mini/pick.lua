@@ -2,10 +2,6 @@ MiniDeps.later(function()
 	local pick = require('mini.pick')
 
 	pick.setup({
-		mappings = {
-			refine = '<c-n>',
-			refine_marked = '<c-p>',
-		},
 		window = {
 			config = function()
 				local height = math.floor(0.7 * vim.o.lines)

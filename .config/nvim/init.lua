@@ -37,21 +37,11 @@ later(function()
 	end
 end)
 
--- now(function()
--- 	local name = 'rose-pine'
--- 	add(name .. '/neovim')
--- 	require(name).setup()
--- 	vim.cmd.colorscheme(name)
--- end)
-
 now(function()
-	add({
-		source = 'zenbones-theme/zenbones.nvim',
-		depends = {
-			'rktjmp/lush.nvim',
-		},
-	})
-	vim.cmd.colorscheme('kanagawabones')
+	local name = 'rose-pine'
+	add(name .. '/neovim')
+	require(name).setup()
+	vim.cmd.colorscheme(name)
 end)
 
 local plugins = {
